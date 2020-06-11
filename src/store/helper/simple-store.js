@@ -1,39 +1,9 @@
-import _ from 'lodash'
-import Vue from 'vue'
-import StoreHelper from './store-helper'
+import Observable from './observable'
 
-export class SimpleStore extends StoreHelper {
+export class SimpleStore extends Observable {
   isFetching = false
   isRejected = false
   isFulfilled = false
-  error = null
-
-  constructor() {
-    super()
-    activate(this)
-  }
-
-  setPendingState() {
-    this.isFetching = true
-  }
-
-  setFulfilledState(newState) {
-    Object.assign(this, {
-      isFetching: false,
-      isRejected: false,
-      isFulfilled: true,
-      error: null,
-    }, newState)
-  }
-
-  setRejectedState(error, options) {
-    const nextState = {
-      error,
-      isFetching: false,
-      isRejected: true,
-    }
-    Object.assign(this, nextState, options)
-  }
 
   fetchData() {
     return Promise.resolve()
@@ -48,36 +18,23 @@ export class SimpleStore extends StoreHelper {
   }
 
   async fetching(handle, autoMerge = false) {
-    this.setPendingState()
+    this.isFetching = true
+
     try {
       const res = await (typeof handle === 'function' ? handle() : handle)
       const newState = autoMerge ? (res.isResponse ? res.data : res) : void 0
-      this.setFulfilledState(newState)
+      Object.assign(this, {
+        isFetching: false,
+        isRejected: false,
+        isFulfilled: true,
+      }, newState)
+      return res
     } catch (err) {
-      this.setRejectedState(err)
+      Object.assign(this, {
+        isFetching: false,
+        isRejected: true,
+      })
       throw err
     }
   }
 }
-
-function getAllPrototypeDescriptors(target) {
-  let descriptors = Object.getOwnPropertyDescriptors(target)
-  let { __proto__ } = target
-  while (__proto__ !== Object.prototype) {
-    descriptors = Object.assign({}, Object.getOwnPropertyDescriptors(__proto__), descriptors)
-    __proto__ = __proto__.__proto__
-  }
-  return _.omit(descriptors, 'constructor')
-}
-
-function activate(store) {
-  const descriptors = getAllPrototypeDescriptors(store)
-  _.forEach(descriptors, (descriptor, name) => {
-    if (descriptor.get && !descriptor.enumerable) {
-      descriptor.enumerable = true
-      Object.defineProperty(store, name, descriptor)
-    }
-  })
-}
-
-Vue.prototype.$SimpleStore = SimpleStore
