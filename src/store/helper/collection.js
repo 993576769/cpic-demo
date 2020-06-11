@@ -1,5 +1,4 @@
 import Vue from 'vue'
-import { unEnumerable } from './enumerable'
 import { SimpleStore } from './simple-store'
 
 export class Collection extends SimpleStore {
@@ -8,9 +7,11 @@ export class Collection extends SimpleStore {
     per_page: 10,
   }
 
+  static excludeJsonNames = ['$params']
+
   meta = { total: 0, page: 1, offset: 0 }
   data = []
-  @unEnumerable parameter = Object.assign({}, this.constructor.defaultParams, this.params)
+  $params = Object.assign({}, this.constructor.defaultParams, this.params)
 
   fetchData() {
     this.params.offset = 0
@@ -58,11 +59,11 @@ export class Collection extends SimpleStore {
   }
 
   get params() {
-    return this.parameter
+    return this.$params
   }
 
   set params(properties) {
-    this.parameter = Object.assign({}, this.constructor.defaultParams, properties)
+    this.$params = Object.assign({}, this.constructor.defaultParams, properties)
   }
 
   get isComplete() {
