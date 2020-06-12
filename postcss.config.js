@@ -17,9 +17,9 @@ module.exports = {
     require('autoprefixer')({
       remove: process.env.UNI_PLATFORM !== 'h5'
     }),
-    require('postcss-px2upx')({
+    require('./loader/postcss-px-to-relative-unit')({
       baseDpr: 1,
-      upxUnit: 0.5
+      targetUnit: 'rpx',
     }),
     require('@dcloudio/vue-cli-plugin-uni/packages/postcss')
   ]
