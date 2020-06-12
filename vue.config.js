@@ -15,6 +15,17 @@ module.exports = {
   },
   chainWebpack: (config) => {
     config.module
+      .rule('vue')
+      .test(/\.vue$/)
+      .use('style-px-loader')
+      .loader('style-px-loader')
+      .options({
+        baseDpr: 1,
+        precision: 2,
+        viewportUnit: 'rpx',
+      })
+
+    config.module
       .rule('compile')
       .test(/@dcloudio.+\.js$/)
       .use('uni-loader')

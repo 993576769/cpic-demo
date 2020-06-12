@@ -6,5 +6,10 @@ module.exports = {
   },
   resolveLoader: {
     modules: ['node_modules', path.resolve(__dirname, 'loader')]
+  },
+  resolve: {
+    alias: {
+      '@': path.resolve('src'),
+    },
   }
 }
