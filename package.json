@@ -33,7 +33,8 @@
     "test:h5": "cross-env UNI_PLATFORM=h5 jest -i",
     "test:ios": "cross-env UNI_PLATFORM=app-plus UNI_OS_NAME=ios jest -i",
     "test:mp-baidu": "cross-env UNI_PLATFORM=mp-baidu jest -i",
-    "test:mp-weixin": "cross-env UNI_PLATFORM=mp-weixin jest -i"
+    "test:mp-weixin": "cross-env UNI_PLATFORM=mp-weixin jest -i",
+    "lint": "vue-cli-service lint src --no-fix --max-warnings 0"
   },
   "dependencies": {
     "@dcloudio/uni-app-plus": "^2.0.0-27920200527001",
@@ -71,6 +72,7 @@
     "@dcloudio/webpack-uni-mp-loader": "^2.0.0-27920200527001",
     "@dcloudio/webpack-uni-pages-loader": "^2.0.0-27920200527001",
     "@vue/cli-plugin-babel": "~4.4.0",
+    "@vue/cli-plugin-eslint": "^4.4.1",
     "@vue/cli-service": "~4.4.0",
     "address": "^1.1.2",
     "babel-eslint": "^10.1.0",
