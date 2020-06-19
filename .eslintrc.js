@@ -8,9 +8,11 @@ module.exports = {
     'plugin:vue/essential',
   ],
   rules: {
-    "require-atomic-updates": 0,
+    'semi': 2,
+    'curly': [2, 'all'],
+    'require-atomic-updates': 0,
     'vue/no-parsing-error': [2, {
-      "invalid-first-character-of-tag-name": false
+      'invalid-first-character-of-tag-name': false
     }]
   },
   parserOptions: {
@@ -23,4 +25,4 @@ module.exports = {
     getCurrentPages: true,
     uni: true,
   }
-}
+};

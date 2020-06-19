@@ -2,31 +2,39 @@ export default new class {
   systemInfo = {}
 
   constructor() {
-    this.setSystemInfo()
+    this.setSystemInfo();
   }
 
   setSystemInfo() {
     try {
-      this.systemInfo = uni.getSystemInfoSync()
+      this.systemInfo = uni.getSystemInfoSync();
     } catch (error) {
-      this.systemInfo = uni.getSystemInfoSync()
+      this.systemInfo = uni.getSystemInfoSync();
     } finally {
-      this.systemInfo.platform || (this.systemInfo = uni.getSystemInfoSync())
+      this.systemInfo.platform || (this.systemInfo = uni.getSystemInfoSync());
     }
   }
 
   isFullScreenModel() {
-    return this.isIphone11 || this.isIphoneX
+    return this.isIphone11 || this.isIphoneX;
   }
 
+  /**
+   * iPhone X: iPhone10,3 / iPhone10,6
+   * iPhone XR: iPhone11,8
+   * iPhone XS: iPhone11,2
+   * iPhone 11: iPhone12,1
+   * iPhone 11 Pro: iPhone12,3
+   * iPhone XS Max: iPhone11,6 / iPhone11,4
+   * iPhone 11 Pro Max: iPhone12,5
+   */
   get isIphoneX() {
-    const { screenHeight, screenWidth, model } = this.systemInfo;
-    return model.toUpperCase().indexOf('IPHONE X') !== -1 || (this.isIOS && (screenHeight / screenWidth === 2436 / 1125));
+    const { model } = this.systemInfo;
+    return /iPhone10,3|iPhone10,6|iPhone11,8|iPhone11,1|iPhone11,2|iPhone11,3|iPhone11,6|iPhone11,4|iPhone12,5/ig.test(model);
   }
 
-  get isIphone11() {
-    const { model } = this.systemInfo
-    return model.toUpperCase().indexOf('IPHONE 11') !== -1
+  get safeBottom() {
+    return this.isIphoneX ? '32rpx' : '';
   }
 
   get isIOS() {
@@ -37,5 +45,4 @@ export default new class {
       return false;
     }
   }
-
-}
+};

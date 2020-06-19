@@ -38,8 +38,8 @@ class StorageParent {
   }
 
   clear() {
-    this.data = this.isArrayData ? [] : {}
-    uni.removeStorageSync(this.name)
+    this.data = this.isArrayData ? [] : {};
+    uni.removeStorageSync(this.name);
   }
 
   saveStorage = _.debounce(() => {
@@ -59,22 +59,22 @@ class StorageParent {
       } else {
         isArrayData ? overdueData.push(value) : overdueData[key] = value;
       }
-    })
+    });
     this.data = newData;
-    this.saveStorage()
+    this.saveStorage();
     return overdueData;
   }
 }
 
 export class Storage extends StorageParent {
   constructor(name = getCurrentPage().route, duration) {
-    super(`__LS_${name}`, { duration })
+    super(`__LS_${name}`, { duration });
   }
 }
 
 export class ArrayStorage extends StorageParent {
   constructor(name = getCurrentPage().route, { maxLength, duration, isRepeat = true } = {}) {
-    super(`__LS_ARRAY_${name}`, { duration, isArrayData: true })
+    super(`__LS_ARRAY_${name}`, { duration, isArrayData: true });
     this.maxLength = maxLength || Infinity;
     this.isRepeat = isRepeat;
     this.initMethods();
@@ -94,41 +94,41 @@ export class ArrayStorage extends StorageParent {
         let newData = {
           val: ags[0],
           time: Date.now(),
-        }
+        };
         if (method === 'push' || method === 'unshift') {
-          this.data[method](newData)
+          this.data[method](newData);
         }
         if (method === 'splice') {
           newData.val = ags[2];
           this.data[method](ags[0], ags[1], newData);
         }
         if (method === 'pop' || method === 'shift') {
-          newData = this.data[method](ags)
+          newData = this.data[method](ags);
         }
         if (method === 'sort' || method === 'reverse') {
-          this.data[method](ags)
+          this.data[method](ags);
         }
-        !this.isRepeat && this.deduplication()
+        !this.isRepeat && this.deduplication();
         this.data.splice(this.maxLength);
-        this.saveStorage()
+        this.saveStorage();
         return newData && newData.val;
-      }
-    })
+      };
+    });
   }
 
   get() {
-    return this.data.map(item => item.val)
+    return this.data.map(item => item.val);
   }
 
   deduplication() {
-    const obj = {}
-    const newData = [] // 因为 对象无法保证数组的顺序，所以使用一个新数组保存
+    const obj = {};
+    const newData = []; // 因为 对象无法保证数组的顺序，所以使用一个新数组保存
     this.data.map(item => {
       if (!obj[item.val]) {
         newData.push(item);
-        obj[item.val] = item
+        obj[item.val] = item;
       }
-    })
+    });
     this.data = newData;
     this.saveStorage();
   }
