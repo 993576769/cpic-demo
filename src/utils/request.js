@@ -16,20 +16,20 @@ function adapter(request, responseCallback) {
         responseText: res.data,
         headers: res.header,
         statusMessage: res.errMsg,
-      })
+      });
     },
     fail(res) {
       responseCallback({
         responseText: res.data,
         statusCode: res.statusCode || 0,
         statusMessage: res.errMsg
-      })
+      });
     },
-  })
+  });
 }
 
-const request = new Fly(EngineWrapper(adapter))
-const authRequest = new Fly(EngineWrapper(adapter))
+const request = new Fly(EngineWrapper(adapter));
+const authRequest = new Fly(EngineWrapper(adapter));
 
 request.config.baseURL = `${process.env.VUE_APP_API_HOST || `http://${process.env.VUE_APP_IPV4}:3000`}/api/v1`;
 request.config.timeout = 15000;
@@ -44,7 +44,7 @@ const handleError = async (e) => {
   let msg = error || message;
   if (!msg) {
     if (String(e.message).indexOf('request:ok') !== -1) {
-      msg = `服务器错误 statusCode: ${e.status}`
+      msg = `服务器错误 statusCode: ${e.status}`;
     } else if (String(e.message).indexOf('timeout') !== -1) {
       msg = '网络连接超时，请重试';
     } else {
@@ -52,7 +52,7 @@ const handleError = async (e) => {
     }
   }
   return Promise.reject(new Error(msg));
-}
+};
 
 async function requestInterceptors(req) {
   const token = await authStore.getToken();
@@ -68,14 +68,14 @@ authRequest.interceptors.request.use(requestInterceptors);
 
 authRequest.interceptors.response.use(
   async res => {
-    return { data: res.data }
+    return { data: res.data };
   },
   handleError
-)
+);
 
 request.interceptors.response.use(
   async res => {
-    return { data: res.data }
+    return { data: res.data };
   },
   async(err) => {
     if (err.status === 401) {
@@ -91,6 +91,6 @@ request.interceptors.response.use(
     }
     return handleError(err);
   }
-)
+);
 
-export { request, authRequest }
+export { request, authRequest };

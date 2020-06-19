@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import Vue from 'vue';
 
 export function showToast(params) {
   const options = {
@@ -6,27 +6,27 @@ export function showToast(params) {
     icon: 'none',
     mask: true,
     duration: 1500,
-  }
+  };
   if (typeof params === 'string') {
-    Object.assign(options, { title: params })
+    Object.assign(options, { title: params });
   } else {
-    Object.assign(options, params)
+    Object.assign(options, params);
   }
-  uni.showToast(options)
-  return new Promise(resolve => setTimeout(resolve, options.duration))
+  uni.showToast(options);
+  return new Promise(resolve => setTimeout(resolve, options.duration));
 }
 
 export function showLoading(params) {
   const options = {
     title: '',
     mask: true,
-  }
+  };
   if (typeof params === 'string') {
-    Object.assign(options, { title: params })
+    Object.assign(options, { title: params });
   } else {
-    Object.assign(options, params)
+    Object.assign(options, params);
   }
-  return uni.showLoading(options)
+  return uni.showLoading(options);
 }
 
 export const alert = (content, opts = {}) => {
@@ -36,7 +36,7 @@ export const alert = (content, opts = {}) => {
     showCancel: false,
     ...opts
   });
-}
+};
 
 export const confirm = async (content, opts = {}) => {
   const { confirm } = await uni.showModal({
@@ -49,64 +49,64 @@ export const confirm = async (content, opts = {}) => {
   if (!confirm) {
     return Promise.reject(new Error('用户取消'));
   }
-}
+};
 
 export function autoLoadingDecorator(target, name, descriptor) {
-  const func = descriptor.value
+  const func = descriptor.value;
   descriptor.value = function () {
-    return autoLoading(func.apply(this, arguments))
-  }
+    return autoLoading(func.apply(this, arguments));
+  };
 }
 
 export function autoLoading(target, options) {
-  showLoading(options || '加载中')
-  const action = Promise.resolve(target instanceof Function ? target() : target)
+  showLoading(options || '加载中');
+  const action = Promise.resolve(target instanceof Function ? target() : target);
   return action
     .finally(() => {
-      uni.hideLoading()
+      uni.hideLoading();
     })
     .catch(err => {
-      errHandle(err)
-    })
+      errHandle(err);
+    });
 }
 
 export function pageRefresh(target, name, descriptor) {
-  const func = descriptor.value
+  const func = descriptor.value;
   descriptor.value = async function () {
     try {
-      await func.apply(this, arguments)
+      await func.apply(this, arguments);
     } catch (err) {
-      errHandle(err)
+      errHandle(err);
     } finally {
-      uni.stopPullDownRefresh()
+      uni.stopPullDownRefresh();
     }
-  }
+  };
 }
 
 export function errToast(target, name, descriptor) {
-  const func = descriptor.value
+  const func = descriptor.value;
   descriptor.value = function () {
     return func.apply(this, arguments).catch(err => {
-      uni.hideLoading()
-      errHandle(err)
-    })
-  }
+      uni.hideLoading();
+      errHandle(err);
+    });
+  };
 }
 
 export function errHandle(err) {
-  const ignoreErrors = /(cancel|ignore|请先登录)/i
-  const msg = err.message || err.errMsg
+  const ignoreErrors = /(cancel|ignore|请先登录)/i;
+  const msg = err.message || err.errMsg;
   if (!ignoreErrors.test(msg)) {
     msg && alert(msg, {
       title: '请求失败',
-    })
+    });
   }
-  throw err
+  throw err;
 }
 
-Vue.prototype.$showToast = showToast
-Vue.prototype.$showLoading = showLoading
-Vue.prototype.$autoLoading = autoLoading
-Vue.autoLoading = autoLoadingDecorator
-Vue.pageRefresh = pageRefresh
-Vue.errToast = errToast
+Vue.prototype.$showToast = showToast;
+Vue.prototype.$showLoading = showLoading;
+Vue.prototype.$autoLoading = autoLoading;
+Vue.autoLoading = autoLoadingDecorator;
+Vue.pageRefresh = pageRefresh;
+Vue.errToast = errToast;

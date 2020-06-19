@@ -1,7 +1,7 @@
 const SCOPE_MAP = {
   'scope.userLocation': '地理位置',
   'scope.writePhotosAlbum': '相册'
-}
+};
 
 async function checkApiAuth(scope) {
   const fullScope = scope.startsWith('scope.') ? scope : `scope.${scope}`;
