@@ -1,0 +1,60 @@
+<template>
+  <view :style="[style]">
+    <div class="fixed-footer" :style="[style, { background: bgColor, zIndex }]">
+      <div :id="footer" class="content" :class="[componentClass]"><slot/></div>
+    </div>
+  </view>
+</template>
+
+<script>
+  import { Vue, Component, Prop } from 'vue-property-decorator';
+  import { uiStore } from '@/store';
+
+  @Component
+  export default class ButtonFixedBottom extends Vue {
+    @Prop({ type: String, default: '#fff' }) bgColor
+    @Prop({ type: Number, default: 99 }) zIndex
+    uiStore = uiStore
+    contentHeight = 0
+
+    get componentClass() {
+      return `component-fixed-button-${this._uid}`;
+    }
+
+    get style() {
+      return {
+        height: `${this.contentHeight}px`,
+        paddingBottom: uiStore.safeBottom,
+        boxSizing: 'content-box'
+      };
+    }
+
+    created() {
+      uiStore.tryFetchData();
+    }
+
+    mounted() {
+      this.run();
+    }
+
+    run() {
+      const query = uni
+        .createSelectorQuery()
+        // #ifdef MP-WEIXIN
+        .in(this);
+        // #endif
+
+      query.select(`.${this.componentClass}`).boundingClientRect(data => {
+        this.contentHeight = data.height;
+      }).exec();
+    }
+  }
+</script>
+
+<style lang="less" scoped>
+  .fixed-footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+  }
+</style>
