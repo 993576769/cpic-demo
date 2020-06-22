@@ -1,16 +1,50 @@
 # 目录
+
  - [兼容iPhoneX底部 button-fixed-bottom](#兼容iPhoneX底部-button-fixed-bottom)
+ - [自定义导航 navbar](#自定义导航)
 
 ### 兼容iPhoneX底部 button-fixed-bottom
 - 需要定位在最底部的组件，使用`button-fixed-bottom` 组件包裹起来，自动会在`iPhone X`等设备添加底部保护区域
 - 示例代码：
-```
-<button-fixed-bottom>
+```html
+<common-button-fixed-bottom>
   内容
-</button-fixed-bottom>
+</common-button-fixed-bottom>
 ```
-#### 事件
+#### 参数
 | props   |  类型  | 默认值 | 描述 |
 | :------ | :----: | :----: | :--- |
 | bgColor | String |  #fff  | 颜色 |
 | zIndex  | Number |   99   | 颜色 |
+
+---
+
+### 自定义导航
+
+- 示例代码：
+
+```html
+<common-navbar title="beansmile" />
+```
+
+#### 参数
+
+| props   |  类型  | 默认值 | 描述 |
+| :------ | :----: | :----: | :--- |
+| title | String |    | 标题 |
+| color  | String |   #141414   | 颜色 |
+| backgroundColor  | String |   #fff   | 背景色 |
+| fixed  | Boolean |   false   | 是否固定在顶部 |
+| placeholder  | Boolean |   true   | 固定在顶部时是否开启占位 |
+| statusBarPlaceholder  | Boolean |   true   | 是否留出状态栏高度 |
+| border  | Boolean |   true   | 是否显示下边框 |
+| zIndex  | Number |   10001   | 层级 |
+| showBackButton  | Boolean |   false   | 是否显示返回 |
+
+#### 事件
+
+| event   |  参数  | 描述 |
+| :------ | :----: | :--- |
+| back | / |  点击返回按钮是触发 |
+| ready | / |  组件是否ready |
+| height | (height: Number) | 组件高度 |
