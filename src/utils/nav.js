@@ -4,6 +4,15 @@ export function goHome() {
   uni.reLaunch({ url: '/pages/index' });
 }
 
+export const tabPages = [
+  '/pages/index'
+];
+
+export function getCurrentPage() {
+  const pages = getCurrentPages();
+  return pages[pages.length - 1];
+}
+
 const debouncedRedirect = _.debounce((url) => uni.redirectTo({ url }), 150);
 
 export function redirectTo(url) {
@@ -35,4 +44,20 @@ export function navigateTo(options) {
   const pages = getCurrentPages();
   const navType = pages.length < 10 ? 'navigateTo' : 'redirectTo';
   uni[navType](options);
+}
+
+export function isTabPage(url = getCurrentPage().route) {
+  const reg = new RegExp(url);
+  return !!tabPages.find(item => reg.test(item));
+}
+
+export function nav(url) {
+  if (!url) {
+    return goHome();
+  }
+  if (isTabPage(url)) {
+    uni.reLaunch({ url });
+  } else {
+    navigateTo(url);
+  }
 }

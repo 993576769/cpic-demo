@@ -2,6 +2,7 @@
 
  - [兼容iPhoneX底部 button-fixed-bottom](#兼容iPhoneX底部-button-fixed-bottom)
  - [自定义导航 navbar](#自定义导航)
+ - [自定义页面 custom-page](#自定义页面)
 
 ### 兼容iPhoneX底部 button-fixed-bottom
 - 需要定位在最底部的组件，使用`button-fixed-bottom` 组件包裹起来，自动会在`iPhone X`等设备添加底部保护区域
@@ -48,3 +49,18 @@
 | back | / |  点击返回按钮是触发 |
 | ready | / |  组件是否ready |
 | height | (height: Number) | 组件高度 |
+
+---
+
+### 自定义页面
+- 示例代码：
+
+```html
+<common-custom-page :components="[]" />
+```
+
+### 参数
+
+| props   |  类型  | 默认值 | 描述 |
+| :------ | :----: | :----: | :--- |
+| components | Array |  []  | 组件列表 |
