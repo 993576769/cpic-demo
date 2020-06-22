@@ -68,6 +68,7 @@
 
   image {
     height: 0;
+    vertical-align: top;
   }
 
   .disabled {
