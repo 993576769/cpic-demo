@@ -1,5 +1,5 @@
 <template>
-  <view :style="[style]">
+  <view :style="[style]" class="bean-button-fixed-bottom">
     <div class="fixed-footer" :style="[style, { background: bgColor, zIndex }]">
       <div :id="footer" class="content" :class="[componentClass]"><slot/></div>
     </div>
@@ -29,10 +29,6 @@
       };
     }
 
-    created() {
-      uiStore.tryFetchData();
-    }
-
     mounted() {
       this.run();
     }
@@ -51,10 +47,12 @@
   }
 </script>
 
-<style lang="less" scoped>
-  .fixed-footer {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
+<style lang="scss">
+  .bean-button-fixed-bottom {
+    .fixed-footer {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+    }
   }
 </style>

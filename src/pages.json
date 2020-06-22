@@ -3,7 +3,8 @@
     {
       "path": "pages/index",
       "style": {
-        "navigationBarTitleText": "beansmile-uniapp-boilerplate"
+        "navigationBarTitleText": "beansmile-uniapp-boilerplate",
+        "navigationStyle": "custom"
       }
     }
   ],
@@ -12,5 +13,11 @@
     "navigationBarTitleText": "beansmile-uniapp-boilerplate",
     "navigationBarBackgroundColor": "#F8F8F8",
     "backgroundColor": "#F8F8F8"
+  },
+  "easycom": {
+    "autoscan": true,
+    "custom": {
+      "common-(.*)": "@/components/common/$1.vue"
+    }
   }
 }
