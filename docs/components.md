@@ -3,6 +3,7 @@
  - [兼容iPhoneX底部 button-fixed-bottom](#兼容iPhoneX底部-button-fixed-bottom)
  - [自定义导航 navbar](#自定义导航)
  - [自定义页面 custom-page](#自定义页面)
+ - [添加到我的小程序 add-to-my-miniprogram](#添加到我的小程序)
 
 ### 兼容iPhoneX底部 button-fixed-bottom
 - 需要定位在最底部的组件，使用`button-fixed-bottom` 组件包裹起来，自动会在`iPhone X`等设备添加底部保护区域
@@ -64,3 +65,20 @@
 | props   |  类型  | 默认值 | 描述 |
 | :------ | :----: | :----: | :--- |
 | components | Array |  []  | 组件列表 |
+
+---
+
+### 添加到我的小程序
+- 示例代码：
+
+```html
+<common-add-to-my-miniprogram />
+```
+
+### 参数
+
+| props   |  类型  | 默认值 | 描述 |
+| :------ | :----: | :----: | :--- |
+| text | String |  点击添加「我的小程序」，下次访问更便捷  | 引导提示 |
+| duration | Number | 6000 | 弹层显示时间 |
+| customNavbar | Boolean | false | 页面使用了自定义导航 |
