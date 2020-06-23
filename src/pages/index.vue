@@ -3,6 +3,8 @@
     <common-navbar title="beansmile" fixed />
     <div>home page</div>
 
+    <common-add-to-my-miniprogram custom-navbar />
+
     <common-button-fixed-bottom>
       <button>底部按钮</button>
     </common-button-fixed-bottom>
