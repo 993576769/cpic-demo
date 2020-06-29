@@ -5,6 +5,17 @@
 
     <common-add-to-my-miniprogram custom-navbar />
 
+    <img :src="poster" v-if="poster" style="width: 100%;" mode="widthFix" />
+
+    <common-create-poster
+      :width="300"
+      :height="300"
+      :config="config"
+      @success="handleCreatePosterSuccess"
+    >
+      <button>生成海报</button>
+    </common-create-poster>
+
     <common-button-fixed-bottom>
       <button>底部按钮</button>
     </common-button-fixed-bottom>
@@ -16,7 +27,48 @@
 
   @Component
   export default class Home extends Vue {
+    config = [
+      {
+        type: 'text',
+        top: 0,
+        left: 0,
+        text: '测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试',
+        maxRow: 2,
+        maxWidth: 300,
+        fontSize: 20,
+        color: 'red'
+      },
+      {
+        type: 'background',
+        color: 'red',
+        top: 0,
+        left: 0,
+        width: 200,
+        height: 200
+      },
+      {
+        type: 'arc',
+        color: 'green',
+        r: 50,
+        top: 100,
+        left: 100
+      },
+      {
+        type: 'image',
+        url: require('@/static/logo.png'),
+        left: 0,
+        top: 0,
+        width: 100,
+        height: 100,
+        round: 50
+      }
+    ]
 
+    poster = '';
+
+    handleCreatePosterSuccess(img) {
+      this.poster = img;
+    }
 
   }
 </script>
