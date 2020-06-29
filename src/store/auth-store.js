@@ -1,39 +1,15 @@
 import { SimpleStore } from './helper/simple-store';
-import { authRequest } from '@/utils';
+import { ACCESS_TOKEN_KEY } from '@/constants';
+import { request } from '@/utils';
 
-const { VUE_APP_ENV } = process.env;
-const TOKEN_STORAGE_KEY = `${VUE_APP_ENV}_token`;
-
-export class AuthStore extends SimpleStore {
-  token = '';
-
-  async saveToken(token) {
-    this.token = token;
-    uni.setStorage({
-      key: TOKEN_STORAGE_KEY,
-      data: token
-    });
-    return this.token;
-  }
-
-  async getToken() {
-    if (!this.token) {
-      try {
-        const { data } = await uni.getStorage({ key: TOKEN_STORAGE_KEY });
-        this.token = data || '';
-      } catch (e) {
-        this.token = '';
-      }
-    }
-    return this.token;
-  }
+class AuthStore extends SimpleStore {
+  $access_token = uni.getStorageSync(ACCESS_TOKEN_KEY)
 
   async checkLogin() {
-    const token = await this.getToken();
-    if (token) {
+    if (this.token) {
       try {
         await uni.checkSession();
-        return token;
+        return this.token;
       } catch (e) {
         return this.login();
       }
@@ -42,10 +18,18 @@ export class AuthStore extends SimpleStore {
   }
 
   async login() {
-    this.saveToken('');
     const { code } = await uni.login();
-    const { data: { access_token } } = await authRequest.post('/users/token', { code });
-    return this.saveToken(access_token);
+    const { data: { access_token } } = await request.post('/users/token', { code });
+    return this.access_token = access_token;
+  }
+
+  set access_token(v) {
+    this.$access_token = v;
+    uni.setStorageSync(ACCESS_TOKEN_KEY, v);
+  }
+
+  get access_token() {
+    return this.$access_token;
   }
 }
 
