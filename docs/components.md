@@ -42,6 +42,7 @@
 | border  | Boolean |   true   | 是否显示下边框 |
 | zIndex  | Number |   10001   | 层级 |
 | showBackButton  | Boolean |   false   | 是否显示返回 |
+| backIcon  | String |     | 返回按钮图片路径 |
 
 #### 事件
 

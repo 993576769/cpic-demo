@@ -10,7 +10,7 @@
         :style="{ padding: menuRect.right + 'px' }"
       >
         <img
-          src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFgAAABYCAYAAABxlTA0AAAAAXNSR0IArs4c6QAAAt1JREFUeAHt3LFqG0EQBmBLCiQgKWCQkHClN3Djwm0IdhNIquQB8gBuDCliY9y5cOMHcO0ieYKQwqmCG0Ma26lDQoRUuDBS0kjyDEggF3c6Sb7Z+Wdn4dCddu9m99Nyd9wNWlnx4gIu4AIu4AIu4AIu4AIu4AIu4AIu4AIusLRAs9l8UavVLur1+h0tl7T+aumDLnCAwgL7qN+FQN+PRqNT6uiD8RWLxe1Op/NVcgBFyWASsZJwOTah70n0YTqGKeA03DFwa3rwEutmgGfhjjF/SKBOx3gyvYG6ngW3UCj8K5VKH6XHCD+DM+L+J+A37Xb7Whr4wVVWOviy8ebAfS199zAZGywwAi4jQwKj4EICI+HCAaPhQgEj4sIAo+JCACPjqgdGx1UNbAFXLbAVXJXAlnDVAVvDVQVsEVcNsFVcFcCWcYMDW8cNChwDbjDgWHCDAMeEKw4cG64ocIy4YsCx4ooANxqNl4PBgBPuEl+wUs4C5y0Ee7XOEHmV3BNPCPeIOh8lLv9ouQNTjHUOlFRo5u6HSgpJ6tNjfp87MAHepHV4OBwe0GlkM60Ncp0E8OEMoOd0GvliFbk0Y/BLV/d6vZ+VSqVPyc9bKQd7SvXvqtXqN2r/O6UdXFXuwCxCaN9jRRYBjhlZDDhWZFHgGJHFgWNDDgIcE3Iw4AWQz+lu5A/vh1SCAjPUnLdwcMjBga0jqwC2jKwG2CqyKmCLyOqArSGrBLaErBbYCrJqYAvI6oHRkSGAkZFhgFGRoYARkeGA0ZAhgZGQYYFRkKGB50R+S3kXn+j58y3vJ1XggRkq40P7Z9R0rd/vf5bC5TgmgHkgGZErBHzC7aVK7rlpUgPhOJSleUx/APohKSYlIv5NqsvrezMzeAKUNpMJeJdm8NWkrcSnOWBGY+RyuXxFoBu0uUrLL5rZO91u94zrvTyiQKvV4oubFxdwARdwARdwARdwARdwARdwARfIKHAPupbgavZPCH0AAAAASUVORK5CYII="
+          :src="backIcon"
           :style="{ width: iconSize + 'px', height: iconSize + 'px' }"
         />
       </div>
@@ -33,6 +33,8 @@
   /* eslint-disable no-unreachable */
   import { Vue, Component, Prop } from 'vue-property-decorator';
 
+  const DEFAULT_BACK_ICON = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFgAAABYCAYAAABxlTA0AAAAAXNSR0IArs4c6QAAAt1JREFUeAHt3LFqG0EQBmBLCiQgKWCQkHClN3Djwm0IdhNIquQB8gBuDCliY9y5cOMHcO0ieYKQwqmCG0Ma26lDQoRUuDBS0kjyDEggF3c6Sb7Z+Wdn4dCddu9m99Nyd9wNWlnx4gIu4AIu4AIu4AIu4AIu4AIu4AIu4AIusLRAs9l8UavVLur1+h0tl7T+aumDLnCAwgL7qN+FQN+PRqNT6uiD8RWLxe1Op/NVcgBFyWASsZJwOTah70n0YTqGKeA03DFwa3rwEutmgGfhjjF/SKBOx3gyvYG6ngW3UCj8K5VKH6XHCD+DM+L+J+A37Xb7Whr4wVVWOviy8ebAfS199zAZGywwAi4jQwKj4EICI+HCAaPhQgEj4sIAo+JCACPjqgdGx1UNbAFXLbAVXJXAlnDVAVvDVQVsEVcNsFVcFcCWcYMDW8cNChwDbjDgWHCDAMeEKw4cG64ocIy4YsCx4ooANxqNl4PBgBPuEl+wUs4C5y0Ee7XOEHmV3BNPCPeIOh8lLv9ouQNTjHUOlFRo5u6HSgpJ6tNjfp87MAHepHV4OBwe0GlkM60Ncp0E8OEMoOd0GvliFbk0Y/BLV/d6vZ+VSqVPyc9bKQd7SvXvqtXqN2r/O6UdXFXuwCxCaN9jRRYBjhlZDDhWZFHgGJHFgWNDDgIcE3Iw4AWQz+lu5A/vh1SCAjPUnLdwcMjBga0jqwC2jKwG2CqyKmCLyOqArSGrBLaErBbYCrJqYAvI6oHRkSGAkZFhgFGRoYARkeGA0ZAhgZGQYYFRkKGB50R+S3kXn+j58y3vJ1XggRkq40P7Z9R0rd/vf5bC5TgmgHkgGZErBHzC7aVK7rlpUgPhOJSleUx/APohKSYlIv5NqsvrezMzeAKUNpMJeJdm8NWkrcSnOWBGY+RyuXxFoBu0uUrLL5rZO91u94zrvTyiQKvV4oubFxdwARdwARdwARdwARdwARdwARfIKHAPupbgavZPCH0AAAAASUVORK5CYII=';
+
   @Component
   export default class Navbar extends Vue {
     @Prop({ type: String, default: '' }) title; // 标题
@@ -44,6 +46,7 @@
     @Prop({ type: Boolean, default: true }) border; //是否显示下边框
     @Prop({ type: Number, default: 10001 }) zIndex;
     @Prop({ type: Boolean, default: false }) showBackButton;
+    @Prop({ type: String, default: DEFAULT_BACK_ICON }) backIcon; // 返回图标
 
     iconSize = 22;
     statusBarHeight = 20;
@@ -82,12 +85,13 @@
       const { width, right } = this.menuRect;
       if (this.title) {
         return {
-          paddingLeft: width - this.iconSize + 'px',
+          paddingLeft: (this.showBackButton ? (width - this.iconSize) : (width + right * 2)) + 'px',
           paddingRight: width + right * 2 + 'px',
           lineHeight: this.height + 'px'
         };
       }
       return {
+        paddingLeft: (this.showBackButton ? 0 : right * 2) + 'px',
         paddingRight: width + right * 2 + 'px',
         display: 'flex',
         alignItems: 'center'
