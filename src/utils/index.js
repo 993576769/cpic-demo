@@ -1,4 +1,4 @@
-export { request, authRequest } from './request';
+export { request } from './request';
 export { autoLoading, showLoading, showToast, errToast, pageRefresh, confirm, alert } from './prompt';
 export { nav, goBack, goHome, navigateTo, redirectTo } from './nav';
 export { default as sleep } from './sleep';

@@ -1,96 +1,91 @@
-import Fly from 'flyio/dist/npm/fly';
-import EngineWrapper from 'flyio/dist/npm/engine-wrapper';
+import Vue from 'vue';
 import _ from 'lodash';
-import { authStore } from '@/store';
+import qs from 'qs';
+import axios from 'axios';
+import settle from 'axios/lib/core/settle';
+import createError from 'axios/lib/core/createError';
+import buildFullPath from 'axios/lib/core/buildFullPath';
+import buildURL from 'axios/lib/helpers/buildURL';
+import decoder from './decoder';
 
-function adapter(request, responseCallback) {
-  uni.request({
-    method: request.method,
-    url: request.url,
-    dataType: request.dataType || undefined,
-    header: request.headers,
-    data: request.body || {},
-    success(res) {
-      responseCallback({
-        statusCode: res.statusCode,
-        responseText: res.data,
-        headers: res.header,
-        statusMessage: res.errMsg,
-      });
-    },
-    fail(res) {
-      responseCallback({
-        responseText: res.data,
-        statusCode: res.statusCode || 0,
-        statusMessage: res.errMsg
-      });
-    },
-  });
-}
-
-const request = new Fly(EngineWrapper(adapter));
-const authRequest = new Fly(EngineWrapper(adapter));
-
-request.config.baseURL = `${process.env.VUE_APP_API_HOST || `http://${process.env.VUE_APP_IPV4}:3000`}/api/v1`;
-request.config.timeout = 15000;
-authRequest.config = request.config;
-
-async function handleAuth() {
-  return authStore.login();
-}
-
-const handleError = async (e) => {
-  const { error, message } = _.get(e, 'response.data', {});
-  let msg = error || message;
-  if (!msg) {
-    if (String(e.message).indexOf('request:ok') !== -1) {
-      msg = `服务器错误 statusCode: ${e.status}`;
-    } else if (String(e.message).indexOf('timeout') !== -1) {
-      msg = '网络连接超时，请重试';
-    } else {
-      msg = e.message;
-    }
-  }
-  return Promise.reject(new Error(msg));
-};
-
-async function requestInterceptors(req) {
-  const token = await authStore.getToken();
-  if (token) {
-    req.headers.Authorization = token;
-  }
-  req.headers['Content-Type'] = 'application/json';
-  return req;
-}
-
-request.interceptors.request.use(requestInterceptors);
-authRequest.interceptors.request.use(requestInterceptors);
-
-authRequest.interceptors.response.use(
-  async res => {
-    return { data: res.data };
+const request = axios.create({
+  baseURL: process.env.VUE_APP_WEB_API + '/app/api/v1',
+  timeout: 30000,
+  paramsSerializer(params) {
+    return qs.stringify(params, { arrayFormat: 'brackets' });
   },
-  handleError
-);
+  transformRequest: [(data, headers) => {
+    headers['Authorization'] = Vue.prototype.$authStore.access_token;
+    return data;
+  }],
+  adapter(config) {
+    const fullPath = buildFullPath(config.baseURL, config.url);
+    return uni.request({
+      method: config.method.toUpperCase(),
+      url: buildURL(fullPath, config.params, config.paramsSerializer),
+      header: config.headers,
+      data: config.data,
+      dataType: config.dataType || undefined,
+      responseType: config.responseType || 'text',
+      enableCache: true,
+    })
+      .then(
+        res => {
+          return new Promise((resolve, reject) => {
+            settle(resolve, reject, {
+              data: res.data,
+              status: res.statusCode,
+              statusText: res.errMsg,
+              headers: res.header,
+              config: config,
+            });
+          });
+        },
+        res => {
+          return Promise.reject(createError(
+            res.errMsg,
+            config,
+            0,
+          ));
+        }
+      );
+  }
+});
 
 request.interceptors.response.use(
-  async res => {
-    return { data: res.data };
-  },
-  async(err) => {
-    if (err.status === 401) {
-      request.lock();
-      try {
-        await handleAuth();
-        request.unlock();
-        return request.request(err.request);
-      } catch (e) {
-        request.unlock();
-        return handleError(e);
+  res => {
+    res.isResponse = true;
+    res.meta = {};
+    _.forEach(res.headers, (v, k) => {
+      if (/^x-/i.test(k)) {
+        const key = _.snakeCase(k.replace(/^x-/i, ''));
+        res.meta[key] = decoder(v);
       }
+    });
+    return res;
+  },
+  err => {
+    const response = _.get(err, 'response', {});
+    const { error_message, messages, error, code } = response.data;
+    err.message = error_message || messages || error || err.message;
+    err.code = code;
+    err.status = response.status;
+    if (response.status === 401) {
+      return login_once().then(() => request.request(response.config));
     }
-    return handleError(err);
+    return Promise.reject(err);
   }
 );
 
-export { request, authRequest };
+let login_once = _.once(login);
+
+async function login() {
+  const { authStore } = require('@/store/auth-store');
+  try {
+    await authStore.login();
+  } finally {
+    login_once = _.once(login);
+  }
+}
+
+export { request };
