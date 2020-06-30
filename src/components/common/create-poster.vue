@@ -154,8 +154,8 @@
 <style lang="scss">
   .common-create-poster {
     .canvas {
-      // position: fixed;
-      // left: -200%;
+      position: fixed;
+      left: -200%;
     }
   }
 </style>

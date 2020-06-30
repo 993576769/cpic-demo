@@ -16,6 +16,13 @@
       <button>生成海报</button>
     </common-create-poster>
 
+    <common-auth-userinfo
+      withCredentials
+      @success="handleAuthSuccess"
+    >
+      <div>授权</div>
+    </common-auth-userinfo>
+
     <common-button-fixed-bottom>
       <button>底部按钮</button>
     </common-button-fixed-bottom>
@@ -68,6 +75,11 @@
 
     handleCreatePosterSuccess(img) {
       this.poster = img;
+    }
+
+    handleAuthSuccess(e) {
+      // eslint-disable-next-line no-console
+      console.log(e);
     }
 
   }
