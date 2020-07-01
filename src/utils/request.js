@@ -9,7 +9,7 @@ import buildURL from 'axios/lib/helpers/buildURL';
 import decoder from './decoder';
 
 const request = axios.create({
-  baseURL: process.env.VUE_APP_WEB_API + '/app/api/v1',
+  baseURL: process.env.VUE_APP_API_HOST + '/app/api/v1',
   timeout: 30000,
   paramsSerializer(params) {
     return qs.stringify(params, { arrayFormat: 'brackets' });
