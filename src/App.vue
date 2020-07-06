@@ -10,7 +10,7 @@
       // 新版本提示
       checkUpdateManager() {
         const updateManager = uni.getUpdateManager();
-        updateManager.onUpdateReady(async() => {
+        updateManager.onUpdateReady(async () => {
           await confirm('新版本已经准备好，是否重启应用？');
           updateManager.applyUpdate();
         });
