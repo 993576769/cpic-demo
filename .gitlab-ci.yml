@@ -22,7 +22,7 @@ test:
 deploy_staging:
   stage: build # 对应stages上的job名称
   script:
-    - yarn staging:mp-weixin
+    - yarn build:staging:mp-weixin
     - NODE_ENV=staging node script/upload.js
   only:
     - staging
@@ -32,7 +32,7 @@ deploy_staging:
 deploy_production:
   stage: build # 对应stages上的job名称
   script:
-    - yarn build:mp-weixin
+    - yarn build:production:mp-weixin
     - NODE_ENV=production node script/upload.js
   only:
     - master
