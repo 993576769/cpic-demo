@@ -1,5 +1,3 @@
-import Vue from 'vue';
-
 export function showToast(params) {
   const options = {
     title: '',
@@ -103,10 +101,3 @@ export function errHandle(err) {
   }
   throw err;
 }
-
-Vue.prototype.$showToast = showToast;
-Vue.prototype.$showLoading = showLoading;
-Vue.prototype.$autoLoading = autoLoading;
-Vue.autoLoading = autoLoadingDecorator;
-Vue.pageRefresh = pageRefresh;
-Vue.errToast = errToast;
