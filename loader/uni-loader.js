@@ -7,7 +7,7 @@ module.exports = function (source) {
   `
   return source.replace('function handlePromise', code + 'function handlePromise2')
     .replace(
-      'function d(t){return t.then(function(t){return[null,t]}).catch(function(t){return[t]})}',
-      'function d(t){return t}',
+      'function g(t){return t.then((function(t){return[null,t]})).catch((function(t){return[t]}))}',
+      'function g(t){return t}',
     )
 }
