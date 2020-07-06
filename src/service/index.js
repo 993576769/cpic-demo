@@ -12,7 +12,7 @@ export class Service extends Vue {
       this.$off(name, handle);
     };
     if (auto_clear) {
-      const page_id = this.$nav.getCurrentPage().__wxWebviewId__;
+      const page_id = this.$nav.currentPage.__wxWebviewId__;
       if (!this.pageListeners[page_id]) {
         this.pageListeners[page_id] = [];
       }

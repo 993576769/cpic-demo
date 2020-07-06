@@ -1,11 +1,22 @@
 {
-  "pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+  "pages": [
+    //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
     {
-      "path": "pages/root/index",
+      "path": "pages/root/home",
       "style": {
         "navigationBarTitleText": "beansmile-uniapp-boilerplate",
         "navigationStyle": "custom"
       }
+    }
+  ],
+  "subPackages": [
+    {
+      "root": "pages/extra",
+      "pages": [
+        {
+          "path": "web-site"
+        }
+      ]
     }
   ],
   "globalStyle": {
