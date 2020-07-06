@@ -1,4 +1,3 @@
-import Vue from 'vue';
 import _ from 'lodash';
 import qs from 'qs';
 import axios from 'axios';
@@ -15,7 +14,8 @@ const request = axios.create({
     return qs.stringify(params, { arrayFormat: 'brackets' });
   },
   transformRequest: [(data, headers) => {
-    headers['Authorization'] = Vue.prototype.$authStore.access_token;
+    const { authStore } = require('@/store/auth-store');
+    headers['Authorization'] = authStore.access_token;
     return data;
   }],
   adapter(config) {

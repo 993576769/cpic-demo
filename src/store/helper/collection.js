@@ -1,4 +1,3 @@
-import Vue from 'vue';
 import { SimpleStore } from './simple-store';
 
 export class Collection extends SimpleStore {
@@ -85,5 +84,3 @@ export class Collection extends SimpleStore {
     return 'more';
   }
 }
-
-Vue.prototype.$Collection = Collection;
