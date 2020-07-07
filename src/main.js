@@ -1,11 +1,16 @@
 import Vue from 'vue';
 import App from './App';
 import './filters';
-import { request, showToast, showLoading, autoLoading, autoLoadingDecorator, pageRefresh, errToast, nav } from './utils';
+import {
+  request, nav, sleep,
+  showToast, showLoading, autoLoading, autoLoadingDecorator,
+  pageRefresh, errToast, uploadFiles, saveFiles,
+} from './utils';
 import { service } from './service';
 import { Collection } from './store';
 
 Vue.config.productionTip = false;
+Vue.prototype.$sleep = sleep;
 Vue.prototype.$request = request;
 Vue.prototype.$showToast = showToast;
 Vue.prototype.$showLoading = showLoading;
@@ -14,6 +19,8 @@ Vue.autoLoading = autoLoadingDecorator;
 Vue.pageRefresh = pageRefresh;
 Vue.errToast = errToast;
 Vue.prototype.$nav = nav;
+Vue.prototype.$uploadFiles = uploadFiles;
+Vue.prototype.$saveFiles = saveFiles;
 
 Vue.prototype.$service = service;
 

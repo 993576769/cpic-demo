@@ -9,7 +9,7 @@ class StorageParent {
   constructor(name, { isArrayData = false, duration }) {
     this.name = name;
     const data = uni.getStorageSync(name);
-    this.data = data || (isArrayData ? [] : {}),
+    this.data = data || (isArrayData ? [] : {});
     this.isArrayData = isArrayData;
     this.duration = duration;
     this.overdueData = this.checkOverdue();
