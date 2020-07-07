@@ -5,6 +5,7 @@
  - [自定义页面 custom-page](#自定义页面)
  - [添加到我的小程序 add-to-my-miniprogram](#添加到我的小程序)
  - [canvas生成海报 create-poster](#canvas生成海报)
+ - [用户信息授权 auth-userinfo](#用户信息授权)
 
 ### 兼容iPhoneX底部 button-fixed-bottom
 - 需要定位在最底部的组件，使用`button-fixed-bottom` 组件包裹起来，自动会在`iPhone X`等设备添加底部保护区域
@@ -111,7 +112,9 @@
 
 | event   |  参数  | 描述 |
 | :------ | :----: | :--- |
-| success | / |  生成图片完成 |
+| success | (图片data URI) |  生成图片完成 |
+
+---
 
 #### config配置
 ```javascript
@@ -162,3 +165,30 @@
   }
 ]
 ```
+
+---
+
+### 用户信息授权
+- 示例代码：
+
+```html
+<common-auth-userinfo
+  withCredentials
+  @success="handleAuthSuccess"
+>
+  <div>授权</div>
+</common-auth-userinfo>
+```
+
+### 参数
+
+| props   |  类型  | 默认值 | 描述 |
+| :------ | :----: | :----: | :--- |
+| withCredentials | Boolean |  false  | 是否带上登录态信息 |
+| disabled | Boolean | false | 禁用状态 |
+
+#### 事件
+
+| event   |  参数  | 描述 |
+| :------ | :----: | :--- |
+| success | { userInfo, rawData, signature, encryptedData, iv, code: 如果withCredentials = true会有code } | 获取信息完成  |
