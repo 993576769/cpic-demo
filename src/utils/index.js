@@ -6,3 +6,5 @@ export { nav } from './nav';
 export { default as sleep } from './sleep';
 export { randomString, randomFileName } from './random';
 export { Storage, ArrayStorage } from './storage';
+export { uploadFiles } from './upload-files';
+export { saveFiles } from './save-files';
