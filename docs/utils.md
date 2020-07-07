@@ -1,5 +1,7 @@
 # 目录
  - [storage](#storage)
+ - [检查并调用手机权限](#检查并调用手机权限)
+ - [保存图片或视频到本地相册](#保存图片或视频到本地相册)
 
 ### storage
 支持对象和数组存储，使用作用域区分不同存储数据
@@ -34,4 +36,51 @@ storage.sort()                     // 对应数组原型方法
 storage.reverse()                  // 对应数组原型方法
 storage.checkOverdue()             // 手动清除本地存储的过期数据，返回已过期数据
 storage.overdueData                // new ArrayStorage 时，过期了的数据
+```
+
+---
+
+### 检查并调用手机权限
+说明：使用手机权限每次都要判断用户是否拒绝相关权限，所以统一封装了起来
+
+参数说明：
+checkApiAuth(scope, [options], [isAuto]);
+| 参数    | 是否必填 | 类型      | 默认值 | 说明                                                         |
+| :------ | :------: | :-------- | :----: | :----------------------------------------------------------- |
+| scope   |    是    | `String`  |   -    | 需要调用的小程序接口函数                                     |
+| options |    否    | `Object`  |   {}   | 调用小程序函数需要传递的参数                                 |
+| isAuto  |    否    | `Boolean` |  true  | 是否自动调用，传递`false`只检查权限，不自动调用小程序对应API |
+
+示例代码：
+```js
+import { checkApiAuth } from '@/utils';
+
+
+// 操作事件
+async handleClick() {
+  const res = await checkApiAuth('chooseAddress');
+}
+```
+
+---
+
+### 保存图片或视频到本地相册
+说明：保存图片或视频到本地相册，支持小程序本地链接和网络链接。
+
+参数说明：
+saveFiles(urls, [mediumType]);
+| 参数        | 是否必填 | 类型             | 默认值 | 说明                                    |
+| :---------- | :------: | :--------------- | :----: | :-------------------------------------- |
+| urls        |    是    | `String | Array` |   -    | 媒体文件本地链接或网络链接              |
+| mediumType |    否    | `String`         | image  | `image` 或 `video`，默认`image`保存图片 |
+
+示例代码：
+```js
+import { saveFiles } from '@/utils';
+
+// 操作事件
+async handleClick() {
+  await saveFiles('http://xxx.xxx.com/xxx.jpg');
+  showToast('保存成功');
+}
 ```
