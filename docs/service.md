@@ -2,13 +2,13 @@
  - [介绍](#介绍)
  - [例子](#例子)
  - [事件清除](#事件清除)
- 
+
 # 介绍
 存放各类 api 请求的 vue 对象。可以在 api 请求后触发对应的函数名事件
 
 # 例子
 * 创建一篇文章
-```
+``` javascript
 // 封装 api 请求函数
 class Service extends Vue {
   // [Emit](https://github.com/kaorun343/vue-property-decorator#Emit)
@@ -45,7 +45,7 @@ service.createPost()
 ```
 
 * 收藏一篇文章
-```
+``` javascript
 // 封装 api 请求函数
 class Service extends Vue {
   async collectPost(post) {
