@@ -45,6 +45,7 @@ storage.overdueData                // new ArrayStorage 时，过期了的数据
 
 参数说明：
 checkApiAuth(scope, [options], [isAuto]);
+
 | 参数    | 是否必填 | 类型      | 默认值 | 说明                                                         |
 | :------ | :------: | :-------- | :----: | :----------------------------------------------------------- |
 | scope   |    是    | `String`  |   -    | 需要调用的小程序接口函数                                     |
@@ -69,9 +70,10 @@ async handleClick() {
 
 参数说明：
 saveFiles(urls, [mediumType]);
+
 | 参数        | 是否必填 | 类型             | 默认值 | 说明                                    |
 | :---------- | :------: | :--------------- | :----: | :-------------------------------------- |
-| urls        |    是    | `String | Array` |   -    | 媒体文件本地链接或网络链接              |
+| urls        |    是    | `String`或`Array` |   -    | 媒体文件本地链接或网络链接              |
 | mediumType |    否    | `String`         | image  | `image` 或 `video`，默认`image`保存图片 |
 
 示例代码：
