@@ -6,6 +6,8 @@
  - [添加到我的小程序 add-to-my-miniprogram](#添加到我的小程序)
  - [canvas生成海报 create-poster](#canvas生成海报)
  - [用户信息授权 auth-userinfo](#用户信息授权)
+ - [Loading组件 loading-screen](#LoadingScreen)
+ - [空列表 empty-view](#EmptyView)
 
 ### 兼容iPhoneX底部 button-fixed-bottom
 - 需要定位在最底部的组件，使用`button-fixed-bottom` 组件包裹起来，自动会在`iPhone X`等设备添加底部保护区域
@@ -192,3 +194,63 @@
 | event   |                                             参数                                              | 描述         |
 | :------ | :-------------------------------------------------------------------------------------------: | :----------- |
 | success | { userInfo, rawData, signature, encryptedData, iv, code: 如果withCredentials = true会有code } | 获取信息完成 |
+
+---
+
+### LoadingScreen
+
+#### 简介
+全屏覆盖的 loading 组件，可以通过 css 调整 position 的相关坐标
+
+- 示例代码：
+
+```html
+<div>
+  <div>text</div>
+  <common-loading-screen/>
+</div>
+```
+
+```html
+<div>
+  <div>text</div>
+  <common-loading-screen :prop-ctx-vid="vueId"/>
+</div>
+```
+
+```javascript
+export default {
+   methods: {
+     onFetch() {}
+   }
+}
+```
+
+#### 参数
+
+| props           |  类型   | 默认值 | 描述               |
+| :-------------- | :-----: | :----: | :----------------- |
+| onFetch         | String | 'onFetch'  | fetch 函数，因为小程序传递函数有问题，这里传的是函数名，组件内部获取上一级作用域来调用对应的函数 |
+| usedCustomNav   | Boolean | false  | 页面如果使用了自定义导航的话，需要传 true |
+| propCtxVid      | String | ‘’  | 在组件中使用 loading 而不是页面中使用时，需要传递 vueId(uni 内置)，用作获取上一级作用域。页面可以不传 |
+
+---
+
+### EmptyView
+
+#### 简介
+空列表时展示
+
+- 示例代码：
+
+```html
+<div>
+  <common-empty-view v-if="list.isEmpty"/>
+</div>
+```
+
+#### 参数
+
+| props           |  类型   | 默认值 | 描述               |
+| :-------------- | :-----: | :----: | :----------------- |
+| text            | String | '暂无数据'  | 提示文本 |
