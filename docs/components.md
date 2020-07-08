@@ -8,6 +8,7 @@
  - [用户信息授权 auth-userinfo](#用户信息授权)
  - [Loading组件 loading-screen](#LoadingScreen)
  - [空列表 empty-view](#EmptyView)
+ - [通告栏 notice-bar](#通告栏)
 
 ### 兼容iPhoneX底部 button-fixed-bottom
 - 需要定位在最底部的组件，使用`button-fixed-bottom` 组件包裹起来，自动会在`iPhone X`等设备添加底部保护区域
@@ -254,3 +255,22 @@ export default {
 | props           |  类型   | 默认值 | 描述               |
 | :-------------- | :-----: | :----: | :----------------- |
 | text            | String | '暂无数据'  | 提示文本 |
+
+### 通告栏
+- 示例代码：
+
+```html
+<common-notice-bar
+  text="在代码阅读过程中人们说脏话的频率是衡量代码质量的唯一标准。"
+/>
+```
+
+### 参数
+
+| props           |  类型   | 默认值 | 描述               |
+| :-------------- | :-----: | :----:  | :----------------- |
+| text            | String  | ''      | 文字内容            |
+| delay           | Number  | 1       | 动画延迟时间(s)      |
+| speed           | Number  | 50      | 滚动速率(px/s)      |
+| color           | String  | #ed6a0c | 文本颜色            |
+| backgroundColor | String  | #fffbe8 | 滚动条背景          |
