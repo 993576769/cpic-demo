@@ -130,7 +130,11 @@
         :key="row.key"
         class="custom-notice-bar"
       >
-        <!-- TODO -->
+        <common-notice-bar
+          :color="row.data.config.color"
+          :backgroundColor="row.data.config.backgroundColor"
+          :text="row.data.data.text"
+        />
       </div>
     </template>
   </div>
