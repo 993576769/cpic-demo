@@ -5,6 +5,7 @@
 - [utils 工具](./docs/utils.md)
 - [components 组件](./docs/components.md)
 - [service](./docs/service.md)
+- [models](./docs/models.md)
 
 ## Directory Introduction
 
@@ -21,6 +22,7 @@
 │  ├── constants             # 常量
 │  ├── fliters               # 过滤器
 │  ├── mixins                # mixins
+│  ├── models                # models
 │  ├── pages                 # TabBar页面以及分包
 │  │  ├── root               # TabBar页面
 │  │  └── xxx                # 具体分包页面(分包资源和组件引入遵循就近原则，只有公用的才移出去)

@@ -10,6 +10,8 @@ module.exports = {
   resolve: {
     alias: {
       '@': path.resolve('src'),
+      '@vuex-orm$': '@vuex-orm/core/lib',
+      'core-js/fn': 'core-js/es',
     },
   }
 }

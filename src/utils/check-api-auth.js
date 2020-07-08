@@ -36,7 +36,7 @@ const SCOPES = {
 async function checkApiAuth(scope, options = {}, isAuto = true) {
   const fullScope = SCOPES[scope];
   const { authSetting } = await uni.getSetting();
-  const isFrist = !Object.prototype.hasOwnProperty.call(authSetting, `scope.${fullScope}`);
+  const isFirst = !Object.prototype.hasOwnProperty.call(authSetting, `scope.${fullScope}`);
 
   try {
     if (!authSetting[`scope.${fullScope}`]) {
@@ -46,7 +46,7 @@ async function checkApiAuth(scope, options = {}, isAuto = true) {
     return res;
   } catch (e) {
     if (e.errMsg.indexOf('authorize:fail') !== -1) {
-      if (isFrist) {
+      if (isFirst) {
         return false;
       }
       const { confirm } = await uni.showModal({ content: `授权失败，请在设置中打开“${SCOPE_MAP[fullScope]}”开关后继续操作`, confirmText: '去设置' });
