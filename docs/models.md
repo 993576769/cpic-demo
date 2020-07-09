@@ -107,7 +107,7 @@ class Post extends Record {
   constructor(record) {
     super(record)
     if (this.id) {
-      service.subscribe({ event: 'updatePost', model: record }, attrs => {
+      this.$service.subscribe({ event: 'updatePost', model: record }, attrs => {
         this.updateAttrs(attrs)
       })
     }
