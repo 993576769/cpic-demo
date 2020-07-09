@@ -26,6 +26,12 @@
     >
       <div>授权</div>
     </common-auth-userinfo>
+    <common-list-page :store="store" storeName="store">
+      <div class="lis">列表数据</div>
+      <div slot="loadMore">load more</div>
+      <div slot="empty">empty</div>
+      <div slot="noMore">no more</div>
+    </common-list-page>
 
     <common-button-fixed-bottom>
       <button>底部按钮</button>
@@ -35,6 +41,7 @@
 
 <script>
   import { Vue, Component } from 'vue-property-decorator';
+  import { Collection } from '@/store';
 
   @Component
   export default class Home extends Vue {
@@ -76,6 +83,12 @@
     ]
 
     poster = '';
+
+    store = new Collection({
+      fetch() {
+        // return Promise.resolve();
+      }
+    })
 
     handleCreatePosterSuccess(img) {
       this.poster = img;
