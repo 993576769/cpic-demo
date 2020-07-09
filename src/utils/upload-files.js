@@ -49,13 +49,7 @@ async function uploadToAliyun(meta, file) {
     url: meta.host,
     name: 'file',
     filePath: file,
-    formData: {
-      OSSAccessKeyId: meta.access_key_id,
-      policy: meta.policy,
-      signature: meta.signature,
-      success_action_status: 201,
-      key,
-    }
+    formData: { ...meta.form_data, key }
   });
 
   if (res.statusCode === 201) {
