@@ -1,31 +1,8 @@
-import Vue from 'vue';
 import _ from 'lodash';
 
-export default class Observable {
-  static create(state) {
-    const instance = new this();
-    if (state) {
-      _.forEach(Object.getOwnPropertyDescriptors(state), (descriptor, key) => {
-        if ('value' in descriptor) {
-          instance[key] = descriptor.value;
-        } else {
-          Object.defineProperty(instance, key, descriptor);
-        }
-      });
-    }
-    Vue.observable(instance);
-    return instance;
-  }
-}
-
-/*  #ifdef MP-WEIXIN  */
-
-Observable.prototype.toJSON = toJSON;
-
-/*  #endif  */
-
-// 解决小程序里，store 部分属性无法设置到小程序 data 上的问题
-export function toJSON() {
+// 通过 class new 出来的对象，在小程序 setData 时会丢失 getter 属性，通过下面的函数可解决
+// 此方法已用于 src/stores/helper/observable.js、src/models/record.js
+export default function toJSONDeep() {
   if (!this.$json_names) {
     const ownNames = Object.keys(this);
     const getComputedNames = function (store, __proto__ = store.__proto__) {

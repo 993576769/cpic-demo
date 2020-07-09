@@ -14,7 +14,7 @@ const request = axios.create({
     return qs.stringify(params, { arrayFormat: 'brackets' });
   },
   transformRequest: [(data, headers) => {
-    const { authStore } = require('@/store/auth-store');
+    const { authStore } = require('@/stores/auth-store');
     headers['Authorization'] = authStore.access_token;
     return data;
   }],
@@ -80,7 +80,7 @@ request.interceptors.response.use(
 let login_once = _.once(login);
 
 async function login() {
-  const { authStore } = require('@/store/auth-store');
+  const { authStore } = require('@/stores/auth-store');
   try {
     await authStore.login();
   } finally {

@@ -1,6 +1,5 @@
 import _ from 'lodash';
 import Model from '@vuex-orm/core/lib/model/Model';
-import { toJSON } from '@/store/helper/observable';
 import { request } from '@/utils/request';
 
 export default class Record extends Model {
@@ -57,5 +56,5 @@ export default class Record extends Model {
 }
 
 /*  #ifdef MP-WEIXIN  */
-Record.prototype.toJSON = toJSON;
+Record.prototype.toJSON = require('@/utils/to-json-deep').default;
 /*  #endif  */

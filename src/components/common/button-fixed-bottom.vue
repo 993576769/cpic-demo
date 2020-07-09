@@ -8,7 +8,7 @@
 
 <script>
   import { Vue, Component, Prop } from 'vue-property-decorator';
-  import { uiStore } from '@/store';
+  import { uiStore } from '@/stores';
 
   @Component
   export default class ButtonFixedBottom extends Vue {
