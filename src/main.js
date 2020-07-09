@@ -7,7 +7,7 @@ import {
   pageRefresh, errToast, uploadFiles, saveFiles,
 } from './utils';
 import { service } from './service';
-import { Collection, authStore } from './store';
+import { Collection, authStore } from './stores';
 
 Vue.config.productionTip = false;
 Vue.prototype.$sleep = sleep;
