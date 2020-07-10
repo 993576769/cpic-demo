@@ -323,7 +323,7 @@ Slot:
 </common-list-page>
 
 // js
-import { Collection } from '@/store';
+import { Collection } from '@/stores';
 
 class ListPage extends Vue {
   // 这里的 store 对应组件 Props 中的 storeName

@@ -26,7 +26,7 @@
     >
       <div>授权</div>
     </common-auth-userinfo>
-    <common-list-page :store="store" storeName="store">
+    <common-list-page storeName="store">
       <div class="lis">列表数据</div>
       <div slot="loadMore">load more</div>
       <div slot="empty">empty</div>
@@ -84,7 +84,7 @@
 
     poster = ''
 
-    store = new Collection({
+    store = Collection.create({
       fetch() {
         // return Promise.resolve();
       }
