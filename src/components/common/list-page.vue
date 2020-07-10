@@ -47,11 +47,12 @@
 
 <script>
   import { Vue, Component, Prop } from 'vue-property-decorator';
-  import { Collection } from '@/store';
+  import _ from 'lodash';
+  import { Collection } from '@/stores';
 
   @Component
   export default class ListPage extends Vue {
-    @Prop({ type: String, default: '' }) storeName                    // 需要继承 Collection 的 storeName
+    @Prop({ type: String, default: '' }) storeName                    // 需要继承 Collection 的 storeName，支持嵌套路径
     @Prop({ type: String, default: '暂无数据' }) emptyText             // 为空时的文案
     @Prop({ type: String, default: '加载中...' }) loadingMoreText     // 加载中的文案
     @Prop({ type: String, default: '没有更多了 ~' }) noMoreText        // 没有更多数据时的文案
@@ -68,7 +69,8 @@
       let store = null;
       let $parent = this.$parent;
       while ($parent && !store) {
-        store = $parent[this.storeName] instanceof Collection ? $parent[this.storeName] : null;
+        const collection = _.get($parent, this.storeName);
+        store = collection instanceof Collection ? collection : null;
         $parent = $parent.$parent;
       }
       if (!store) {

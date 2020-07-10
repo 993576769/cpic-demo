@@ -41,7 +41,7 @@
 
 <script>
   import { Vue, Component } from 'vue-property-decorator';
-  import { Collection } from '@/store';
+  import { Collection } from '@/stores';
 
   @Component
   export default class Home extends Vue {
@@ -82,7 +82,7 @@
       }
     ]
 
-    poster = '';
+    poster = ''
 
     store = new Collection({
       fetch() {
@@ -98,6 +98,5 @@
       // eslint-disable-next-line no-console
       console.log(e);
     }
-
   }
 </script>
