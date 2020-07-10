@@ -18,8 +18,6 @@ export default class Observable {
   }
 }
 
-/*  #ifdef APP-PLUS  */
-
+/*  #ifdef MP-WEIXIN  */
 Observable.prototype.toJSON = require('@/utils/to-json-deep').default;
-
 /*  #endif  */

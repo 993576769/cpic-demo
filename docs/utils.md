@@ -2,6 +2,7 @@
  - [storage](#storage)
  - [检查并调用手机权限](#检查并调用手机权限)
  - [保存图片或视频到本地相册](#保存图片或视频到本地相册)
+ - [nav](#nav)
 
 ### storage
 支持对象和数组存储，使用作用域区分不同存储数据
@@ -85,4 +86,29 @@ async handleClick() {
   await saveFiles('http://xxx.xxx.com/xxx.jpg');
   showToast('保存成功');
 }
+```
+
+---
+
+### nav
+nav 对象把 uni 里路由相关的 api 进行了封装(https://uniapp.dcloud.io/api/router)
+参数传递和文档一致
+
+#### navigateto
+navigateto 新增了一个参数(params: Object)，用于传递路由参数，参数可包含函数
+
+跳转到新页面例子
+```javascript
+this.$nav.navigateto({
+  url: '/pages/extra/web-site', // url 上不要加参数
+  params: {
+    src: 'https://xxx',
+    on_message: data => null
+  }
+})
+```
+
+新页面调用路由上的函数，可以参考[这里](../src/pages/extra/web-site.vue#L27)
+```javascript
+this.$nav.dispatchRouteEvent('路由参数上 on_message 的值', data)
 ```
