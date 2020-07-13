@@ -1,11 +1,11 @@
 <template>
   <div class="page">
-    <common-navbar title="beansmile" fixed />
+    <common-navbar title="beansmile" fixed/>
     <div>home page</div>
 
-    <common-add-to-my-miniprogram custom-navbar />
+    <common-add-to-my-miniprogram custom-navbar/>
 
-    <img :src="poster" v-if="poster" style="width: 100%;" mode="widthFix" />
+    <img :src="poster" v-if="poster" style="width: 100%;" mode="widthFix"/>
 
     <common-notice-bar
       text="在代码阅读过程中人们说脏话的频率是衡量代码质量的唯一标准。"
@@ -26,7 +26,7 @@
     >
       <div>授权</div>
     </common-auth-userinfo>
-    <common-list-page storeName="store">
+    <common-list-page :store.reference="list">
       <div class="lis">列表数据</div>
       <div slot="loadMore">load more</div>
       <div slot="empty">empty</div>
@@ -84,7 +84,7 @@
 
     poster = ''
 
-    store = Collection.create({
+    list = Collection.create({
       fetch() {
         // return Promise.resolve();
       }

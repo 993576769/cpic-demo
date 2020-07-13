@@ -19,12 +19,12 @@
 <script>
   import { Component, Vue, Prop } from 'vue-property-decorator';
   import _ from 'lodash';
+  import { PropReference } from '@/plugins/prop-reference';
 
   @Component
   export default class LoadingScreen extends Vue {
-    @Prop({ type: String, default: 'onFetch' }) onFetch
+    @PropReference({ type: Function }) onFetch
     @Prop({ type: Boolean, default: false }) usedCustomNav
-    @Prop({ type: String }) propCtxVid
 
     loading = true
     error = null
@@ -40,13 +40,10 @@
       }
       this.loading = true;
       this.error = null;
-      const propCtx = this.getPropScope();
 
       try {
-        const onFetch = propCtx[this.onFetch] || _.noop;
         await this.$authStore.tryFetchData();
-        await onFetch.call(propCtx);
-        await propCtx.$nextTick();
+        await this.onFetch();
         this.loading = false;
       } catch (err) {
         this.error = {
@@ -56,14 +53,6 @@
         this.loading = false;
         throw err;
       }
-    }
-
-    // 获取使用当前组件的页面或者组件的实例
-    getPropScope(parent = this.$parent) {
-      if (parent.$scope._$vueId !== this.propCtxVid && parent.$parent) {
-        return this.getPropScope(parent.$parent);
-      }
-      return parent;
     }
 
     get position_top() {

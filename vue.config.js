@@ -1,4 +1,4 @@
-process.env.VUE_APP_IPV4 = require('address').ip()
+process.env.VUE_APP_IPV4 = require('address').ip();
 
 module.exports = {
   configureWebpack: require('./webpack.config'),
@@ -12,12 +12,18 @@ module.exports = {
         baseDpr: 1,
         precision: 2,
         viewportUnit: 'rpx',
-      })
+      });
+
+    config.module
+      .rule('vue')
+      .test(/\.vue$/)
+      .use('v-bind-loader')
+      .loader('v-bind-loader');
 
     config.module
       .rule('compile')
       .test(/@dcloudio.+\.js$/)
       .use('uni-loader')
-      .loader('uni-loader')
+      .loader('uni-loader');
   }
-}
+};

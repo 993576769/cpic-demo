@@ -9,7 +9,7 @@
       :refresher-default-style="refresherDefaultStyle"
       :refresher-background="refresherBackground"
       :lower-threshold="lowerThreshold"
-      @scrolltolower="handleScrollTolower"
+      @scrolltolower="handleScrollToLower"
       @refresherpulling="handleRefresherPulling"
       @refresherrefresh="handleRefresherRefresh"
     >
@@ -47,12 +47,12 @@
 
 <script>
   import { Vue, Component, Prop } from 'vue-property-decorator';
-  import _ from 'lodash';
+  import { PropReference } from '@/plugins/prop-reference';
   import { Collection } from '@/stores';
 
   @Component
   export default class ListPage extends Vue {
-    @Prop({ type: String, default: '' }) storeName                    // 需要继承 Collection 的 storeName，支持嵌套路径
+    @PropReference({ type: Collection }) store                                 // Collection 实例
     @Prop({ type: String, default: '暂无数据' }) emptyText             // 为空时的文案
     @Prop({ type: String, default: '加载中...' }) loadingMoreText     // 加载中的文案
     @Prop({ type: String, default: '没有更多了 ~' }) noMoreText        // 没有更多数据时的文案
@@ -64,20 +64,6 @@
     @Prop({ type: Number, default: 50 }) lowerThreshold              // 距离底部多少时触发滚动加载更多
 
     isTriggered = false
-
-    get store() {
-      let store = null;
-      let $parent = this.$parent;
-      while ($parent && !store) {
-        const collection = _.get($parent, this.storeName);
-        store = collection instanceof Collection ? collection : null;
-        $parent = $parent.$parent;
-      }
-      if (!store) {
-        throw new Error('storeName is not found!');
-      }
-      return store;
-    }
 
     handleRefresherPulling() {
       this.isTriggered = true;
@@ -91,7 +77,7 @@
       }
     }
 
-    handleScrollTolower() {
+    handleScrollToLower() {
       this.store.fetchMoreData();
     }
   }

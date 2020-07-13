@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import App from './App';
 import './filters';
+import './mixins';
+import './plugins';
 import {
   request, nav, sleep,
   showToast, showLoading, autoLoading, autoLoadingDecorator,
