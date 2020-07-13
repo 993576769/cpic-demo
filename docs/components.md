@@ -209,14 +209,7 @@
 ```html
 <div>
   <div>text</div>
-  <common-loading-screen/>
-</div>
-```
-
-```html
-<div>
-  <div>text</div>
-  <common-loading-screen :prop-ctx-vid="vueId"/>
+  <common-loading-screen :onFetch.reference="onFetch"/>
 </div>
 ```
 
@@ -232,9 +225,8 @@ export default {
 
 | props         |  类型   |  默认值   | 描述                                                                                                  |
 | :------------ | :-----: | :-------: | :---------------------------------------------------------------------------------------------------- |
-| onFetch       | String  | 'onFetch' | fetch 函数，因为小程序传递函数有问题，这里传的是函数名，组件内部获取上一级作用域来调用对应的函数      |
+| onFetch       | Function  | - | fetch 函数 [参考](./plugins.md#prop支持传递函数和对象)     |
 | usedCustomNav | Boolean |   false   | 页面如果使用了自定义导航的话，需要传 true                                                             |
-| propCtxVid    | String  |    ‘’     | 在组件中使用 loading 而不是页面中使用时，需要传递 vueId(uni 内置)，用作获取上一级作用域。页面可以不传 |
 
 ---
 

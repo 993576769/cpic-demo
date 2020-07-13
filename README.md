@@ -6,6 +6,7 @@
 - [components 组件](./docs/components.md)
 - [service](./docs/service.md)
 - [models](./docs/models.md)
+- [plugins 插件](./docs/plugins.md)
 
 ## Directory Introduction
 
@@ -22,6 +23,7 @@
 │  ├── constants             # 常量
 │  ├── fliters               # 过滤器
 │  ├── mixins                # mixins
+│  ├── plugins               # plugins
 │  ├── models                # models
 │  ├── pages                 # TabBar页面以及分包
 │  │  ├── root               # TabBar页面
