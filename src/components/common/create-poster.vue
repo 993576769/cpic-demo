@@ -67,7 +67,8 @@
             break;
         }
       }
-      this.$emit('success', canvas.toDataURL());
+      const { tempFilePath } = await uni.canvasToTempFilePath({ canvas }, this);
+      this.$emit('success', tempFilePath);
     }
 
     customDraw(ctx, config) {
