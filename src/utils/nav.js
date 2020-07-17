@@ -1,6 +1,5 @@
 import _ from 'lodash';
 import qs from 'qs';
-import { randomString } from './random';
 
 class Nav {
   tabPages = [
@@ -30,26 +29,18 @@ class Nav {
     return !!this.tabPages.find(item => reg.test(item));
   }
 
-  createRouteEvent(handle) {
-    const name = randomString();
-    uni.$on(name, handle);
-    return name;
-  }
-
-  dispatchRouteEvent(name = '', params) {
-    uni.$emit(name, params);
-  }
-
   navigateTo(options) {
     let { url, params } = options;
     // 支持 url 参数中传递函数
     if (params) {
-      params = _.mapValues(params, value => {
+      params = _.reduce(params, (result, value, key) => {
         if (typeof value === 'function') {
-          return this.createRouteEvent(value);
+          result[key + 'Id'] = this.currentPage.$vm.$getReferenceId(value);
+        } else {
+          result[key] = value;
         }
-        return value;
-      });
+        return result;
+      }, {});
 
       url = url + qs.stringify(params, { addQueryPrefix: true, encode: false });
     }

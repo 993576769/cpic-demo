@@ -18,7 +18,7 @@ export default function install(Vue) {
     },
 
     methods: {
-      $referenceId(value) {
+      $getReferenceId(value) {
         if (!referenceList.has(value)) {
           const id = String(++referenceCount);
           this.$referenceIds.push(id);
