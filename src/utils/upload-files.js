@@ -1,90 +1,46 @@
-import dayjs from 'dayjs';
 import { request } from './request';
-import { randomFileName } from './random';
+import { randomString } from './random';
 
-const provider = 's3';
+/**
+ * 上传文件
+ *
+ * @param  {String|String[]}  tempFilePaths  本地文件地址
+ * @param  {String}  type     文件类型，默认是 image，上传视频时传 video
+ *
+ * @return {Promise<Object[]>}
+ */
+export function uploadFiles(tempFilePaths, type = 'image') {
+  const results = [].concat(tempFilePaths).map(async path => {
+    const fileInfo = await uni.getFileInfo({ filePath: path });
 
-export async function uploadFiles(tempFilePaths) {
-  const meta = await getUploadMeta();
-  const results = [];
-
-  for (const file of tempFilePaths) {
-    let url = '';
-    switch (provider) {
-      case 's3':
-        url = await uploadToS3(meta, file);
-        break;
-      case 'aliyun':
-        url = await uploadToAliyun(meta, file);
-        break;
-      case 'qiniu':
-        url = await uploadToQiniu(meta, file);
-        break;
+    let extname = type === 'image' ? 'jpeg' : 'mp4';
+    if (/\./.test(path)) {
+      extname = path.split('.').pop();
     }
-    results.push(url);
-  }
+    const filename = `${randomString()}.${extname}`;
+    const params = {
+      hex_digest: fileInfo.digest,
+      filename,
+      byte_size: fileInfo.size,
+      content_type: `${type}/${extname}`,
+    };
 
-  return results;
-}
+    // 获取签名相关
+    const { data: { direct_upload, signed_id } } = await request.post('/active_storage/direct_upload', params);
 
-async function uploadToS3(meta, file) {
-  const key = meta.form_data.key.replace('${filename}', randomFileName());
-  const res = await uni.uploadFile({
-    url: meta.url,
-    name: 'file',
-    filePath: file,
-    formData: { ...meta.form_data, key },
+    // 获取文件Binary
+    const fileSystemManager = uni.getFileSystemManager();
+    const fileBinary = fileSystemManager.readFileSync(path);
+
+    // 上传到 oss
+    // Todo 目前只验证了阿里云，七牛和 S3 是否适用还得等实际项目测试
+    await request.put(direct_upload.url, fileBinary, { headers: direct_upload.headers });
+
+    return {
+      signed_id,
+      url: `${process.env.VUE_APP_API_HOST}/rails/active_storage/blobs/${signed_id}/${filename}`,
+    };
   });
 
-  if (res.statusCode === 201) {
-    return meta.url + '/' + key;
-  } else {
-    throw new Error('上传失败');
-  }
-}
-
-async function uploadToAliyun(meta, file) {
-  const key = meta.dir + randomFileName();
-  const res = await uni.uploadFile({
-    url: meta.host,
-    name: 'file',
-    filePath: file,
-    formData: { ...meta.form_data, key }
-  });
-
-  if (res.statusCode === 201) {
-    return meta.host + '/' + key;
-  } else {
-    throw new Error('上传失败');
-  }
-}
-
-async function uploadToQiniu(meta, file) {
-  const key = randomFileName();
-  const res = await uni.uploadFile({
-    url: meta.upload_url,
-    name: 'file',
-    filePath: file,
-    formData: {
-      key,
-      token: meta.token,
-    }
-  });
-  const result = JSON.parse(res.data);
-  if (res.statusCode === 200) {
-    return `https://${meta.bucket_domain}/${result.key}`;
-  } else {
-    throw new Error(result.error);
-  }
-}
-
-let upload_meta = null;
-
-// Todo 规范 api url 和返回参数
-async function getUploadMeta() {
-  if (upload_meta && dayjs(upload_meta.signature_expiration).subtract(1, 'm').isAfter(dayjs())) {
-    return upload_meta;
-  }
-  const { data: meta } = await request.get('utils/oss_presign');
-  return upload_meta = meta;
+  return Promise.all(results);
 }
