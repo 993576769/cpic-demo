@@ -14,8 +14,10 @@ const request = axios.create({
     return qs.stringify(params, { arrayFormat: 'brackets' });
   },
   transformRequest: [(data, headers) => {
-    const { authStore } = require('@/stores/auth-store');
-    headers['Authorization'] = authStore.access_token;
+    if (!headers['Authorization']) {
+      const { authStore } = require('@/stores/auth-store');
+      headers['Authorization'] = authStore.access_token;
+    }
     return data;
   }],
   adapter(config) {
