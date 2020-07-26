@@ -10,6 +10,7 @@ import decoder from './decoder';
 const request = axios.create({
   baseURL: process.env.VUE_APP_API_HOST + '/app/api/v1',
   timeout: 30000,
+  headers: { 'Content-Type': 'application/json' },
   paramsSerializer(params) {
     return qs.stringify(params, { arrayFormat: 'brackets' });
   },

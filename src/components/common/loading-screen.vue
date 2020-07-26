@@ -1,6 +1,6 @@
 <template>
   <div class="loading-screen loading" v-if="loading" :style="{ paddingTop: `calc(${position_top} + 20px)` }">
-    <loading/>
+    <common-loading/>
   </div>
   <div class="loading-screen error" v-else-if="error" :style="{ paddingTop: `calc(${position_top} + 50px)` }">
     <div @click="handleLoad" class="flex column item-center">
