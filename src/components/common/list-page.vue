@@ -19,25 +19,25 @@
       </div>
 
       <!-- 为空状态，显示没有空数据 -->
-      <div class="status-wrapper empty-wrapper" v-if="store.loadMoreStatue === 'empty'">
+      <div class="status-wrapper empty-wrapper" v-if="store.loadMoreStatus === 'empty'">
         <div class="text" v-if="!$slots.empty">{{ emptyText }}</div>
         <slot name="empty" />
       </div>
 
       <!-- 默认状态，提示用户可以滚动加载 -->
-      <div class="status-wrapper" v-if="store.loadMoreStatue === 'more'">
+      <div class="status-wrapper" v-if="store.loadMoreStatus === 'more'">
         <div class="text" v-if="!$slots.empty">{{ staticText }}</div>
         <slot name="staticMore" />
       </div>
 
       <!-- 加载中状态，显示正在加载 -->
-      <div class="status-wrapper" v-if="store.loadMoreStatue === 'loading'">
+      <div class="status-wrapper" v-if="store.loadMoreStatus === 'loading'">
         <div class="text" v-if="!$slots.loadMore">{{ loadingMoreText }}</div>
         <slot name="loadingMore" />
       </div>
 
       <!-- 全部加载完成状态，显示没有更多数据了 -->
-      <div class="status-wrapper" v-if="store.loadMoreStatue === 'noMore'">
+      <div class="status-wrapper" v-if="store.loadMoreStatus === 'noMore'">
         <div class="text" v-if="!$slots.noMore">{{ noMoreText }}</div>
         <slot name="noMore" />
       </div>
@@ -52,7 +52,7 @@
 
   @Component
   export default class ListPage extends Vue {
-    @PropReference({ type: Collection }) store                                 // Collection 实例
+    @PropReference({ type: Collection }) store                        // Collection 实例
     @Prop({ type: String, default: '暂无数据' }) emptyText             // 为空时的文案
     @Prop({ type: String, default: '加载中...' }) loadingMoreText     // 加载中的文案
     @Prop({ type: String, default: '没有更多了 ~' }) noMoreText        // 没有更多数据时的文案
