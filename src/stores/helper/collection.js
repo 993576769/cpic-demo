@@ -77,7 +77,7 @@ export class Collection extends SimpleStore {
     return this.isFulfilled && this.data.length === 0;
   }
 
-  get loadMoreStatue() {
+  get loadMoreStatus() {
     if (this.isEmpty) { return 'empty'; }
     if (this.isComplete) { return 'noMore'; }
     if (this.isFetching) { return 'loading'; }
