@@ -25,6 +25,7 @@
   export default class LoadingScreen extends Vue {
     @PropReference({ type: Function }) onFetch
     @Prop({ type: Boolean, default: false }) usedCustomNav
+    @Prop({ type: Boolean, default: true }) auth
 
     loading = true
     error = null
@@ -42,7 +43,10 @@
       this.error = null;
 
       try {
-        await this.$authStore.tryFetchData();
+        if (this.auth) {
+          await this.$authStore.tryFetchData();
+        }
+
         await this.onFetch();
         this.loading = false;
       } catch (err) {
