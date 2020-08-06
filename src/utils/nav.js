@@ -25,7 +25,9 @@ class Nav {
   }
 
   isTabPage(url = this.currentPage.route) {
-    const reg = new RegExp(url);
+    const onlyPath = url.split('?')[0];
+    const reg = new RegExp(onlyPath);
+
     return !!this.tabPages.find(item => reg.test(item));
   }
 
@@ -56,7 +58,7 @@ class Nav {
   }
 
   reLaunch(options) {
-    return uni.redirectTo(options);
+    return uni.reLaunch(options);
   }
 
   switchTab(options) {
