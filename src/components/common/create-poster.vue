@@ -26,29 +26,30 @@
       return dpr;
     }
 
-    createPoster() {
+    async createPoster() {
       if (this.ctx && this.canvas) {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        this.drawByType(this.ctx, this.canvas);
+        await this.$autoLoading(this.drawByType(this.ctx, this.canvas), '正在生成图片...');
         return;
       }
 
       const query = uni.createSelectorQuery().in(this);
         query.select('#create-poster-canvas')
           .fields({ node: true })
-          .exec(res => {
+          .exec(async res => {
             const canvas = this.canvas = res[0].node;
             const ctx = this.ctx = canvas.getContext('2d');
             const dpr = this.getDpr();
             canvas.width = this.width * dpr;
             canvas.height = this.height * dpr;
             ctx.scale(dpr, dpr);
-            this.drawByType(ctx, canvas);
+            await this.$autoLoading(this.drawByType(ctx, canvas), '正在生成图片...');
           });
     }
 
     async drawByType(ctx, canvas) {
-      for (const config of this.config) {
+      const cloneConfig = _.cloneDeep(this.config);
+      for (const config of cloneConfig) {
         switch (config.type.toLowerCase()) {
           case 'draw':
             await this.customDraw(ctx, config, canvas);
@@ -57,7 +58,10 @@
             await this.drawImage(ctx, config, canvas);
             break;
           case 'text':
-            this.drawText(ctx, config, canvas);
+            this.handleDrawText(ctx, config, canvas);
+            break;
+          case 'line':
+            this.drawLine(ctx, config, canvas);
             break;
           case 'background':
             this.drawBackground(ctx, config, canvas);
@@ -78,10 +82,10 @@
     }
 
     drawImage(ctx, config, canvas) {
-      const { top, left, width, height, url, round } = config;
+      const { top, left, width, height, url, round, mode } = config;
       const img = canvas.createImage();
       return new Promise(resolve => {
-        img.onload = () => {
+        img.onload = async () => {
           ctx.save();
           if (round) {
             const minSize = Math.min(width, height);
@@ -94,7 +98,17 @@
             ctx.arcTo(left, top, left + width, top, r);
             ctx.clip();
           }
-          ctx.drawImage(img, left, top, width, height);
+          if (mode === 'aspectFill') {
+            const info = await uni.getImageInfo({ src: url });
+            ctx.beginPath();
+            ctx.rect(left, top, width, height);
+            ctx.clip();
+            const newHeight = width / info.width * info.height;
+            const topOffset = newHeight > height ? (newHeight - height) / 2 : 0;
+            ctx.drawImage(img, left, top - topOffset, width, newHeight);
+          } else {
+            ctx.drawImage(img, left, top, width, height);
+          }
           ctx.restore();
           resolve();
         };
@@ -102,14 +116,27 @@
       });
     }
 
+    handleDrawText(ctx, config) {
+      if (config.text instanceof Array) {
+        const textArr = config.text;
+        textArr.map(textObj => {
+          Object.assign(config, textObj);
+          const { left, textWidth } = this.drawText(ctx, config);
+          config.left = config.textAlign === 'right' ? left - textWidth : left + textWidth;
+        });
+      } else {
+        this.drawText(ctx, config);
+      }
+    }
+
     drawText(ctx, config) {
-      let { text, fontSize = 20, lineHeight, maxRow = 10, maxWidth = 375, ellipsis = true, top, left, color, textAlign, baseline = 'top' } = config;
+      let { text, fontSize = 20, fontWeight, textDecoration, lineHeight, maxRow = 10, maxWidth = 375, ellipsis = true, top, left, margin = 0, color, textAlign, baseline = 'top' } = config;
       lineHeight = lineHeight || fontSize * 1.5;
       ctx.save();
       ctx.textAlign = textAlign;
       ctx.fillStyle = color;
       ctx.textBaseline = baseline;
-      ctx.font = `${fontSize}px/${lineHeight}px sans-serif`;
+      ctx.font = fontWeight === 'bold' ? `bold ${fontSize}px/${lineHeight}px sans-serif` : `${fontSize}px/${lineHeight}px sans-serif`;
 
       const textArr = [];
       for (let i = 0; i < text.length; i++) {
@@ -126,9 +153,32 @@
         }
       }
 
+      let textWidth = 0;
       textArr.forEach((item, index) => {
-        ctx.fillText(item || '', left, top + index * lineHeight);
+        const x = textAlign === 'right' ? (left - margin) : (left + margin);
+        const y = top + index * lineHeight;
+        const { width } = ctx.measureText(item);
+        textWidth = width;
+        ctx.fillText(item || '', x, y);
+        if (textDecoration === 'line-through') {
+          const lineConfig = { startX: x - 2, startY: y + fontSize / 2, endX: left + textWidth + 6, endY: y + fontSize / 2, strokeStyle: color };
+          this.drawLine(ctx, lineConfig);
+        }
       });
+      ctx.restore();
+
+      return { ...config, textWidth };
+    }
+
+    drawLine(ctx, config) {
+      const { startX, startY, endX, endY, strokeStyle, dash } = config;
+      ctx.save();
+      ctx.beginPath();
+      dash && ctx.setLineDash(dash, 0);
+      ctx.moveTo(startX, startY);
+      ctx.lineTo(endX, endY);
+      ctx.strokeStyle = strokeStyle;
+      ctx.stroke();
       ctx.restore();
     }
 
