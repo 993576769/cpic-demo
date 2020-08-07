@@ -134,13 +134,14 @@
     width: Number,                   // 画到画布图片宽
     height: Number,                  // 画到画布图片高
     url: String,                     // 图片地址
-    round: Number                    // 图片圆角大小
+    round: Number,                   // 图片圆角大小
+    mode: String                     // 'aspectFill' 图片裁剪
   },
   {
     type: 'text',
     top: Number,
     left: Number,
-    text: String,                    // 文本
+    text: String || Array,           // 文本
     fontSize: Number,                // 默认 20
     lineHeight: Number,              // 默认 fontSize * 1.5
     color: String,
@@ -148,7 +149,10 @@
     baseline: String,
     maxWidth: Number,                // 默认 375, 画布画文本最长长度
     maxRow: Number,                  // 默认 10, 自动折行最大行数
-    ellipsis: Boolean                // 默认true，文本显示不完是否显示'...'
+    ellipsis: Boolean,               // 默认true，文本显示不完是否显示'...'
+    margin: Number,                  // 文字水平偏移
+    fontWeight: String,              // 'bold' 文字加粗
+    textDecoration: String           // 'line-through' 文字中划线
   },
   {
     type: 'background',
