@@ -2,7 +2,7 @@
   <div class="common-list-page">
     <scroll-view
       class="list-scroll-view"
-      scroll-x
+      scroll-y
       :refresher-enabled="refresherEnabled"
       :refresher-triggered="isTriggered"
       :refresher-threshold="refresherThreshold"
