@@ -33,6 +33,10 @@
       <div slot="noMore">no more</div>
     </common-list-page>
 
+    <common-date-time-picker v-model="dateTime" start="2020-07-01 12:00:00" end="2020-08-16 12:00:00" @change="onDateTimeChange">
+      <div class="date-time">{{ dateTime || '请选择时间' }}</div>
+    </common-date-time-picker>
+
     <common-button-fixed-bottom>
       <button>底部按钮</button>
     </common-button-fixed-bottom>
@@ -83,6 +87,13 @@
     ]
 
     poster = ''
+
+    dateTime = ''
+
+    onDateTimeChange(text) {
+      // eslint-disable-next-line no-console
+      console.log(text);
+    }
 
     list = Collection.create({
       fetch() {
