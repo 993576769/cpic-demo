@@ -10,6 +10,7 @@
  - [空列表 empty-view](#EmptyView)
  - [通告栏 notice-bar](#通告栏)
  - [加载更多列表](#加载更多列表)
+ - [日期时间选择器](#日期时间选择器)
 
 ### 兼容iPhoneX底部 button-fixed-bottom
 - 需要定位在最底部的组件，使用`button-fixed-bottom` 组件包裹起来，自动会在`iPhone X`等设备添加底部保护区域
@@ -331,3 +332,46 @@ class ListPage extends Vue {
   })
 }
 ```
+
+### 日期时间选择器
+
+由于小程序里面没有`年月日时分秒`组合的选择器，本组件结合`dayjs`和`picker`满足了`年月日时分秒`的功能，可以通过`fields`来控制，样式请通过`slot`实现，和原始`picker`一样
+
+#### 参数
+
+| props           |  类型   | 默认值 | 描述               |
+| :-------------- | :-----: | :----: | :----------------- |
+| value | String | 当前时间  | 日期时间，不进行业务校验推荐使用`v-model`，校验使用`:value`避免触发更新并通过`change`手动更新 |
+| format | String | YYYY-MM-DD HH:mm  | `dayjs`format格式 |
+| fields | String | minute  | 粒度 `hour` `minute` `second` ｜
+| start | String | 1970-01-01 00:00:01  | 开始时间 |
+| end | String | 2099-12-31 23:59:59  | 结束时间 |
+| disabled | Boolean | false  | 禁用状态 |   
+
+#### 事件
+
+| event   |      参数      | 描述         |
+| :------ | :------------: | :----------- |
+| input | (text) | 时间字符串，遵循format格式 |
+| change | (text) | 时间字符串，遵循format格式，可以监听用于校验 |
+
+#### slot
+| slot        | 描述                                                           
+| :---------- | :---- |
+| default     | 组件内容包裹内容，样式自行定义                                          
+
+#### 例子
+```
+html
+<common-date-time-picker v-model="dateTime" format="YYYY-MM-DD HH:mm" @change="onDateTimeChange">
+  <div class="date-time">{{ dateTime || '请选择时间' }}</div>
+</common-date-time-picker>
+
+js
+dateTime = ''
+
+onDateTimeChange(text) {  
+  console.log(text);
+}
+ 
+ ```
