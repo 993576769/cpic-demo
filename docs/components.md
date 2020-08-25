@@ -325,7 +325,7 @@ import { Collection } from '@/stores';
 
 class ListPage extends Vue {
   // 这里的 store 对应组件 Props 中的 storeName
-  store = new Collection({
+  store = Collection.create({
     fetch() {
       // ....
     }
@@ -346,7 +346,7 @@ class ListPage extends Vue {
 | fields | String | minute  | 粒度 `hour` `minute` `second` ｜
 | start | String | 1970-01-01 00:00:01  | 开始时间 |
 | end | String | 2099-12-31 23:59:59  | 结束时间 |
-| disabled | Boolean | false  | 禁用状态 |   
+| disabled | Boolean | false  | 禁用状态 |
 
 #### 事件
 
@@ -356,9 +356,9 @@ class ListPage extends Vue {
 | change | (text) | 时间字符串，遵循format格式，可以监听用于校验 |
 
 #### slot
-| slot        | 描述                                                           
+| slot        | 描述
 | :---------- | :---- |
-| default     | 组件内容包裹内容，样式自行定义                                          
+| default     | 组件内容包裹内容，样式自行定义
 
 #### 例子
 ```
@@ -370,8 +370,8 @@ html
 js
 dateTime = ''
 
-onDateTimeChange(text) {  
+onDateTimeChange(text) {
   console.log(text);
 }
- 
+
  ```
