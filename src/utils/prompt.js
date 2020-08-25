@@ -57,8 +57,12 @@ export function autoLoadingDecorator(target, name, descriptor) {
 }
 
 export function autoLoading(target, options) {
+  const action = target instanceof Function ? target() : target;
+  // 不是promise时就不要loading
+  if (!(action instanceof Promise)) {
+    return action;
+  }
   showLoading(options || '加载中');
-  const action = Promise.resolve(target instanceof Function ? target() : target);
   return action
     .finally(() => {
       uni.hideLoading();
