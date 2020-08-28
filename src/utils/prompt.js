@@ -56,19 +56,30 @@ export function autoLoadingDecorator(target, name, descriptor) {
   };
 }
 
-export function autoLoading(target, options) {
+autoLoadingDecorator.retry = function(target, name, descriptor) {
+  const func = descriptor.value;
+  descriptor.value = function () {
+    return autoLoading(() => func.apply(this, arguments), { isRetry: true });
+  };
+};
+
+export function autoLoading(target, options = {}) {
   const action = target instanceof Function ? target() : target;
   // 不是promise时就不要loading
   if (!(action instanceof Promise)) {
     return action;
   }
-  showLoading(options || '加载中');
+  showLoading(options.loadingText || '加载中');
   return action
     .finally(() => {
       uni.hideLoading();
     })
     .catch(err => {
-      errHandle(err);
+      if (options.isRetry) {
+        handleRetry(err, target, options);
+      } else {
+        errHandle(err);
+      }
     });
 }
 
@@ -83,6 +94,23 @@ export function pageRefresh(target, name, descriptor) {
       uni.stopPullDownRefresh();
     }
   };
+}
+
+function handleRetry(err, target, options) {
+  const ignoreErrors = /(cancel|ignore|请先登录)/i;
+  const msg = err.message || err.errMsg;
+  if (msg && !ignoreErrors.test(msg)) {
+    return uni.showModal({
+      title: '提示',
+      content: msg,
+      confirmText: '重试'
+    }).then(({ confirm }) => {
+      if (confirm) {
+        return autoLoading(target, options);
+      }
+    });
+  }
+  throw err;
 }
 
 export function errToast(target, name, descriptor) {
