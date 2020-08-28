@@ -3,12 +3,18 @@
     <div class="van-loading__spinner van-loading__spinner--spinner">
       <div v-for="v in 12" :key="v" class="van-loading__dot"/>
     </div>
-    <div class="van-loading__text">加载中...</div>
+    <div class="van-loading__text">{{ text }}</div>
   </div>
 </template>
 
 <script>
-  export default {};
+  export default {
+    props: {
+      text: {
+        type: String, default: '加载中...'
+      }
+    }
+  };
 </script>
 
 <style lang="scss">

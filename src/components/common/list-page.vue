@@ -18,29 +18,21 @@
         <slot/>
       </div>
 
-      <!-- 为空状态，显示没有空数据 -->
-      <div class="status-wrapper empty-wrapper" v-if="store.loadMoreStatus === 'empty'">
-        <div class="text" v-if="!$slots.empty">{{ emptyText }}</div>
-        <slot name="empty" />
-      </div>
-
-      <!-- 默认状态，提示用户可以滚动加载 -->
-      <div class="status-wrapper" v-if="store.loadMoreStatus === 'more'">
-        <div class="text" v-if="!$slots.empty">{{ staticText }}</div>
-        <slot name="staticMore" />
-      </div>
-
-      <!-- 加载中状态，显示正在加载 -->
-      <div class="status-wrapper" v-if="store.loadMoreStatus === 'loading'">
-        <div class="text" v-if="!$slots.loadMore">{{ loadingMoreText }}</div>
-        <slot name="loadingMore" />
-      </div>
-
-      <!-- 全部加载完成状态，显示没有更多数据了 -->
-      <div class="status-wrapper" v-if="store.loadMoreStatus === 'noMore'">
-        <div class="text" v-if="!$slots.noMore">{{ noMoreText }}</div>
-        <slot name="noMore" />
-      </div>
+      <common-loading-status
+        :store.reference="store"
+        @retry="handleScrollToLower"
+        :error-text="errorText"
+        :empty-text="emptyText"
+        :loading-more-text="loadingMoreText"
+        :no-more-text="noMoreText"
+        :static-text="staticText"
+      >
+        <template v-if="$slots.empty"><slot name="empty" /></template>
+        <template v-if="$slots.staticMore"><slot name="staticMore" /></template>
+        <template v-if="$slots.loadingMore"><slot name="loadingMore" /></template>
+        <template v-if="$slots.noMore"><slot name="noMore" /></template>
+        <template v-if="$slots.error"><slot name="error" /></template>
+      </common-loading-status>
     </scroll-view>
   </div>
 </template>
@@ -53,10 +45,11 @@
   @Component
   export default class ListPage extends Vue {
     @PropReference({ type: Collection }) store                        // Collection 实例
-    @Prop({ type: String, default: '暂无数据' }) emptyText             // 为空时的文案
-    @Prop({ type: String, default: '加载中...' }) loadingMoreText     // 加载中的文案
-    @Prop({ type: String, default: '没有更多了 ~' }) noMoreText        // 没有更多数据时的文案
-    @Prop({ type: String, default: '上滑加载更多' }) staticText        // 默认静止时的文案
+    @Prop({ type: [String, Boolean], default: '加载失败，点击重试!' }) errorText    // 加载失败时的文案
+    @Prop({ type: [String, Boolean], default: '暂无数据' }) emptyText             // 为空时的文案
+    @Prop({ type: [String, Boolean], default: '加载中...' }) loadingMoreText     // 加载中的文案
+    @Prop({ type: [String, Boolean], default: '没有更多了 ~' }) noMoreText        // 没有更多数据时的文案
+    @Prop({ type: [String, Boolean], default: '上滑加载更多' }) staticText        // 默认静止时的文案
     @Prop({ type: Boolean, default: false }) refresherEnabled        // 开启自定义下拉刷新
     @Prop({ type: Number, default: 45 }) refresherThreshold          // 设置自定义下拉刷新阈值
     @Prop({ type: String, default: 'black' }) refresherDefaultStyle  // 设置自定义下拉刷新默认样式，支持设置 black | white | none， none 表示不使用默认样式

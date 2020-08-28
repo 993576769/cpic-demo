@@ -9,7 +9,8 @@
  - [Loading组件 loading-screen](#LoadingScreen)
  - [空列表 empty-view](#EmptyView)
  - [通告栏 notice-bar](#通告栏)
- - [加载更多列表](#加载更多列表)
+ - [加载更多列表 list-page](#加载更多列表)
+ - [加载状态 loading-status](#加载状态)
  - [日期时间选择器](#日期时间选择器)
 
 ### 兼容iPhoneX底部 button-fixed-bottom
@@ -115,8 +116,8 @@
 
 #### 事件
 
-| event   |      参数      | 描述         |
-| :------ | :------------: | :----------- |
+| event   |           参数            | 描述         |
+| :------ | :-----------------------: | :----------- |
 | success | (图片临时路径 (本地路径)) | 生成图片完成 |
 
 ---
@@ -228,11 +229,11 @@ export default {
 
 #### 参数
 
-| props         |  类型   |  默认值   | 描述                                                                                                  |
-| :------------ | :-----: | :-------: | :---------------------------------------------------------------------------------------------------- |
-| onFetch       | Function  | - | fetch 函数 [参考](./plugins.md#prop支持传递函数和对象)     |
-| usedCustomNav | Boolean |   false   | 页面如果使用了自定义导航的话，需要传 true                                                             |
-| auth          | Boolean |   true    | 是否需要获取用户信息（静默登录）。`引导页/首页/信息展示页`等这类一般不需要该信息的页面，请设置为`false`      |
+| props         |   类型   | 默认值 | 描述                                                                                                    |
+| :------------ | :------: | :----: | :------------------------------------------------------------------------------------------------------ |
+| onFetch       | Function |   -    | fetch 函数 [参考](./plugins.md#prop支持传递函数和对象)                                                  |
+| usedCustomNav | Boolean  | false  | 页面如果使用了自定义导航的话，需要传 true                                                               |
+| auth          | Boolean  |  true  | 是否需要获取用户信息（静默登录）。`引导页/首页/信息展示页`等这类一般不需要该信息的页面，请设置为`false` |
 
 ---
 
@@ -280,51 +281,22 @@ export default {
 
 集成列表页下拉刷新和滚动加载更多，减少列表页面这部分的重复代码
 
-##### 说明
-
-Props
-
-| props                 |  类型   |     默认值     | 描述                                                                                                                                 |
-| :-------------------- | :-----: | :------------: | :----------------------------------------------------------------------------------------------------------------------------------- |
-| storeName             | String  |       -        | 必填，需要继承了 `Collection` 的 `storeName`，详情看示例代码。注意，storeName 会一直向父级查找，一直找到为止，如果一直没找到会报错。 |
-| emptyText             | String  |   '暂无数据'   | 为空时的文案，优先级低于`slot`                                                                                                       |
-| loadingMoreText       | String  |  '加载中...'   | 加载中的文案，优先级低于`slot`                                                                                                       |
-| noMoreText            | String  | '没有更多了 ~' | 没有更多数据时的文案，优先级低于`slot`                                                                                               |
-| staticText            | String  | '上滑加载更多' | 默认静止时的文案，优先级低于`slot`                                                                                                   |
-| refresherEnabled      | Boolean |     false      | 开启自定义下拉刷新                                                                                                                   |
-| refresherThreshold    | Number  |       45       | 设置自定义下拉刷新阈值                                                                                                               |
-| refresherDefaultStyle | String  |    'black'     | 设置自定义下拉刷新默认样式，支持设置 `black`、`white`、`none`， `none` 表示不使用默认样式                                            |
-| refresherBackground   | String  |     '#FFF'     | 设置自定义下拉刷新区域背景颜色                                                                                                       |
-| lowerThreshold        | Number  |       50       | 距离底部多少时触发滚动加载更多                                                                                                       |
-
-Slot:
-
-| slot        | 描述                                                           |
-| :---------- | :------------------------------------------------------------- |
-| default     | 列表里面的显示内容                                             |
-| empty       | 列表为空时显示的内容，优先级高于`props`                        |
-| staticMore  | 默认状态，提示用户可以滚动加载时显示的内容，优先级高于`props`  |
-| loadingMore | 加载中状态，显示正在加载 的内容，优先级高于`props`             |
-| noMore      | 全部加载完成状态，显示没有更多数据了 的内容，优先级高于`props` |
-
-实例代码：
-```js
-// template
-// 注意，这里的 storeName 的字符串，对应 js 中 new Collection 或者是继承了 Collection 的字段名
-// storeName 会一直往父级查找，如果找不到就会报错
-<common-list-page storeName="store">
+示例代码：
+```html
+<!-- template -->
+<common-list-page :store.reference="store">
   <div>列表显示的主要内容</div>
   <div slot="empty">empty</div>
   <div slot="staticMore">上滑加载更多</div>
   <div slot="loadingMore">加载中...</div>
   <div slot="noMore">没有更多了</div>
 </common-list-page>
-
+```
+```js
 // js
 import { Collection } from '@/stores';
 
 class ListPage extends Vue {
-  // 这里的 store 对应组件 Props 中的 storeName
   store = Collection.create({
     fetch() {
       // ....
@@ -333,32 +305,120 @@ class ListPage extends Vue {
 }
 ```
 
+##### 说明
+
+Props
+
+| props                 |       类型        |     默认值     | 描述                                                                                      |
+| :-------------------- | :---------------: | :------------: | :---------------------------------------------------------------------------------------- |
+| store.reference       |       store       |       -        | 必填，需要继承了 `Collection` 的 `store`，详情看示例代码。                                |
+| emptyText             | [String, Boolean] |   '暂无数据'   | 同[加载状态 loading-status](#加载状态)                                                    |
+| loadingMoreText       | [String, Boolean] |  '加载中...'   | 同[加载状态 loading-status](#加载状态)                                                    |
+| noMoreText            | [String, Boolean] | '没有更多了 ~' | 同[加载状态 loading-status](#加载状态)                                                    |
+| staticText            | [String, Boolean] | '上滑加载更多' | 同[加载状态 loading-status](#加载状态)                                                    |
+| errorText             | [String, Boolean] | '上滑加载更多' | 同[加载状态 loading-status](#加载状态)                                                    |
+| refresherEnabled      |      Boolean      |     false      | 开启自定义下拉刷新                                                                        |
+| refresherThreshold    |      Number       |       45       | 设置自定义下拉刷新阈值                                                                    |
+| refresherDefaultStyle |      String       |    'black'     | 设置自定义下拉刷新默认样式，支持设置 `black`、`white`、`none`， `none` 表示不使用默认样式 |
+| refresherBackground   |      String       |     '#FFF'     | 设置自定义下拉刷新区域背景颜色                                                            |
+| lowerThreshold        |      Number       |       50       | 距离底部多少时触发滚动加载更多                                                            |
+
+Slot:
+
+| slot        | 描述                                   |
+| :---------- | :------------------------------------- |
+| default     | 列表里面的显示内容                     |
+| empty       | 同[加载状态 loading-status](#加载状态) |
+| staticMore  | 同[加载状态 loading-status](#加载状态) |
+| loadingMore | 同[加载状态 loading-status](#加载状态) |
+| noMore      | 同[加载状态 loading-status](#加载状态) |
+| error       | 同[加载状态 loading-status](#加载状态) |
+
+
+### 加载状态
+集成加载状态显示，方便局部loading和retry
+
+示例代码：
+```html
+<!-- template -->
+<common-loading-status :store.reference="store" @retry="handleRetry">
+  <div slot="empty">empty</div>
+  <div slot="staticMore">上滑加载更多</div>
+  <div slot="loadingMore">加载中...</div>
+  <div slot="noMore">没有更多了</div>
+</common-loading-status>
+```
+```js
+// js
+import { SimpleStore } from '@/stores';
+
+class ListPage extends Vue {
+  store = SimpleStore.create({
+    // ....
+  })
+
+  // 请求失败后，点击事件
+  handleRetry() {
+    this.store.fetchData();
+  }
+}
+```
+
+##### 说明
+
+Props
+
+| props           |  类型  |         默认值         | 描述                                                        |
+| :-------------- | :----: | :--------------------: | :---------------------------------------------------------- |
+| store.reference | store  |           -            | 必填，需要继承了 `SimpleStore` 的 `store`，详情看示例代码。 |
+| emptyText       | [String, Boolean] |       '暂无数据'       | 为空时的文案，优先级低于`slot`。不想显示直接传 `false`                              |
+| loadingMoreText | [String, Boolean] |      '加载中...'       | 加载中的文案，优先级低于`slot`。不想显示直接传 `false`                              |
+| noMoreText      | [String, Boolean] |     '没有更多了 ~'     | 没有更多数据时的文案，优先级低于`slot`。不想显示直接传 `false`                      |
+| staticText      | [String, Boolean] |     '上滑加载更多'     | 默认静止时的文案，优先级低于`slot`。不想显示直接传 `false`                          |
+| errorText       | [String, Boolean] | '加载失败，点击重试！' | 请求失败时的文案，优先级低于`slot`。不想显示直接传 `false`                          |
+
+Slot:
+
+| slot        | 描述                                                           |
+| :---------- | :------------------------------------------------------------- |
+| empty       | 列表为空时显示的内容，优先级高于`props`                        |
+| staticMore  | 默认状态，提示用户可以滚动加载时显示的内容，优先级高于`props`  |
+| loadingMore | 加载中状态，显示正在加载 的内容，优先级高于`props`             |
+| noMore      | 全部加载完成状态，显示没有更多数据了 的内容，优先级高于`props` |
+| error       | 请求失败后 的内容，优先级高于`props`                           |
+
+事件 event：
+| slot  | 描述                               |
+| :---- | :--------------------------------- |
+| retry | 请求失败后，点击失败文案的事件回调 |
+
+
 ### 日期时间选择器
 
 由于小程序里面没有`年月日时分秒`组合的选择器，本组件结合`dayjs`和`picker`满足了`年月日时分秒`的功能，可以通过`fields`来控制，样式请通过`slot`实现，和原始`picker`一样
 
 #### 参数
 
-| props           |  类型   | 默认值 | 描述               |
-| :-------------- | :-----: | :----: | :----------------- |
-| value | String | 当前时间  | 日期时间，不进行业务校验推荐使用`v-model`，校验使用`:value`避免触发更新并通过`change`手动更新 |
-| format | String | YYYY-MM-DD HH:mm  | `dayjs`format格式 |
-| fields | String | minute  | 粒度 `hour` `minute` `second` ｜
-| start | String | 1970-01-01 00:00:01  | 开始时间 |
-| end | String | 2099-12-31 23:59:59  | 结束时间 |
-| disabled | Boolean | false  | 禁用状态 |
+| props    |  类型   |       默认值        | 描述                                                                                          |
+| :------- | :-----: | :-----------------: | :-------------------------------------------------------------------------------------------- |
+| value    | String  |      当前时间       | 日期时间，不进行业务校验推荐使用`v-model`，校验使用`:value`避免触发更新并通过`change`手动更新 |
+| format   | String  |  YYYY-MM-DD HH:mm   | `dayjs`format格式                                                                             |
+| fields   | String  |       minute        | 粒度 `hour` `minute` `second` ｜                                                              |
+| start    | String  | 1970-01-01 00:00:01 | 开始时间                                                                                      |
+| end      | String  | 2099-12-31 23:59:59 | 结束时间                                                                                      |
+| disabled | Boolean |        false        | 禁用状态                                                                                      |
 
 #### 事件
 
-| event   |      参数      | 描述         |
-| :------ | :------------: | :----------- |
-| input | (text) | 时间字符串，遵循format格式 |
+| event  |  参数  | 描述                                         |
+| :----- | :----: | :------------------------------------------- |
+| input  | (text) | 时间字符串，遵循format格式                   |
 | change | (text) | 时间字符串，遵循format格式，可以监听用于校验 |
 
 #### slot
-| slot        | 描述
-| :---------- | :---- |
-| default     | 组件内容包裹内容，样式自行定义
+| slot    | 描述                           |
+| :------ | :----------------------------- |
+| default | 组件内容包裹内容，样式自行定义 |
 
 #### 例子
 ```
