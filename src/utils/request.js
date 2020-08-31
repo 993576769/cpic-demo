@@ -74,6 +74,7 @@ request.interceptors.response.use(
     err.code = code;
     err.status = response.status;
     if (response.status === 401) {
+      _.set(response.config, 'headers[Authorization]', '');
       return login_once().then(() => request.request(response.config));
     }
     return Promise.reject(err);
