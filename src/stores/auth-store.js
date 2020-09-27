@@ -8,10 +8,10 @@ class AuthStore extends SimpleStore {
   user = new User
 
   async checkLogin() {
-    if (this.token) {
+    if (this.access_token) {
       try {
         await uni.checkSession();
-        return this.token;
+        return this.access_token;
       } catch (e) {
         return this.login();
       }
