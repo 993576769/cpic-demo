@@ -5,12 +5,9 @@
 <script>
   import { Component, Vue } from 'vue-property-decorator';
   import _ from 'lodash';
-  import { PropReference } from '@/plugins/prop-reference';
 
   @Component
   export default class WebSite extends Vue {
-    @PropReference({ type: Function, default: () => _.noop }) onMessage
-
     src = ''
     share_config = {}
 
@@ -25,7 +22,8 @@
         if (result.type === 'share') {
           this.share_config = result.config;
         }
-        this.onMessage(result);
+        const eventChannel = this.getOpenerEventChannel();
+        eventChannel.emit('onMessage', result);
       }
     }
 

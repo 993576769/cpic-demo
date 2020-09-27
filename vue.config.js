@@ -2,6 +2,10 @@ process.env.VUE_APP_IPV4 = require('address').ip();
 
 module.exports = {
   configureWebpack: require('./webpack.config'),
+  devServer: {
+    port: process.env.PORT,
+    disableHostCheck: true,
+  },
   chainWebpack: (config) => {
     config.module
       .rule('vue')

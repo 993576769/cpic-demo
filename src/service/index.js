@@ -3,22 +3,26 @@ import _ from 'lodash';
 
 @Component
 export class Service extends Vue {
-  pageListeners = {}
+  pageListeners = new Map
 
-  subscribe(name, handle, auto_clear = true) {
+  subscribe(name, handle, autoClear = true) {
     name = this.buildEventName(name);
     this.$on(name, handle);
     const clear = () => {
       this.$off(name, handle);
     };
-    if (auto_clear) {
-      const page_id = this.$nav.currentPage.__wxWebviewId__;
-      if (!this.pageListeners[page_id]) {
-        this.pageListeners[page_id] = [];
+    if (autoClear) {
+      const page = this.$nav.currentPage;
+      if (!this.pageListeners.has(page)) {
+        this.pageListeners.set(page, []);
       }
-      this.pageListeners[page_id].push(clear);
+      this.pageListeners.get(page).push(clear);
     }
     return clear;
+  }
+
+  clearListenersByPage(page) {
+    _.forEach(this.pageListeners.get(page), clear => clear());
   }
 
   buildEventName(name) {
@@ -39,6 +43,6 @@ export const service = new Service;
 
 Vue.mixin({
   onUnload() {
-    _.forEach(service.pageListeners[this.__wxWebviewId__], v => v());
+    service.clearListenersByPage(this);
   }
 });
