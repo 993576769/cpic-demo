@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import qs from 'qs';
 
 class Nav {
@@ -32,25 +31,10 @@ class Nav {
   }
 
   navigateTo(options) {
-    let { url, params } = options;
-    // 支持 url 参数中传递函数
-    if (params) {
-      params = _.reduce(params, (result, value, key) => {
-        if (typeof value === 'function') {
-          result[key + 'Id'] = this.currentPage.$vm.$getReferenceId(value);
-        } else {
-          result[key] = value;
-        }
-        return result;
-      }, {});
-
-      url = url + qs.stringify(params, { addQueryPrefix: true, encode: false });
-    }
-
     // 处理超过十级页面无法跳转问题
     const pages = getCurrentPages();
     const navType = pages.length < 10 ? 'navigateTo' : 'redirectTo';
-    return uni[navType]({ ...options, url });
+    return uni[navType](options);
   }
 
   redirectTo(options) {
@@ -65,7 +49,7 @@ class Nav {
     const { url } = options;
     const [link, search] = url.split('?');
     // 支持跳转 tab 时，传递参数，一般是 url 来源 api
-    this.tabQueryList[url] = qs.parse(search);
+    this.tabQueryList[link] = qs.parse(search);
     uni.switchTab({ ...options, url: link });
   }
 

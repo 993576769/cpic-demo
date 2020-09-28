@@ -93,24 +93,3 @@ async handleClick() {
 ### nav
 nav 对象把 uni 里路由相关的 api 进行了封装(https://uniapp.dcloud.io/api/router)
 参数传递和文档一致
-
-#### navigateTo
-navigateTo 新增了一个参数(params: Object)，用于传递路由参数，参数可包含函数
-
-跳转到新页面例子
-```javascript
-this.$nav.navigateTo({
-  url: '/pages/extra/web-site', // 参数包含函数时，url 上不要加参数, 参数放在 params 上
-  params: {
-    src: 'https://xxx',
-    onMessage: data => null
-  }
-})
-```
-
-新页面调用路由上的函数，可以参考[这里](../src/pages/extra/web-site.vue#L12)
-```javascript
-class WebSite extends Vue {
-  @PropReference({ type: Function, default: () => _.noop }) onMessage
-}
-```
