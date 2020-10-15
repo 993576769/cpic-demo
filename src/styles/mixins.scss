@@ -1,6 +1,8 @@
 @mixin text-overflow($line: 1) {
+  /* stylelint-disable value-no-vendor-prefix */
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: $line;
   overflow: hidden;
+  /* stylelint-enable value-no-vendor-prefix */
 }
