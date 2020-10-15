@@ -6,6 +6,12 @@ module.exports = {
     port: process.env.PORT,
     disableHostCheck: true,
   },
+  pluginOptions: {
+    lintStyleOnBuild: true,
+    stylelint: {
+      files: ['src/**/*.{vue,htm,html,css,sss,less,scss}'],
+    },
+  },
   chainWebpack: (config) => {
     config.module
       .rule('vue')
