@@ -104,7 +104,7 @@
             ctx.rect(left, top, width, height);
             ctx.clip();
             const newHeight = width / info.width * info.height;
-            const topOffset = newHeight > height ? (newHeight - height) / 2 : 0;
+            const topOffset = (newHeight - height) / 2;
             ctx.drawImage(img, left, top - topOffset, width, newHeight);
           } else {
             ctx.drawImage(img, left, top, width, height);
