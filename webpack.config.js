@@ -1,4 +1,5 @@
-const path = require('path')
+const path = require('path');
+const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
   watchOptions: {
@@ -13,5 +14,17 @@ module.exports = {
       '@vuex-orm$': '@vuex-orm/core/lib',
       'core-js/fn': 'core-js/es',
     },
+  },
+  optimization: {
+    minimizer: [
+      new TerserPlugin({
+        terserOptions: {
+          output: {
+            comments: false,
+          },
+        },
+        extractComments: false,
+      })
+    ]
   }
-}
+};

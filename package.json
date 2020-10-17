@@ -10,7 +10,7 @@
     "build:staging:h5": "cross-env NODE_ENV=production UNI_PLATFORM=h5 vue-cli-service uni-build --mode staging",
     "build:production:h5": "cross-env NODE_ENV=production UNI_PLATFORM=h5 vue-cli-service uni-build",
     "dev:h5": "cross-env NODE_ENV=development UNI_PLATFORM=h5 vue-cli-service uni-serve",
-    "dev:mp-weixin": "cross-env NODE_ENV=development UNI_PLATFORM=mp-weixin vue-cli-service uni-build --watch",
+    "dev:mp-weixin": "cross-env NODE_ENV=development UNI_PLATFORM=mp-weixin vue-cli-service uni-build --watch --minimize",
     "info": "node node_modules/@dcloudio/vue-cli-plugin-uni/commands/info.js",
     "lint": "vue-cli-service lint src --no-fix --max-warnings 0",
     "lint:style": "cross-env UNI_PLATFORM=mp-weixin vue-cli-service lint:style --no-fix --max-warnings 0",
@@ -75,6 +75,7 @@
     "sass-loader": "^8.0.2",
     "stylelint": "^13.7.2",
     "stylelint-order": "^4.1.0",
+    "terser-webpack-plugin": "4.2.3",
     "vue-template-compiler": "^2.6.11"
   },
   "browserslist": [
