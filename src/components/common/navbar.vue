@@ -130,28 +130,28 @@
 <style lang="scss">
   .bean-navbar {
     .navbar {
+      display: flex;
       box-sizing: border-box;
       width: 100%;
-      display: flex;
 
       .btn-back {
-        flex-shrink: 0;
-        padding: 0 15PX;
         display: flex;
+        flex-shrink: 0;
         align-items: center;
+        padding: 0 15PX;
       }
 
       .box-title {
-        box-sizing: border-box;
         flex: 1;
+        box-sizing: border-box;
         overflow: hidden;
 
         .title {
           width: 100%;
           height: 100%;
-          font-size: 16PX;
-          font-weight: bold;
           overflow: hidden;
+          font-weight: bold;
+          font-size: 16PX;
           text-align: center;
         }
       }

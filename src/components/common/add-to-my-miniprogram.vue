@@ -62,20 +62,20 @@
 <style lang="scss">
   .common-add-to-my-miniprogram {
     position: fixed;
+    z-index: 9999;
     top: 10px;
     height: 34px;
     padding: 0 10px;
     border-radius: 6px;
     color: #fff;
     background: $primary;
-    z-index: 9999;
 
     .content {
       position: relative;
-      width: 100%;
-      height: 100%;
       display: flex;
       align-items: center;
+      width: 100%;
+      height: 100%;
     }
 
     .triangle {

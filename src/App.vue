@@ -24,9 +24,9 @@
   @import './styles/flex.scss';
 
   page {
+    padding-bottom: env(safe-area-inset-bottom);
     font-size: 14px;
     color: #333333;
-    padding-bottom: env(safe-area-inset-bottom);
   }
 
   ::-webkit-scrollbar {
@@ -54,12 +54,12 @@
   // 重置 button 样式，当做 div 使用
   .reset-btn {
     padding: 0;
-    line-height: inherit;
-    border-radius: 0;
     margin: 0;
-    background-color: inherit;
-    color: inherit;
+    border-radius: 0;
     font-size: inherit;
+    line-height: inherit;
+    color: inherit;
+    background-color: inherit;
 
     &::after {
       display: none;

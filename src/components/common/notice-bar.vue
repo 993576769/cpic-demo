@@ -82,25 +82,25 @@
 
 <style lang="scss">
   .common-notice-bar {
-    height: 40px;
     display: flex;
     align-items: center;
+    height: 40px;
     padding: 0 10px;
 
     .content-container {
+      position: relative;
       flex: 1;
       height: 100%;
-      position: relative;
       overflow: hidden;
 
       .content {
-        visibility: hidden;
-        height: 100%;
         position: absolute;
-        white-space: nowrap;
-        transition-timing-function: linear;
         display: flex;
         align-items: center;
+        height: 100%;
+        visibility: hidden;
+        white-space: nowrap;
+        transition-timing-function: linear;
       }
     }
   }

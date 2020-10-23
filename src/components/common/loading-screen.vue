@@ -69,26 +69,26 @@
 <style lang="scss">
   .loading-screen {
     position: fixed;
+    z-index: 999;
     top: 0;
     left: 0;
+    box-sizing: border-box;
     width: 100%;
     height: 100%;
-    background: #fff;
-    z-index: 999;
-    box-sizing: border-box;
     padding: 0 10px 20px;
+    background: #fff;
 
     .error-text {
-      font-size: 18px;
-      font-weight: bold;
       margin-top: 20px;
+      font-weight: bold;
+      font-size: 18px;
     }
 
     .action-btn {
       width: 120px;
       height: 40px;
-      line-height: 40px;
       margin-top: 20px;
+      line-height: 40px;
     }
   }
 </style>
