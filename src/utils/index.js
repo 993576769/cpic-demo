@@ -16,3 +16,4 @@ export { Storage, ArrayStorage } from './storage';
 export { uploadFiles } from './upload-files';
 export { saveFiles } from './save-files';
 export checkApiAuth from './check-api-auth';
+export { Poster } from './create-poster';

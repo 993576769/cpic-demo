@@ -93,6 +93,7 @@
 | customNavbar | Boolean |                 false                  | 页面使用了自定义导航 |
 
 ### canvas生成海报
+注：推荐直接使用 [Poster](./utils.md#poster生成海报图片)，后续考虑去掉此组件
 - 示例代码：
 
 ```html
@@ -112,69 +113,13 @@
 | :----- | :----: | :----: | :--------------------------- |
 | width  | Number |  200   | 画布宽                       |
 | height | Number |  200   | 画布高                       |
-| config | Array  |   []   | 海报配置（见下面config配置） |
+| config | Array  |   []   | 海报配置（详见[Poster](./utils.md#poster生成海报图片)配置） |
 
 #### 事件
 
 | event   |           参数            | 描述         |
 | :------ | :-----------------------: | :----------- |
 | success | (图片临时路径 (本地路径)) | 生成图片完成 |
-
----
-
-#### config配置
-```javascript
-[
-  {
-    type: 'draw',                    // 预设的不够用，自己画
-    draw: Function: (ctx, config)
-  },
-  {
-    type: 'image',
-    top: Number,
-    left: Number,
-    width: Number,                   // 画到画布图片宽
-    height: Number,                  // 画到画布图片高
-    url: String,                     // 图片地址
-    round: Number,                   // 图片圆角大小
-    mode: String                     // 'aspectFill' 图片裁剪
-  },
-  {
-    type: 'text',
-    top: Number,
-    left: Number,
-    text: String || Array,           // 文本
-    fontSize: Number,                // 默认 20
-    lineHeight: Number,              // 默认 fontSize * 1.5
-    color: String,
-    textAlign: String,
-    baseline: String,
-    maxWidth: Number,                // 默认 375, 画布画文本最长长度
-    maxRow: Number,                  // 默认 10, 自动折行最大行数
-    ellipsis: Boolean,               // 默认true，文本显示不完是否显示'...'
-    margin: Number,                  // 文字水平偏移
-    fontWeight: String,              // 'bold' 文字加粗
-    textDecoration: String           // 'line-through' 文字中划线
-  },
-  {
-    type: 'background',
-    top: Number,
-    left: Number,
-    width: Number,                   // 背景宽
-    height: Number,                  // 背景高
-    color: String                    // 背景颜色
-  },
-  {
-    type: 'arc',
-    left: Number,                    // 圆心x
-    top: Number,                     // 圆心y
-    r: Number,                       // 圆半径
-    width: Number,                   // 背景宽
-    height: Number,                  // 背景高
-    color: String                    // 背景颜色
-  }
-]
-```
 
 ---
 
