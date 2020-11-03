@@ -3,6 +3,7 @@
  - [检查并调用手机权限](#检查并调用手机权限)
  - [保存图片或视频到本地相册](#保存图片或视频到本地相册)
  - [nav](#nav)
+ - [Poster 生成海报图片](#poster生成海报图片)
 
 ### storage
 支持对象和数组存储，使用作用域区分不同存储数据
@@ -93,3 +94,93 @@ async handleClick() {
 ### nav
 nav 对象把 uni 里路由相关的 api 进行了封装(https://uniapp.dcloud.io/api/router)
 参数传递和文档一致
+
+### Poster生成海报图片
+
+示例代码
+```js
+import { Poster, autoLoading } from '@/utils';
+
+// 获取海报实例
+this.poster = new Poster({
+  width: this.width,
+  height: this.height,
+  canvasId: 'create-poster-canvas',
+  component: this
+});
+
+// 画海报，并生成本地链接地址， config 参照下面 config 配置
+const img = this.poster.createPoster(this.config)
+```
+
+#### config配置
+```javascript
+[
+  {
+    type: 'draw',                    // 预设的不够用，自己画
+    draw: Function: (ctx, config)
+  },
+  {
+    type: 'image',
+    top: Number,
+    left: Number,
+    width: Number,                   // 画到画布图片宽
+    height: Number,                  // 画到画布图片高
+    url: String,                     // 图片地址
+    borderRadius: Number,            // 图片圆角大小
+    mode: String                     // 'aspectFill' 图片裁剪
+  },
+  {
+    type: 'text',
+    top: Number,
+    left: Number,
+    text: String || Array,           // 文本
+    fontSize: Number,                // 默认 20
+    lineHeight: Number,              // 默认 fontSize * 1.5
+    color: String,
+    textAlign: String,
+    baseline: String,
+    maxWidth: Number,                // 默认 375, 画布画文本最长长度
+    maxRow: Number,                  // 默认 10, 自动折行最大行数
+    ellipsis: Boolean,               // 默认true，文本显示不完是否显示'...'
+    margin: Number,                  // 文字水平偏移
+    fontWeight: String,              // 'bold' 文字加粗
+    textDecoration: String           // 'line-through' 文字中划线
+    background: String               // 文字背景色
+    paddingLeft: Number              // 左边距
+    paddingRight: Number             // 右边距
+    paddingTop: Number               // 上边距
+    paddingBottom: Number            // 下边距
+    borderColor: String              // 边框颜色
+    borderWidth: Number              // 边框宽度
+    borderRadius: Number             // 圆角
+  },
+  {
+    type: 'background',
+    top: Number,
+    left: Number,
+    width: Number,                   // 背景宽
+    height: Number,                  // 背景高
+    color: String                    // 背景颜色
+  },
+  {
+    type: 'border',
+    top: Number,
+    left: Number,
+    width: Number,                   // 背景宽
+    height: Number,                  // 背景高
+    color: String                    // 背景颜色
+    borderWidth: Number,             // border 线条宽度
+    borderRadius: Number,            // 圆角
+  },
+  {
+    type: 'arc',
+    left: Number,                    // 圆心x
+    top: Number,                     // 圆心y
+    r: Number,                       // 圆半径
+    width: Number,                   // 背景宽
+    height: Number,                  // 背景高
+    color: String                    // 背景颜色
+  }
+]
+```
