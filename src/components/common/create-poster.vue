@@ -1,8 +1,8 @@
 <template>
   <div class="common-create-poster">
-    <canvas class="canvas" type="2d" id="create-poster-canvas" :style="{ width: width + 'px', height: height + 'px' }" />
+    <canvas class="canvas" type="2d" id="create-poster-canvas" :style="{ width: width + 'px', height: height + 'px' }"/>
     <div @click="createPoster">
-      <slot />
+      <slot/>
     </div>
   </div>
 </template>

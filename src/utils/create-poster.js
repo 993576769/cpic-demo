@@ -3,12 +3,12 @@ import _ from 'lodash';
 
 export class Poster {
   constructor({
-    canvasId = '',
-    width = 200,
-    height = 200,
-    config = [],
-    component = {}
-  } = {}) {
+                canvasId = '',
+                width = 200,
+                height = 200,
+                config = [],
+                component = {}
+              } = {}) {
     this.canvasId = canvasId;
     this.width = width;
     this.height = height;
@@ -20,8 +20,9 @@ export class Poster {
     let dpr = 2;
     try {
       dpr = uni.getSystemInfoSync().pixelRatio;
-    // eslint-disable-next-line no-empty
-    } catch (e) {}
+      // eslint-disable-next-line no-empty
+    } catch (e) {
+    }
     return dpr;
   }
 
@@ -37,11 +38,21 @@ export class Poster {
       // #ifdef MP-ALIPAY
       this.ctx.clearRect(0, 0, this.width, this.height);
       // #endif
+
+      // #ifdef H5
+      this.ctx.clearRect(0, 0, this.width, this.height);
+      // #endif
       return this.drawByType(this.ctx, this.canvas);
     }
 
     // #ifdef MP-ALIPAY
-    this.ctx = uni.createCanvasContext(this.canvasId);
+    this.ctx = uni.createCanvasContext(this.canvasId, this.component);
+    return this.drawByType(this.ctx);
+    // #endif
+
+    // #ifdef H5
+    this.canvas = this.component.$el.querySelector(`[canvas-id="${this.canvasId}"] canvas`);
+    this.ctx = this.canvas.getContext('2d');
     return this.drawByType(this.ctx);
     // #endif
 
@@ -106,8 +117,13 @@ export class Poster {
     return apFilePath;
     // #endif
 
+    // #ifdef H5
+    const res = await uni.canvasToTempFilePath({ canvasId: this.canvasId }, this.component);
+    return res.tempFilePath;
+    // #endif
+
     // #ifdef MP-WEIXIN
-    const { tempFilePath } = await uni.canvasToTempFilePath({ canvas }, this);
+    const { tempFilePath } = await uni.canvasToTempFilePath({ canvasId: this.canvasId }, this.component);
     return tempFilePath;
     // #endif
   }
@@ -137,6 +153,16 @@ export class Poster {
   }
 
   async loadImage(url, canvas) {
+    // #ifdef H5
+    const img = document.createElement('img');
+    img.crossOrigin = 'anonymous';
+    img.src = url;
+    return new Promise((resolve, reject) => {
+      img.onload = () => resolve(img);
+      img.onerror = reject;
+    });
+    // #endif
+
     if (/^https?:\/\//.test(url)) {
       const { tempFilePath } = await uni.downloadFile({ url });
       url = tempFilePath;
@@ -232,6 +258,12 @@ export class Poster {
       } else if (baseline === 'bottom') {
         y = top + index * lineHeight - lineHeight / 2;
       }
+      // #ifdef H5
+      // 真机画文字会有误差，暂时微调解决
+      if (!/wechatdevtools/.test(navigator.userAgent)) {
+        y = y - 2;
+      }
+      // #endif
       const { width } = ctx.measureText(item);
       textWidth = width;
       ctx.fillText(item || '', x + paddingLeft, y + paddingTop);
