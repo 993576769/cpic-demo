@@ -24,7 +24,7 @@ deploy_staging:
   stage: build # 对应stages上的job名称
   script:
     - yarn build:staging:mp-weixin
-    - NODE_ENV=staging node script/upload.js
+    - yarn deploy:staging:mp-weixin
   only:
     - staging
   tags:
@@ -34,7 +34,7 @@ deploy_production:
   stage: build # 对应stages上的job名称
   script:
     - yarn build:production:mp-weixin
-    - NODE_ENV=production node script/upload.js
+    - yarn deploy:production:mp-weixin
   only:
     - master
   tags:

@@ -20,12 +20,12 @@
       <button>生成海报</button>
     </common-create-poster>
 
-    <common-auth-userinfo
+    <common-auth-user-info
       withCredentials
       @success="handleAuthSuccess"
     >
       <div>授权</div>
-    </common-auth-userinfo>
+    </common-auth-user-info>
     <common-list-page :store.reference="list">
       <div class="lis">列表数据</div>
       <div slot="loadMore">load more</div>

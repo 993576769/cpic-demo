@@ -11,6 +11,10 @@
     "build:production:h5": "cross-env NODE_ENV=production UNI_PLATFORM=h5 vue-cli-service uni-build",
     "dev:h5": "cross-env NODE_ENV=development UNI_PLATFORM=h5 vue-cli-service uni-serve",
     "dev:mp-weixin": "cross-env NODE_ENV=development UNI_PLATFORM=mp-weixin vue-cli-service uni-build --watch --minimize",
+    "deploy:staging:mp-weixin": "cross-env NODE_ENV=production UNI_PLATFORM=mp-weixin vue-cli-service deploy:mp-weixin --mode staging",
+    "deploy:production:mp-weixin": "cross-env NODE_ENV=production UNI_PLATFORM=mp-weixin vue-cli-service deploy:mp-weixin --mode production",
+    "deploy:staging:h5": "cross-env NODE_ENV=production UNI_PLATFORM=h5 vue-cli-service deploy:h5 --mode staging",
+    "deploy:production:h5": "cross-env NODE_ENV=production UNI_PLATFORM=h5 vue-cli-service deploy:h5 --mode production",
     "info": "node node_modules/@dcloudio/vue-cli-plugin-uni/commands/info.js",
     "lint": "vue-cli-service lint src --no-fix --max-warnings 0",
     "lint:style": "cross-env UNI_PLATFORM=mp-weixin vue-cli-service lint:style --no-fix --max-warnings 0",
@@ -70,6 +74,7 @@
     "jest": "^25.4.0",
     "mini-types": "*",
     "miniprogram-api-typings": "*",
+    "node-deploy": "https://github.com/beansmile/node-deploy.git",
     "node-sass": "^4.14.1",
     "postcss-comment": "^2.0.0",
     "sass-loader": "^8.0.2",
@@ -82,6 +87,11 @@
     "Android >= 4",
     "ios >= 8"
   ],
+  "vuePlugins": {
+    "service": [
+      "./script/vue-cli-plugin-deploy.js"
+    ]
+  },
   "uni-app": {
     "scripts": {}
   }

@@ -1,5 +1,5 @@
 <template>
-  <div class="common-auth-userinfo" :class="{ disabled }">
+  <div class="common-auth-user-info" :class="{ disabled }">
     <button
       class="btn-auth"
       open-type="getUserInfo"
@@ -16,7 +16,7 @@
   import _ from 'lodash';
 
   @Component
-  export default class AuthUserinfo extends Vue {
+  export default class AuthUserInfo extends Vue {
     @Prop(Boolean) disabled;
     @Prop(Boolean) withCredentials;
 
@@ -47,7 +47,7 @@
 </script>
 
 <style lang="scss">
-  .common-auth-userinfo {
+  .common-auth-user-info {
     position: relative;
     display: inline-block;
 
