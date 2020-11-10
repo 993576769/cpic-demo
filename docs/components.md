@@ -5,7 +5,7 @@
  - [自定义页面 custom-page](#自定义页面)
  - [添加到我的小程序 add-to-my-miniprogram](#添加到我的小程序)
  - [canvas生成海报 create-poster](#canvas生成海报)
- - [用户信息授权 auth-userinfo](#用户信息授权)
+ - [用户信息授权 auth-user-info](#用户信息授权)
  - [Loading组件 loading-screen](#LoadingScreen)
  - [空列表 empty-view](#EmptyView)
  - [通告栏 notice-bar](#通告栏)
@@ -127,12 +127,12 @@
 - 示例代码：
 
 ```html
-<common-auth-userinfo
+<common-auth-user-info
   withCredentials
   @success="handleAuthSuccess"
 >
   <div>授权</div>
-</common-auth-userinfo>
+</common-auth-user-info>
 ```
 
 ### 参数

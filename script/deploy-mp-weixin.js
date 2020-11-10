@@ -8,27 +8,23 @@ const ci = require(
   )
 );
 
-const robots = ['', 'staging', 'production'];
-
 const config = {
   version: dayjs().format('YYMMDDTHH'),
-  env: process.env.NODE_ENV,
+  env: process.env.VUE_APP_ENV,
 };
 
 function getAppId() {
   const manifestPath = path.resolve(__dirname, '../src/manifest.json');
   const reg = /(\/{2,}.*?(\r|\n))|(\/\*(\n|.)*?\*\/)/g; // 删除注释
   const manifest = fs.readFileSync(manifestPath, 'utf8').replace(reg, '');
-  const appid = JSON.parse(manifest)['mp-weixin'].appid;
-  return appid;
+  return JSON.parse(manifest)['mp-weixin'].appid;
 }
 
-async function upload(env = config.env, desc, version = config.version) {
-  const desc_str = desc || env;
+async function deployMpWeixin(desc, version = config.version) {
+  const desc_str = desc || config.env;
   const projectPath = path.resolve('dist/build/mp-weixin');
-  const privateKeyPath = path.resolve('script/upload.key');
+  const privateKeyPath = path.resolve('script/wx.key');
   const appid = getAppId();
-  const robot = robots.indexOf(env);
 
   const project = new ci.Project({
     appid, type: 'miniProgram',
@@ -36,14 +32,17 @@ async function upload(env = config.env, desc, version = config.version) {
     ignores: ['node_modules/**/*'],
   });
 
-  await ci.upload({
-    project, version,
-    desc: desc_str,
-    robot, onProgressUpdate: console.log,
-  });
+  try {
+    await ci.upload({
+      project, version,
+      desc: desc_str,
+      robot: process.env.WX_CI_ROBOT,
+      onProgressUpdate: console.log,
+    });
+  } catch (err) {
+    console.error(err);
+    process.exit(1);
+  }
 }
 
-upload().catch(err => {
-  console.error(err);
-  process.exit(1);
-});
+module.exports = deployMpWeixin;
