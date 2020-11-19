@@ -33,7 +33,8 @@ module.exports = {
     'selector-combinator-space-after': 'always',
     'block-opening-brace-space-before': 'always',
     'rule-empty-line-before': ['always', {
-      except: ['first-nested', 'after-single-line-comment']
+      except: ['first-nested'],
+      ignore: ['after-comment']
     }],
     'declaration-colon-space-after': 'always',
     'declaration-colon-space-before': 'never',
