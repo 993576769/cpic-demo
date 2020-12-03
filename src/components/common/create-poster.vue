@@ -17,7 +17,7 @@
     @Prop({ type: Number, default: 200 }) height;
     @Prop({ type: Array, default: () => [] }) config;
 
-    poster = null
+    // poster = null 不要在这里设置此属性为 observable，new Poster 会在 json 转换时报错
     img = ''
 
     mounted() {
