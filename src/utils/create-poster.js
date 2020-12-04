@@ -123,7 +123,8 @@ export class Poster {
     // #endif
 
     // #ifdef MP-WEIXIN
-    const { tempFilePath } = await uni.canvasToTempFilePath({ canvasId: this.canvasId }, this.component);
+    // https://developers.weixin.qq.com/community/develop/article/doc/000cca357f07e0be99eacad095bc13
+    const { tempFilePath } = await uni.canvasToTempFilePath({ canvas: this.canvas });
     return tempFilePath;
     // #endif
   }
