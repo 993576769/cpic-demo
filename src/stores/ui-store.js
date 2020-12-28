@@ -30,7 +30,7 @@ export default new class {
    */
   get isIphoneX() {
     const { model } = this.systemInfo;
-    return /iPhone10,3|iPhone10,6|iPhone11,8|iPhone11,1|iPhone11,2|iPhone11,3|iPhone11,6|iPhone11,4|iPhone12,5/ig.test(model);
+    return /iPhone10,3|iPhone10,6|iPhone11,8|iPhone11,1|iPhone11,2|iPhone11,3|iPhone11,6|iPhone11,4|iPhone12,1|iPhone12,5/ig.test(model);
   }
 
   get safeBottom() {
