@@ -133,6 +133,8 @@
 >
   <div>授权</div>
 </common-auth-user-info>
+
+<div><common-auth-user-info onlyBtn/></div>
 ```
 
 ### 参数
@@ -141,6 +143,7 @@
 | :-------------- | :-----: | :----: | :----------------- |
 | withCredentials | Boolean | false  | 是否带上登录态信息 |
 | disabled        | Boolean | false  | 禁用状态           |
+| onlyBtn         | Boolean | false  | 是否只渲染button。用在不改变元素结构上，需要保证父节点是相对定位|
 
 #### 事件
 
@@ -153,7 +156,8 @@
 ### LoadingScreen
 
 #### 简介
-全屏覆盖的 loading 组件，可以通过 css 调整 position 的相关坐标
+全屏覆盖的 loading 组件，可以通过 css 调整 position 的相关坐标。
+默认自动请求 settings api
 
 - 示例代码：
 

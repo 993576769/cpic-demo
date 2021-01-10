@@ -1,30 +1,33 @@
 import { Prop } from 'vue-property-decorator';
 
-let referenceCount = 0;
-const referenceList = new Map();
+let refCount = 0;
+const refIdList = new Map(); // 缓存引用对象的 id，用于快速获取 id
+const refList = {}; // 缓存引用对象，用于通过 id 快速获取对象
 
 export default function install(Vue) {
   Vue.mixin({
     created() {
-      this.$referenceIds = [];
+      this.$refIds = []; // 当前组件生成的引用 id，组件删除时需要从缓存中删除对应的项
     },
 
     destroyed() {
-      referenceList.forEach((id, reference) => {
-        if (this.$referenceIds.includes(id)) {
-          referenceList.delete(reference);
+      refIdList.forEach((id, reference) => {
+        if (this.$refIds.includes(id)) {
+          refIdList.delete(reference);
+          delete refList[id];
         }
       });
     },
 
     methods: {
-      $getReferenceId(value) {
-        if (!referenceList.has(value)) {
-          const id = String(++referenceCount);
-          this.$referenceIds.push(id);
-          referenceList.set(value, id);
+      $getRefId(value) {
+        if (!refIdList.has(value)) {
+          const id = String(++refCount);
+          this.$refIds.push(id);
+          refIdList.set(value, id);
+          refList[id] = value;
         }
-        return referenceList.get(value);
+        return refIdList.get(value);
       },
     }
   });
@@ -39,14 +42,13 @@ export function PropReference(options) {
 
     Object.defineProperty(target, name, {
       get() {
-        for (let [reference, id] of referenceList) {
-          if (id === this[idPropName]) {
-            if (!(reference instanceof type)) {
-              // eslint-disable-next-line no-console
-              console.warn(`name is not a ${type.name}`);
-            }
-            return reference;
+        const ref = refList[this[idPropName]];
+        if (ref !== undefined) {
+          if (!(ref instanceof type) && ref !== null) {
+            // eslint-disable-next-line no-console
+            console.warn(`name is not a ${type.name}`);
           }
+          return ref;
         }
         return getDefault();
       }

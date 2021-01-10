@@ -8,7 +8,7 @@ import buildURL from 'axios/lib/helpers/buildURL';
 import decoder from './decoder';
 
 const request = axios.create({
-  baseURL: process.env.VUE_APP_API_HOST + '/app/api/v1',
+  baseURL: '/app_api/v1',
   timeout: 30000,
   headers: { 'Content-Type': 'application/json' },
   paramsSerializer(params) {
@@ -22,7 +22,8 @@ const request = axios.create({
     return data;
   }],
   adapter(config) {
-    const fullPath = buildFullPath(config.baseURL, config.url);
+    const baseURL = (process.env.VUE_APP_PLATFORM === 'h5' ? '' : process.env.VUE_APP_API_HOST) + config.baseURL;
+    const fullPath = buildFullPath(baseURL, config.url);
     return uni.request({
       method: config.method.toUpperCase(),
       url: buildURL(fullPath, config.params, config.paramsSerializer),
@@ -69,9 +70,11 @@ request.interceptors.response.use(
   },
   err => {
     const response = _.get(err, 'response', {});
-    const { error_message, messages, error, code } = response.data;
-    err.message = error_message || messages || error || err.message;
-    err.code = code;
+    if (response.data) {
+      const { error_message, messages, error, code } = response.data;
+      err.message = error_message || messages || error || err.message;
+      err.code = code;
+    }
     err.status = response.status;
     if (response.status === 401) {
       _.set(response.config, 'headers[Authorization]', '');

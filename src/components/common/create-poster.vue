@@ -34,6 +34,7 @@
       const img = await autoLoading(this.poster.createPoster(this.config));
       this.img = img;
       this.$emit('success', img);
+      return img;
     }
   }
 </script>

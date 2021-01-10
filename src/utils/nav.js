@@ -20,7 +20,7 @@ class Nav {
   }
 
   goHome() {
-    return uni.reLaunch({ url: '/pages/root/home' });
+    return uni.switchTab({ url: '/pages/root/home' });
   }
 
   isTabPage(url = this.currentPage.route) {

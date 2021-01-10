@@ -5,6 +5,11 @@ module.exports = {
   devServer: {
     port: process.env.PORT,
     disableHostCheck: true,
+    proxy: {
+      '/app_api/v1': {
+        target: process.env.VUE_APP_API_HOST
+      },
+    }
   },
   pluginOptions: {
     lintStyleOnBuild: true,
