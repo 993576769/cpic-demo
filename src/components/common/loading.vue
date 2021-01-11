@@ -20,10 +20,10 @@
 <style lang="scss">
   .van-loading {
     display: flex;
-    align-items: center;
     justify-content: center;
-    color: #c8c9cc;
+    align-items: center;
     margin: 0 auto;
+    color: #c8c9cc;
   }
 
   .van-loading__spinner {
@@ -31,8 +31,8 @@
     box-sizing: border-box;
     width: 30px;
     max-width: 100%;
-    max-height: 100%;
     height: 30px;
+    max-height: 100%;
     animation: van-rotate .8s linear infinite;
   }
 
@@ -48,9 +48,9 @@
 
   .van-loading__text {
     margin-left: 8px;
-    color: #969799;
     font-size: 14px;
     line-height: 20px;
+    color: #969799;
   }
 
   .van-loading__text:empty {
@@ -70,15 +70,15 @@
     width: 2px;
     height: 25%;
     margin: 0 auto;
-    background-color: currentColor;
     border-radius: 40%;
+    background-color: currentColor;
     content: " "
   }
 
   @for $i from 1 through 12 {
     .van-loading__dot:nth-of-type(#{$i}) {
-      transform: rotate($i * 30deg);
       opacity: 1 - (0.75 / 12) * ($i - 1);
+      transform: rotate($i * 30deg);
     }
   }
 

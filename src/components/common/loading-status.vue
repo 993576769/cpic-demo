@@ -69,8 +69,8 @@
   .status-wrapper {
     .text {
       padding: 20px;
-      color: #999;
       text-align: center;
+      color: #999;
 
       &.empty {
         padding: 50px 10px;

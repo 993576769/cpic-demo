@@ -78,13 +78,13 @@
 
 <style lang="scss">
   .common-list-page {
-    height: 100%;
     position: relative;
+    height: 100%;
 
     .list-scroll-view {
+      position: absolute;
       width: 100%;
       height: 100%;
-      position: absolute;
     }
 
     .status-wrapper {
@@ -95,9 +95,9 @@
       }
 
       .text {
-        color: #999;
-        text-align: center;
         padding: 10px;
+        text-align: center;
+        color: #999;
       }
     }
   }
