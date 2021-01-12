@@ -57,6 +57,10 @@ module.exports = {
     [
       '@vue/app',
       {
+        targets: {
+          'chrome': '49',
+          'safari': '10'
+        },
         modules: 'commonjs',
         useBuiltIns: process.env.UNI_PLATFORM === 'h5' ? 'usage' : 'entry'
       }

@@ -106,10 +106,12 @@ this.poster = new Poster({
   width: this.width,
   height: this.height,
   canvasId: 'create-poster-canvas',
-  component: this
+  component: this,
+  // dpr: 2, 默认为系统的 dpr，可以不传
 });
 
 // 画海报，并生成本地链接地址， config 参照下面 config 配置
+// config 建议为1倍图的像素，内部会通过 dpr 做放大
 const img = this.poster.createPoster(this.config)
 ```
 

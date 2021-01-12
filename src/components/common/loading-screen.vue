@@ -43,9 +43,10 @@
       this.error = null;
 
       try {
-        if (this.auth) {
-          await this.$authStore.tryFetchData();
-        }
+        await Promise.all([
+          this.auth && this.$authStore.tryFetchData(),
+          this.$settings.tryFetchData(),
+        ]);
 
         await this.onFetch();
         this.loading = false;
@@ -60,6 +61,9 @@
     }
 
     get position_top() {
+      if (process.env.VUE_APP_PLATFORM === 'h5') {
+        return '0px';
+      }
       const { bottom } = uni.getMenuButtonBoundingClientRect();
       return this.usedCustomNav ? `${bottom + 7}px` : '0px';
     }

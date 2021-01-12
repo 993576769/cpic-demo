@@ -9,7 +9,7 @@ import {
   pageRefresh, errToast, uploadFiles, saveFiles,
 } from './utils';
 import { service } from './service';
-import { Collection, authStore } from './stores';
+import { Collection, authStore, settings } from './stores';
 
 Vue.config.productionTip = false;
 Vue.prototype.$sleep = sleep;
@@ -27,6 +27,7 @@ Vue.prototype.$saveFiles = saveFiles;
 Vue.prototype.$service = service;
 
 Vue.prototype.$authStore = authStore;
+Vue.prototype.$settings = settings;
 Vue.prototype.$Collection = Collection;
 
 App.mpType = 'app';

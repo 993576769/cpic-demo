@@ -6,12 +6,14 @@ export class Poster {
                 canvasId = '',
                 width = 200,
                 height = 200,
+                dpr = this.getDpr(),
                 config = [],
                 component = {}
               } = {}) {
     this.canvasId = canvasId;
     this.width = width;
     this.height = height;
+    this.dpr = dpr;
     this.config = config;
     this.component = component;
   }
@@ -64,10 +66,9 @@ export class Poster {
         .exec(res => {
           const canvas = this.canvas = res[0].node;
           const ctx = this.ctx = canvas.getContext('2d');
-          const dpr = this.getDpr();
-          canvas.width = this.width * dpr;
-          canvas.height = this.height * dpr;
-          ctx.scale(dpr, dpr);
+          canvas.width = this.width * this.dpr;
+          canvas.height = this.height * this.dpr;
+          ctx.scale(this.dpr, this.dpr);
           this.drawByType(ctx, canvas)
             .then(resolve)
             .catch(reject);
@@ -165,7 +166,12 @@ export class Poster {
     // #endif
 
     if (/^https?:\/\//.test(url)) {
-      const { tempFilePath } = await uni.downloadFile({ url });
+      let header = {};
+      if (url.match(process.env.VUE_APP_API_HOST)) {
+        const { authStore } = require('@/stores/auth-store');
+        header = { Authorization: authStore.access_token };
+      }
+      const { tempFilePath } = await uni.downloadFile({ url, header });
       url = tempFilePath;
     }
 

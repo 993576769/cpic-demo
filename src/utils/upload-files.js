@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { request } from './request';
 import { randomString } from './random';
 
@@ -26,7 +27,7 @@ export function uploadFiles(tempFilePaths, type = 'image') {
     };
 
     // 获取签名相关
-    const { data: { direct_upload, signed_id } } = await request.post('/active_storage/direct_upload', params);
+    const { data: { direct_upload, ...blob } } = await request.post('/active_storage/direct_upload', params);
 
     // 获取文件Binary
     const fileSystemManager = uni.getFileSystemManager();
@@ -37,10 +38,37 @@ export function uploadFiles(tempFilePaths, type = 'image') {
     await request.put(direct_upload.url, fileBinary, { headers: direct_upload.headers });
 
     return {
-      signed_id,
-      url: `${process.env.VUE_APP_API_HOST}/rails/active_storage/blobs/${signed_id}/${filename}`,
+      ...blob,
+      url: direct_upload.url,
     };
   });
 
   return Promise.all(results);
 }
+
+// #ifdef H5
+// 传递 input onchange 事件获取到的文件列表，例如 uploadFilesWithInput([...e.target.files])
+export function uploadFilesWithInput(files) {
+  const results = [].concat(files).map(async file => {
+    const body = {
+      filename: file.name,
+      content_type: file.type || 'application/octet-stream',
+      byte_size: file.size,
+      hex_digest: await require('./file-checksum').createChecksum(file),
+    };
+
+    // 获取签名相关
+    const { data: { direct_upload, ...blob } } = await request.post('/active_storage/direct_upload', body);
+
+    // 上传到 oss
+    await axios.put(direct_upload.url, file.slice(), { headers: direct_upload.headers });
+
+    return {
+      ...blob,
+      url: direct_upload.url,
+    };
+  });
+
+  return Promise.all(results);
+}
+// #endif

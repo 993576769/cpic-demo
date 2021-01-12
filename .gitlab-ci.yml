@@ -3,7 +3,7 @@ stages:
   - build
 
 cache:
-  key: node_modules
+  key: one-key-to-rule-them-all
   paths:
     - node_modules/
 

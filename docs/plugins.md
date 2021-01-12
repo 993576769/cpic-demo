@@ -20,6 +20,7 @@ class LoadingScreen extends Vue {
 ```html
 <div>
   <common-loading-screen :onFetch.reference="onFetch"/>
+  <common-loading-screen :onFetch.ref="onFetch"/>
 </div>
 ```
 
