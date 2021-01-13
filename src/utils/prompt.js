@@ -125,7 +125,9 @@ export function errToast(target, name, descriptor) {
 
 export function errHandle(err) {
   const ignoreErrors = /(cancel|ignore|请先登录)/i;
-  const msg = err.message || err.errMsg;
+  const timeoutErrors = /(request:fail timeout)|(timeout.*\d+ms)/i;
+  let msg = err.message || err.errMsg;
+  msg = timeoutErrors.test(msg) ? '网络好像出了点问题，请稍后再试' : msg;
   if (!ignoreErrors.test(msg)) {
     msg && alert(msg, {
       title: '请求失败',

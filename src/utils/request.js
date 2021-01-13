@@ -28,6 +28,7 @@ const request = axios.create({
       method: config.method.toUpperCase(),
       url: buildURL(fullPath, config.params, config.paramsSerializer),
       header: config.headers,
+      timeout: config.timeout,
       data: config.data,
       dataType: config.dataType || undefined,
       responseType: config.responseType || 'text',
