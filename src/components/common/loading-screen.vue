@@ -6,7 +6,7 @@
     <div @click="handleLoad" class="flex column item-center">
       <image src="/static/refresh.png" style="width: 90px;" mode="widthFix"/>
       <text class="text-center error-text">
-        {{ error.message }}
+        {{ errorMessage }}
         {{ error.code === blockCode ? '' : '点击重新加载' }}
       </text>
     </div>
@@ -30,6 +30,12 @@
     loading = true
     error = null
     blockCode = 40101
+
+    get errorMessage() {
+      const timeoutErrors = /(request:fail timeout)|(timeout.*\d+ms)/i;
+      const msg = _.get(this.error, 'message');
+      return timeoutErrors.test(msg) ? '网络好像出了点问题，请稍后再试' : msg;
+    }
 
     mounted() {
       this.handleLoad();
