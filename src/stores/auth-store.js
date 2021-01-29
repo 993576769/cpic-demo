@@ -1,11 +1,20 @@
 import { SimpleStore } from './helper/simple-store';
+import Observable from './helper/observable';
 import { ACCESS_TOKEN_KEY } from '@/constants';
-import User from '@/models/user';
 import { request } from '@/utils';
+
+class User extends Observable {
+  nickname = ''
+  avatar = ''
+
+  get wechat_authorized() {
+    return this.avatar && this.nickname;
+  }
+}
 
 class AuthStore extends SimpleStore {
   $access_token = uni.getStorageSync(ACCESS_TOKEN_KEY)
-  user = new User
+  user = User.create()
 
   async checkLogin() {
     if (this.access_token) {
@@ -22,7 +31,7 @@ class AuthStore extends SimpleStore {
   async login() {
     const { code } = await uni.login();
     const { data: { access_token, user } } = await request.post('/users/token', { code });
-    this.user = new User(user);
+    this.user = User.create(user);
     return this.access_token = access_token;
   }
 
