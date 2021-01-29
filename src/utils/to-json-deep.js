@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 // 通过 class new 出来的对象，在小程序 setData 时会丢失 getter 属性，通过下面的函数可解决
-// 此方法已用于 src/stores/helper/observable.js、src/models/record.js
+// 此方法已用于 src/stores/helper/observable.js
 export default function toJSONDeep() {
   if (!this.$json_names) {
     const ownNames = Object.keys(this);
