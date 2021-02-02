@@ -66,7 +66,8 @@
 - 示例代码：
 
 ```html
-<common-custom-page :components="[]" />
+<!-- slug 参见不同项目的接口约定 -->
+<custom-page-component :slug="slug"/>
 ```
 
 ### 参数
