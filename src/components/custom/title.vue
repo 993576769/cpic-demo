@@ -4,6 +4,7 @@
       <div :class="['content', 'style' + config.type.name]" :style="[typeStyle]">
         <div class="line" :style="[lineStyle]"></div>
         <div class="title" :style="[textStyle]">{{ config.text }}</div>
+        <div class="line" :style="[lineStyle]"></div>
       </div>
     </div>
   </custom-share-wrapper>
@@ -47,6 +48,9 @@
   .custom-title {
     .content {
       position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       height: 100%;
 
       .line {
@@ -54,6 +58,7 @@
       }
 
       &.style1 {
+        display: block;
         border-left: 4px solid #000;
 
         .title {
@@ -72,9 +77,6 @@
       //   }
       // }
       &.style2 {
-        display: flex;
-        justify-content: center;
-        align-items: center;
         height: 100%;
 
         .title {
@@ -89,13 +91,9 @@
         }
 
         .line {
-          position: absolute;
-          top: 50%;
-          left: 0;
           display: block;
-          width: 100%;
+          flex: 1;
           height: 2px;
-          transform: translateY(-50%);
         }
       }
     }
