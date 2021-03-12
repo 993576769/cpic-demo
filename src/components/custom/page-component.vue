@@ -136,6 +136,7 @@
       });
       this.components = components;
       this.pageConfig = configs.config;
+      this.setNavbar(configs.config);
 
       this.popups = this.components.filter(v => v.name === 'popup');
       const autoPopups = this.popups.filter(v => v.config.autoOpen);
@@ -151,14 +152,16 @@
         title: share.title,
         imageUrl: share.imageUrl
       });
+      this.addEvent(this.slug);
+    }
 
-      uni.setNavigationBarTitle({ title: this.pageConfig.title || '' });
-      const { backgroundColor, color } = _.get(this.pageConfig, 'title', {});
+    setNavbar(pageConfig) {
+      uni.setNavigationBarTitle({ title: pageConfig.title || '' });
+      const { backgroundColor, color } = _.get(pageConfig, 'style.title', {});
       uni.setNavigationBarColor({
         frontColor: color || '#000000',
         backgroundColor: backgroundColor || '#F8F8F8'
       });
-      this.addEvent(this.slug);
     }
 
     // 弹窗 海报事件

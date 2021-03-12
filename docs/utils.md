@@ -12,7 +12,7 @@
 ``` javascript
 // duration 过期时间，单位毫秒，为空表示不会自动过期清除
 const storage = new Storage('存储作用域名称'， duration);
-storage.add(key, data)             // 添加存储数据
+storage.set(key, data)             // 添加存储数据
 storage.get(key)                   // 获取对应存储数据
 storage.remove(key)                // 删除对应存储数据
 storage.clear()                    // 情况当前存储作用域下，所有存储数据
