@@ -32,8 +32,7 @@
       if (type.name !== 2) {
         return {};
       }
-      const isTransparent = +style.backgroundColor[style.backgroundColor.length - 2] === 0;
-      return { backgroundColor: isTransparent ? '#f4f4f4' : style.backgroundColor };
+      return { backgroundColor: style.backgroundColor ? style.backgroundColor : 'transparent' };
     }
 
     // style2样式
