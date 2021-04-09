@@ -8,7 +8,7 @@ cache:
     - node_modules/
 
 before_script:
-  - nodenv shell 11.13.0
+  - asdf install
   - yarn install
 
 test:
