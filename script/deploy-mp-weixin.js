@@ -4,7 +4,7 @@ const fs = require('fs');
 const ci = require(
   path.join(
     process.execPath.replace(/bin\/node$/, ''),
-    'lib/node_modules/miniprogram-ci',
+    '.npm/lib/node_modules/miniprogram-ci',
   )
 );
 
