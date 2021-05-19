@@ -140,14 +140,23 @@ export class Poster {
     ctx.save();
     const { top, left, width, height, url, mode } = config;
     this.clipRound(ctx, config);
-    if (mode === 'aspectFill' || mode === 'top') {
+    if (mode) {
       const info = typeof img === 'string' ? (await uni.getImageInfo({ src: url })) : img;
       ctx.beginPath();
       ctx.rect(left, top, width, height);
       ctx.clip();
-      const newHeight = width / info.width * info.height;
-      const topOffset = (newHeight - height) / 2;
-      ctx.drawImage(img, left, mode === 'top' ? top : top - topOffset, width, newHeight);
+      if (mode === 'aspectFit' || mode === 'top') {
+        const newHeight = width / info.width * info.height;
+        const topOffset = (newHeight - height) / 2;
+        ctx.drawImage(img, left, mode === 'top' ? top : top - topOffset, width, newHeight);
+      } else if (mode === 'aspectFill') {
+        const ratio = Math.max(width / info.width, height / info.height);
+        const newHeight = Math.round(ratio * info.height);
+        const newWidth = Math.round(ratio * info.width);
+        ctx.drawImage(img, left - ((newWidth - width) / 2), top - ((newHeight - height) / 2), newWidth, newHeight);
+      } else {
+        ctx.drawImage(img, left, top, width, height);
+      }
     } else {
       ctx.drawImage(img, left, top, width, height);
     }
