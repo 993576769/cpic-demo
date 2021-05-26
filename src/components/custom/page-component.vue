@@ -20,18 +20,22 @@
         </div>
       </div>
     </common-popup>
-    <custom-dialog v-if="showDialog"
+    <custom-dialog
+      v-model="showDialog"
       :config="dialogConfig"
-      @close="handleCloseDailog"/>
+      @close="handleCloseDailog"
+    />
   </div>
 </template>
 
 <script>
   import { Component, Prop, Mixins } from 'vue-property-decorator';
   import  CustomComponent from '@/mixins/custom-component';
-  import { request, downloadQrcode } from '@/utils';
+  import { request, downloadQrcode, Storage } from '@/utils';
+  import { CUSTOM_PAGE_EJECTED_POPUP_LIST_KEY } from '@/constants';
   import _ from 'lodash';
 
+  const ejectedPopupStorage = new Storage(CUSTOM_PAGE_EJECTED_POPUP_LIST_KEY);
 
   @Component
   export default class CustomPageComponent extends Mixins(CustomComponent) {
@@ -120,7 +124,6 @@
       };
     }
 
-
     async onFetch() {
       // TODO: 根据不同项目定义接口
       const { data } = await request.get(`bean/custom_pages/${this.slug}`);
@@ -139,12 +142,8 @@
       this.setNavbar(configs.config);
 
       this.popups = this.components.filter(v => v.name === 'popup');
-      const autoPopups = this.popups.filter(v => v.config.autoOpen);
-      // 多个自动弹窗只出现第一个
-      if (autoPopups.length) {
-        this.dialogConfig = autoPopups[0].config;
-        this.showDialog = true;
-      }
+      this.autoPopups = this.popups.filter(v => v.config.autoOpen);
+      this.handleShowPopup();
 
       const share = _.get(this.pageConfig, 'share', {});
       this.$emit('pageConfig', {
@@ -153,6 +152,22 @@
         imageUrl: share.imageUrl
       });
       this.addEvent(this.slug);
+    }
+
+    handleShowPopup() {
+      if (!this.autoPopups.length) {
+        return;
+      }
+      const popup = this.autoPopups.pop();
+      const popupCount = ejectedPopupStorage.get(popup.key) || 0;
+      // 如果设置弹窗次数，大于已经弹窗次数，就弹窗，否则弹下一个 popup
+      if (popupCount < popup.config.showTimes) {
+        this.dialogConfig = popup.config;
+        this.showDialog = true;
+        ejectedPopupStorage.set(popup.key, popupCount + 1);
+      } else {
+        this.handleShowPopup();
+      }
     }
 
     setNavbar(pageConfig) {
@@ -211,8 +226,12 @@
     }
 
     handleCloseDailog(data) {
-      this.showDialog = false;
-      this.handleClick(data);
+      // 有设置关闭弹窗 触发点击事件，才触发点击事件
+      data.closeBtnTriggerEvent && this.handleClick(data);
+      // 关闭后弹下一个弹窗
+      setTimeout(() => {
+        this.handleShowPopup();
+      }, 200);
     }
 
     beforeDestroy() {
