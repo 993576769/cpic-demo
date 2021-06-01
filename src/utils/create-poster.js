@@ -145,12 +145,11 @@ export class Poster {
       ctx.beginPath();
       ctx.rect(left, top, width, height);
       ctx.clip();
-      if (mode === 'aspectFit' || mode === 'top') {
+      if (mode === 'top') {
         const newHeight = width / info.width * info.height;
-        const topOffset = (newHeight - height) / 2;
-        ctx.drawImage(img, left, mode === 'top' ? top : top - topOffset, width, newHeight);
-      } else if (mode === 'aspectFill') {
-        const ratio = Math.max(width / info.width, height / info.height);
+        ctx.drawImage(img, left, top, width, newHeight);
+      } else if (mode === 'aspectFit' || mode === 'aspectFill') {
+        const ratio = Math[mode === 'aspectFit' ? 'min' : 'max'](width / info.width, height / info.height);
         const newHeight = Math.round(ratio * info.height);
         const newWidth = Math.round(ratio * info.width);
         ctx.drawImage(img, left - ((newWidth - width) / 2), top - ((newHeight - height) / 2), newWidth, newHeight);
