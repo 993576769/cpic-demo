@@ -127,10 +127,10 @@ export function errHandle(err) {
   const ignoreErrors = /(cancel|ignore|请先登录)/i;
   const timeoutErrors = /(request:fail timeout)|(timeout.*\d+ms)/i;
   let msg = err.message || err.errMsg;
-  msg = timeoutErrors.test(msg) ? '网络好像出了点问题，请稍后再试' : msg;
+  msg = err.status >= 500 || timeoutErrors.test(msg) ? '网络开小差了，请稍后再试' : msg;
   if (!ignoreErrors.test(msg)) {
     msg && alert(msg, {
-      title: '请求失败',
+      title: '提示',
     });
   }
   throw err;

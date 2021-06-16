@@ -24,7 +24,6 @@
     get style() {
       return {
         height: `${this.contentHeight}px`,
-        paddingBottom: uiStore.safeBottom,
         boxSizing: 'content-box'
       };
     }
@@ -49,7 +48,10 @@
 
 <style lang="scss">
   .bean-button-fixed-bottom {
+    @include paddingBottomSafeArea();
+
     .fixed-footer {
+      @include paddingBottomSafeArea();
       position: fixed;
       bottom: 0;
       width: 100%;
