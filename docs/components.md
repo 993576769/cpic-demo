@@ -5,7 +5,6 @@
  - [自定义页面 custom-page](#自定义页面)
  - [添加到我的小程序 add-to-my-miniprogram](#添加到我的小程序)
  - [canvas生成海报 create-poster](#canvas生成海报)
- - [用户信息授权 auth-user-info](#用户信息授权)
  - [Loading组件 loading-screen](#LoadingScreen)
  - [空列表 empty-view](#EmptyView)
  - [通告栏 notice-bar](#通告栏)
@@ -123,20 +122,6 @@
 | success | (图片临时路径 (本地路径)) | 生成图片完成 |
 
 ---
-
-### 用户信息授权
-- 示例代码：
-
-```html
-<common-auth-user-info
-  withCredentials
-  @success="handleAuthSuccess"
->
-  <div>授权</div>
-</common-auth-user-info>
-
-<div><common-auth-user-info onlyBtn/></div>
-```
 
 ### 参数
 

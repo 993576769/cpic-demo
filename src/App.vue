@@ -24,7 +24,7 @@
   @import './styles/flex.scss';
 
   page {
-    padding-bottom: env(safe-area-inset-bottom);
+    @include paddingBottomSafeArea();
     font-size: 14px;
     color: #333333;
   }

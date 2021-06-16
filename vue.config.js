@@ -40,5 +40,11 @@ module.exports = {
       .test(/@dcloudio.+\.js$/)
       .use('uni-loader')
       .loader('uni-loader');
+
+    config.module
+      .rule('images')
+      .use('url-loader')
+      .loader('url-loader')
+      .tap(options => Object.assign(options, { limit: process.env.UNI_PLATFORM === 'h5' ? 2000 : 1 }));
   }
 };
