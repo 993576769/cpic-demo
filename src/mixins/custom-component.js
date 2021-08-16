@@ -35,7 +35,7 @@ export default class CustomComponent extends Vue {
             this.$nav.nav(event.web_link);
             break;
           case 'external_mp_link':
-            uni.navigateToMiniProgram({ appId: event.appid, path: event.link });
+            uni.navigateToMiniProgram({ appId: event.appid, path: event.external_mp_link });
             break;
         }
         break;
