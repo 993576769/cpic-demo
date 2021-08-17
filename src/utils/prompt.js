@@ -135,3 +135,20 @@ export function errHandle(err) {
   }
   throw err;
 }
+
+// 点击触发异步事件锁，不使用autoLoading的时候代替
+export function clickLockDecorator(target, name, descriptor) {
+  const func = descriptor.value;
+  descriptor.value = async function () {
+    if (this.$lock) {
+      return;
+    }
+    this.$lock = true;
+    try {
+      await func.apply(this, arguments);
+    } finally {
+      this.$lock = false;
+    }
+  };
+}
+
