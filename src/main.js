@@ -4,9 +4,9 @@ import './filters';
 import './mixins';
 import './plugins';
 import {
-  request, nav, sleep,
-  showToast, showLoading, autoLoading, autoLoadingDecorator,
-  pageRefresh, errToast, uploadFiles, saveFiles,
+  request, nav, sleep, showToast, showLoading,
+  autoLoading, autoLoadingDecorator, clickLockDecorator,
+  pageRefresh, errToast, uploadFiles, saveFiles
 } from './utils';
 import { service } from './service';
 import { Collection, authStore, settings } from './stores';
@@ -18,6 +18,7 @@ Vue.prototype.$showToast = showToast;
 Vue.prototype.$showLoading = showLoading;
 Vue.prototype.$autoLoading = autoLoading;
 Vue.autoLoading = autoLoadingDecorator;
+Vue.clickLock = clickLockDecorator;
 Vue.pageRefresh = pageRefresh;
 Vue.errToast = errToast;
 Vue.prototype.$nav = nav;

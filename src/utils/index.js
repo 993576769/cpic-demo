@@ -2,6 +2,7 @@ export { request } from './request';
 export {
   autoLoading,
   autoLoadingDecorator,
+  clickLockDecorator,
   showLoading,
   showToast,
   errToast,
