@@ -188,8 +188,15 @@
         this.$service.subscribe('createPoster', async () => {
           if (this.posterConfig.length) {
             if (!this.qrcodeUrl) {
+              let path = this.$nav.currentPage.$page.fullPath;
+              if (path.indexOf('?') > -1) {
+                path = path.slice(0, path.indexOf('?'));
+              }
+              if (path[0] === '/') {
+                path = path.slice(1, path.length);
+              }
               this.qrcodeUrl = await this.$autoLoading(downloadQrcode({
-                path: 'pages/index',
+                page: path,
                 scene: `id=${pageId}`
               }));
             }
