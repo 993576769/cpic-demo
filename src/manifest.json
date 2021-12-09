@@ -64,7 +64,7 @@
   "mp-weixin": {
     /* 微信小程序特有相关 */
     "appid": "",
-    "libVersion": "2.11.3",
+    "libVersion": "2.19.6",
     "setting": {
       "urlCheck": false,
       "es6": false,
