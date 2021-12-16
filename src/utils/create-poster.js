@@ -413,7 +413,7 @@ export class Poster {
     ctx.save();
     ctx.fillStyle = color;
     ctx.globalAlpha = alpha;
-    ctx.arc(top, left, r, sAngle, eAngle, counterclockwise);
+    ctx.arc(left, top, r, sAngle, eAngle, counterclockwise);
     ctx.fill();
     ctx.restore();
   }

@@ -129,7 +129,6 @@ const img = this.poster.createPoster(this.config)
     width: Number,                   // 画到画布图片宽
     height: Number,                  // 画到画布图片高
     url: String,                     // 图片地址
-    borderRadius: Number,            // 图片圆角大小
     mode: String                     // 'aspectFill' 图片裁剪
   },
   {
@@ -180,8 +179,6 @@ const img = this.poster.createPoster(this.config)
     left: Number,                    // 圆心x
     top: Number,                     // 圆心y
     r: Number,                       // 圆半径
-    width: Number,                   // 背景宽
-    height: Number,                  // 背景高
     color: String                    // 背景颜色
   }
 ]
