@@ -30,6 +30,11 @@ async function deployMpWeixin(desc, version = config.version) {
     appid, type: 'miniProgram',
     projectPath, privateKeyPath,
     ignores: ['node_modules/**/*'],
+    setting: {
+      // 用到了第三方组件(没转码的比如 to-wxml)，需要打开es6转es5开关
+      // es6: true,
+      minifyWXSS: true
+    }
   });
 
   try {

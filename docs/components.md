@@ -11,6 +11,7 @@
  - [加载更多列表 list-page](#加载更多列表)
  - [加载状态 loading-status](#加载状态)
  - [日期时间选择器](#日期时间选择器)
+ - [富文本](#富文本)
 
 ### 兼容iPhoneX底部 button-fixed-bottom
 - 需要定位在最底部的组件，使用`button-fixed-bottom` 组件包裹起来，自动会在`iPhone X`等设备添加底部保护区域
@@ -356,13 +357,13 @@ Slot:
 | default | 组件内容包裹内容，样式自行定义 |
 
 #### 例子
-```
-html
+```html
 <common-date-time-picker v-model="dateTime" format="YYYY-MM-DD HH:mm" @change="onDateTimeChange">
   <div class="date-time">{{ dateTime || '请选择时间' }}</div>
 </common-date-time-picker>
+```
 
-js
+```js
 dateTime = ''
 
 onDateTimeChange(text) {
@@ -370,3 +371,31 @@ onDateTimeChange(text) {
 }
 
  ```
+
+ ### 富文本
+使用微信官方rich-text组件，支持图片预览，链接复制，节点默认样式
+
+| props    |  类型   |       默认值        | 描述                                                                                          |
+| :------- | :-----: | :-----------------: | :-------------------------------------------------------------------------------------------- |
+| content  | String  |      /               | 富文本内容 |
+#### 例子
+```html
+<common-rich-text content="<p>富文本</p>" />
+```
+
+ ### to-wxml
+把富文本/markdown解析成小程序组件，支持图片预览，链接复制，比较方便自定义样式
+
+* 需要用这个组件时打开es6转es5, `/script/deploy-mp-weixin.js` 打开35行注释
+
+* 不需要这个组件需要请删掉 `/static/components/towxml` & `/components/common/to-wxml.vue`
+
+| props       |  类型   |       默认值        | 描述                                                                                          |
+| :-------    | :-----: | :-----------------: | :-------------------------------------------------------------------------------------------- |
+| content     | String  |      /              | 富文本/markdown内容 |
+| isMarkdown  | Boolean |      false          | 是否是markdown内容  |
+#### 例子
+```html
+<common-to-wxml content="<p>富文本</p>" />
+<common-to-wxml content="### markdown" isMarkdown />
+```

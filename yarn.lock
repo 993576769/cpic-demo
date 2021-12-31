@@ -7664,6 +7664,11 @@ move-concurrently@^1.0.1:
     rimraf "^2.5.4"
     run-queue "^1.0.3"
 
+mp-html@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.npmmirror.com/mp-html/download/mp-html-2.2.1.tgz#c1d3337445a3c220e94bed3950b9df1a0ac32d26"
+  integrity sha512-uBnC7yBz0/N411XMWK7CKF7mAAj0Nh40KrEMVzKZgrk+ZUCJRJZZUI2HeTHJur5os9jQTCq2X8w9UrYcUF7MNA==
+
 ms@2.0.0:
   version "2.0.0"
   resolved "https://registry.npm.taobao.org/ms/download/ms-2.0.0.tgz?cache=0&sync_timestamp=1607433842694&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fms%2Fdownload%2Fms-2.0.0.tgz#5608aeadfc00be6c2901df5f9861788de0d597c8"

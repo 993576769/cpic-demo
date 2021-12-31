@@ -31,6 +31,10 @@
       <div class="date-time">{{ dateTime || '请选择时间' }}</div>
     </common-date-time-picker>
 
+    <common-rich-text content="<p>富文本</p>" />
+    <common-to-wxml content="<p>富文本</p>" />
+    <common-to-wxml content="### markdown" isMarkdown />
+
     <common-button-fixed-bottom>
       <button>底部按钮</button>
     </common-button-fixed-bottom>
