@@ -82,6 +82,10 @@
     z-index: 999;
     top: 0;
     left: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
     box-sizing: border-box;
     width: 100%;
     height: 100%;

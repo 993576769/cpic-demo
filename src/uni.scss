@@ -14,6 +14,11 @@
 
 /* 颜色变量 */
 @import "./styles/colors";
+
+/* iOS 安全区域 */
+@import "./styles/safe-area-variable";
+
+/* mixin */
 @import "./styles/mixins";
 
 /* 行为相关颜色 */

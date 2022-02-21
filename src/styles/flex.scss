@@ -1,8 +1,8 @@
 .flex {
   display: flex;
 
-  &.no-shirk,
-  .no-shirk {
+  &.no-shrink,
+  .no-shrink {
     flex-shrink: 0;
   }
 
