@@ -48,10 +48,10 @@
 
 <style lang="scss">
   .bean-button-fixed-bottom {
-    @include paddingBottomSafeArea();
+    @include padding-bottom-safe-area();
 
     .fixed-footer {
-      @include paddingBottomSafeArea();
+      @include padding-bottom-safe-area();
       position: fixed;
       bottom: 0;
       width: 100%;
