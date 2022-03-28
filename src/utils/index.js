@@ -19,3 +19,4 @@ export { saveFiles } from './save-files';
 export checkApiAuth from './check-api-auth';
 export { Poster } from './create-poster';
 export { getStyle } from './get-style';
+export { countdown } from './countdown';
