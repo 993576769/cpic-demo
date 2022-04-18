@@ -63,6 +63,11 @@
         v-if="row.name === 'custom-product-list'"
         :config="row.config"
       />
+      <custom-image-area
+        v-if="row.name === 'image-area'"
+        :config="row.config"
+        :component-title="row.title"
+      />
     </common-effect>
   </div>
 </template>
