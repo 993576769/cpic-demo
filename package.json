@@ -74,6 +74,7 @@
     "eslint": "^7.4.0",
     "eslint-config-beansmile": "https://github.com/beansmile/eslint-config-beansmile.git",
     "eslint-plugin-vue": "^6.2.2",
+    "javascript-obfuscator": "2.15.5",
     "jest": "^25.4.0",
     "mini-types": "*",
     "miniprogram-api-typings": "*",
@@ -84,7 +85,8 @@
     "stylelint": "^13.7.2",
     "stylelint-order": "^4.1.0",
     "terser-webpack-plugin": "4.2.3",
-    "vue-template-compiler": "^2.6.11"
+    "vue-template-compiler": "^2.6.11",
+    "webpack-obfuscator": "2.6.0"
   },
   "browserslist": [
     "Android >= 4",
