@@ -1,5 +1,6 @@
 const path = require('path');
 const TerserPlugin = require('terser-webpack-plugin');
+const WebpackObfuscator = require('webpack-obfuscator');
 
 const { NODE_ENV, UNI_PLATFORM } = process.env;
 
@@ -17,6 +18,10 @@ module.exports = {
   },
   optimization: {
     minimizer: [
+      // 只处理 common 文件下的js代码混淆，目前发现page，component页面对应s混淆会报错，故过滤
+      process.env.NODE_ENV === 'production' && new WebpackObfuscator({
+        rotateStringArray: true
+      }, ['pages/**/*.js', 'components/**/*.js']),
       new TerserPlugin({
         sourceMap: true,
         terserOptions: {
@@ -28,6 +33,6 @@ module.exports = {
         },
         extractComments: false,
       })
-    ]
+    ].filter(Boolean)
   }
 };
