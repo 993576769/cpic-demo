@@ -1,30 +1,34 @@
 module.exports = {
-  root: true,
-  env: {
-    node: true
-  },
-  extends: [
-    'beansmile/vue',
-    'plugin:vue/essential',
-  ],
+  extends: '@antfu',
   rules: {
-    'semi': 2,
+    'vue/html-self-closing': ['error', {
+      html: {
+        void: 'always',
+        normal: 'never',
+        component: 'always',
+      },
+      svg: 'always',
+      math: 'always',
+    }],
+    '@typescript-eslint/semi': [2, 'always'],
+    'vue/max-attributes-per-line': [1, {
+      singleline: 3,
+      multiline: 1,
+    }],
     'curly': [2, 'all'],
-    'require-atomic-updates': 0,
-    'vue/valid-v-bind': 0,
-    'vue/no-parsing-error': [2, {
-      'invalid-first-character-of-tag-name': false
-    }]
+    '@typescript-eslint/brace-style': [2, '1tbs', { allowSingleLine: true }],
+    'max-statements-per-line': [2, { max: 2 }],
+    'no-console': process.env.NODE_ENV === 'production' ? 2 : 0,
+    '@typescript-eslint/member-delimiter-style': [2, {
+      multiline: {
+        delimiter: 'semi',
+        requireLast: true,
+      },
+      singleline: {
+        delimiter: 'semi',
+        requireLast: false,
+      },
+      multilineDetection: 'brackets',
+    }],
   },
-  parserOptions: {
-    parser: 'babel-eslint',
-    ecmaFeatures: {
-      legacyDecorators: true
-    },
-  },
-  globals: {
-    getCurrentPages: true,
-    uni: true,
-    getApp: true,
-  }
 };

@@ -1,8 +1,0 @@
-{
-  "component": true,
-  "usingComponents": {
-    "decode": "./decode",
-    "audio-player": "./audio-player/audio-player",
-    "img": "./img/img"
-  }
-}

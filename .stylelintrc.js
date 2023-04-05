@@ -1,7 +1,12 @@
 module.exports = {
   processors: [],
+  extends: ['stylelint-config-standard-scss', 'stylelint-config-html'],
   plugins: ['stylelint-order'],
   rules: {
+    'color-function-notation': 'legacy',
+    'selector-pseudo-class-no-unknown': [true, {
+      ignorePseudoClasses: ['deep']
+    }],
     'color-no-invalid-hex': true,
     'font-family-no-duplicate-names': true,
     'function-linear-gradient-no-nonstandard-direction': true,
@@ -19,7 +24,7 @@ module.exports = {
     'block-closing-brace-empty-line-before': 'never',
     'no-duplicate-at-import-rules': true,
     'no-duplicate-selectors': true,
-    'no-extra-semicolons': true,
+    'no-extra-semicolons': null,
     'shorthand-property-no-redundant-values': true,
     'value-no-vendor-prefix': true,
     'function-comma-newline-after': 'never-multi-line',

@@ -1,6 +1,8 @@
 # eslint 白名单
 dist/*
 src/static/*
-src/wxcomponents/*
+loader/*
+script/*
 node_modules/*
 *.d.ts
+*.json

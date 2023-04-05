@@ -1,0 +1,39 @@
+// globsl styles
+page {
+  font-size: 14px;
+  color: $text-color-primary;
+
+  @include padding-bottom-safe-area;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+// 重置 button 样式，当做 div 使用
+.reset-btn {
+  padding: 0;
+  margin: 0;
+  border-radius: 0;
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+  background-color: inherit;
+
+  &::after {
+    display: none;
+  }
+}
+
+.disabled {
+  pointer-events: none;
+}
+
+image {
+  height: 0;
+  vertical-align: middle;
+}
+
+.padding-bottom-safe-area {
+  @include padding-bottom-safe-area;
+}
