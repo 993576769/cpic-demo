@@ -63,18 +63,18 @@
 │  │  ├─ check-api-auth.ts
 │  │  ├─ countdown.ts
 │  │  ├─ create-poster.ts
-│  │  ├─ decoder.ts
+│  │  ├─ decoder.ts [√]
 │  │  ├─ file-checksum.ts
 │  │  ├─ get-style.ts
-│  │  ├─ index.ts
+│  │  ├─ index.ts [√]
 │  │  ├─ nav.ts
 │  │  ├─ prompt.ts
 │  │  ├─ random.ts
-│  │  ├─ request.ts
+│  │  ├─ request.ts [√]
 │  │  ├─ save-files.ts
 │  │  ├─ sleep.ts
 │  │  ├─ storage.ts
 │  │  ├─ to-tson-deep.ts
-│  │  ├─ dayts.ts
+│  │  ├─ dayjs.ts [√]
 │  │  └─ upload-files.ts
 ```
