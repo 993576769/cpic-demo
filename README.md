@@ -51,11 +51,10 @@
 │  │     └─ video.vue
 │  ├─ stores
 │  │  ├─ helper
-│  │  │  ├─ collection.ts
-│  │  │  ├─ observable.ts
-│  │  │  └─ simple-store.ts
+│  │  │  ├─ collection.ts [√]
+│  │  │  └─ simple-store.ts [√]
 │  │  ├─ auth-store.ts
-│  │  ├─ index.ts
+│  │  ├─ index.ts [√]
 │  │  ├─ settings.ts
 │  │  ├─ subscribe-message-templates.ts
 │  │  └─ ui-store.ts

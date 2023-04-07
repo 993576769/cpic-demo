@@ -57,7 +57,8 @@ const request = axios.create({
     const result = await uni.request({
       method,
       url: buildURL(config.baseURL, config.url, config.params),
-      header: config.headers,
+      // wx.request warning header must be an object
+      header: JSON.parse(JSON.stringify(config.headers)),
       timeout: config.timeout,
       data: config.data,
       responseType: config.responseType || 'text',
@@ -67,7 +68,7 @@ const request = axios.create({
     const response = {
       data: result.data,
       status: result.statusCode,
-      statusText: result.errMsg ?? '',
+      statusText: result.errMsg || '',
       headers: result.header,
       config,
     };
