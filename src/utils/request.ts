@@ -4,6 +4,7 @@ import qs from 'qs';
 import urlJoin from 'url-join';
 import { decoder } from './index';
 import type { CustomAxiosResponse, SupportedHTTPMethod } from '@/models/request';
+import { authStore } from '@/stores';
 import i18n from '@/i18n';
 
 /** 构建完整 url 给 uni.request */
@@ -28,7 +29,7 @@ function settle(resolve: Function, reject: Function, response: AxiosResponse) {
 }
 
 const apiOrigin = import.meta.env.VITE_APP_API_ORIGIN ?? '';
-const request = axios.create({
+export const request = axios.create({
   baseURL: `${apiOrigin}/app_api/v1`,
   timeout: 30000,
   headers: { 'Content-Type': 'application/json' },
@@ -79,11 +80,10 @@ const request = axios.create({
 // 请求拦截
 request.interceptors.request.use((config) => {
   if (config.headers) {
-    // TODO
     // token
-    // if (!config.headers['Authorization'] && authStore.access_token) {
-    //   config.headers['Authorization'] = authStore.access_token;
-    // }
+    if (!config.headers.Authorization && authStore.access_token) {
+      config.headers.Authorization = authStore.access_token;
+    }
 
     // 语言
     if (i18n.global.locale) {
@@ -111,13 +111,12 @@ request.interceptors.response.use(
     return res;
   },
   async (err: AxiosError) => {
+    // 未登录
     if (err.response?.status === 401) {
-      // TODO: 未登录
-      // await authStore.signOut();
+      authStore.signOut();
+      await authStore.login();
     }
 
     return Promise.reject(err);
   },
 );
-
-export default request;

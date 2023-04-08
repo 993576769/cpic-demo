@@ -1,9 +1,9 @@
-import SimpleStore from './simple-store';
+import { SimpleStore } from './simple';
 import type { CustomAxiosResponse } from '@/models/request';
-import type { BaseType } from '@/models/base';
+import type { Base } from '@/models/base';
 
 export interface BaseItem {
-  id: BaseType['id'];
+  id: Base['id'];
 }
 
 export interface Params {
@@ -12,12 +12,12 @@ export interface Params {
   [key: string]: any;
 }
 
-export interface ConstructorOptions<T> {
+interface ConstructorOptions<T> {
   params?: Partial<Params>;
   fetch?: SimpleStore<T[]>['fetch'];
 }
 
-export default class Collection<T extends BaseItem> extends SimpleStore<T[]> {
+export class Collection<T extends BaseItem> extends SimpleStore<T[]> {
   constructor(opts?: ConstructorOptions<T>) {
     super();
     if (opts?.fetch) {
