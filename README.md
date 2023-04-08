@@ -66,14 +66,14 @@
 │  │  ├─ file-checksum.ts
 │  │  ├─ get-style.ts
 │  │  ├─ index.ts [√]
-│  │  ├─ nav.ts
-│  │  ├─ prompt.ts
-│  │  ├─ random.ts
+│  │  ├─ nav.ts [√]
+│  │  ├─ loading.ts [√]
+│  │  ├─ toast.ts [√]
+│  │  ├─ dialog.ts [√]
+│  │  ├─ random.ts [√]
 │  │  ├─ request.ts [√]
 │  │  ├─ save-files.ts
-│  │  ├─ sleep.ts
-│  │  ├─ storage.ts
-│  │  ├─ to-tson-deep.ts
+│  │  ├─ sleep.ts [√]
 │  │  ├─ dayjs.ts [√]
 │  │  └─ upload-files.ts
 ```

@@ -4,12 +4,28 @@
 			"path": "pages/root/home"
 		}
 	],
+  "subPackages": [
+    {
+      "root": "pages/extra",
+      "pages": [
+        {
+          "path": "web-site"
+        }
+      ]
+    }
+  ],
   "condition": {
 		"current": 0,
-		"list": [{
-			"name": "home",
-			"path": "pages/root/home"
-		}]
+		"list": [
+      {
+        "name": "home",
+        "path": "pages/root/home"
+      },
+      {
+        "name": "web-site",
+        "path": "pages/extra/web-site"
+      }
+    ]
 	},
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

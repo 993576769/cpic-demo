@@ -55,25 +55,57 @@ export const request = axios.create({
       throw new Error('axios url is invalid');
     }
 
-    const result = await uni.request({
-      method,
-      url: buildURL(config.baseURL, config.url, config.params),
-      // wx.request warning header must be an object
-      header: JSON.parse(JSON.stringify(config.headers)),
-      timeout: config.timeout,
-      data: config.data,
-      responseType: config.responseType || 'text',
-      enableCache: true,
-    });
+    try {
+      const request = await uni.request({
+        method,
+        url: buildURL(config.baseURL, config.url, config.params),
+        // wx.request warning header must be an object
+        header: JSON.parse(JSON.stringify(config.headers)),
+        timeout: config.timeout,
+        data: config.data,
+        responseType: config.responseType || 'text',
+        enableCache: true,
+      });
+      const response = {
+        data: request.data,
+        status: request.statusCode,
+        statusText: request.errMsg || '',
+        headers: request.header,
+        config,
+      };
+      return new Promise((resolve, reject) => settle(resolve, reject, response));
+    } catch (err: unknown) {
+      /**
+       * 微信小程序请求方法 返回错误数据如下
+       * { errMsg: 'request:fail ' } => 断网
+       * { errMsg: 'request:fail timeout' } => 超时
+      */
+      if (
+        typeof err === 'object'
+          && err !== null
+          && 'errMsg' in err
+          && typeof err.errMsg === 'string'
+      ) {
+        const axiosErrorCode = (() => {
+          // 断网
+          if (/^request:fail $/.test(err.errMsg)) {
+            return AxiosError.ERR_NETWORK;
+          }
+          // 超时
+          if (/^request:fail timeout$/.test(err.errMsg)) {
+            return AxiosError.ETIMEDOUT;
+          }
+        })();
 
-    const response = {
-      data: result.data,
-      status: result.statusCode,
-      statusText: result.errMsg || '',
-      headers: result.header,
-      config,
-    };
-    return new Promise((resolve, reject) => settle(resolve, reject, response));
+        return Promise.reject(new AxiosError(
+          err.errMsg,
+          axiosErrorCode,
+          config,
+        ));
+      }
+
+      return Promise.reject(err);
+    }
   },
 });
 

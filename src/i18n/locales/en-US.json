@@ -1,5 +1,12 @@
 {
   "global": {
+    "cancel": "Cancel",
     "confirm": "Confirm"
+  },
+  "error": {
+    "offline": "There seems to be a problem with the network. Please try again later",
+    "timeout": "There seems to be a problem with the network. Please try again later",
+    "404": "Resource not found",
+    "server": "Oops! Something went wrong({status})"
   }
 }
