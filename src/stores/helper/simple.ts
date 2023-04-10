@@ -4,7 +4,7 @@ interface Data<T> {
   [key: string]: any;
 }
 
-export default class SimpleStore<T = unknown> {
+export class SimpleStore<T = unknown> {
   private fetchPromies: Promise<Data<T>> | null = null;
 
   isFetching = false;

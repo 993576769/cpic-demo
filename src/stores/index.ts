@@ -1,2 +1,5 @@
-export { default as SimpleStore } from './helper/simple-store';
-export { default as Collection } from './helper/collection';
+export * from './helper/simple';
+export * from './helper/collection';
+export * from './auth';
+export * from './setting';
+export * from './system-info';

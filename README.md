@@ -1,6 +1,6 @@
 # beansmile-uniapp-boilerplate
 
-开发者工具`AppData`内变量被混淆, 无法区分的[解决方案](https://uniapp.dcloud.net.cn/tutorial/debug/uni-vue-devtools.html)
+开发者工具`AppData`内变量被混淆, 无法区分的[解决方案](https://uniapp.dcloud.net.cn/tutorial/debug/uni-vue-devtools.html), 但目前不支持`<script setup>`
 
 ## Directory Introduction
 
@@ -52,12 +52,12 @@
 │  ├─ stores
 │  │  ├─ helper
 │  │  │  ├─ collection.ts [√]
-│  │  │  └─ simple-store.ts [√]
-│  │  ├─ auth-store.ts
+│  │  │  └─ simple.ts [√]
+│  │  ├─ auth.ts [√]
 │  │  ├─ index.ts [√]
-│  │  ├─ settings.ts
+│  │  ├─ setting.ts [√]
 │  │  ├─ subscribe-message-templates.ts
-│  │  └─ ui-store.ts
+│  │  └─ system-info.ts [√]
 │  ├─ utils
 │  │  ├─ check-api-auth.ts
 │  │  ├─ countdown.ts
