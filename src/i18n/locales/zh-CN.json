@@ -1,5 +1,12 @@
 {
   "global": {
+    "cancel": "取消",
     "confirm": "确定"
+  },
+  "error": {
+    "offline": "网络开小差了，请稍后再试",
+    "timeout": "网络开小差了，请稍后再试",
+    "404": "资源不存在",
+    "server": "Oops! 出了点问题({status})"
   }
 }

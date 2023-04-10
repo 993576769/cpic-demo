@@ -1,4 +1,4 @@
-export default function decoder(text: string) {
+export function decoder(text: string) {
   if (/^(\d+|\d*\.\d+)$/.test(text)) {
     const num = parseFloat(text);
     return num.toString() === text ? num : text;
