@@ -1,47 +1,65 @@
-import { reactive } from 'vue';
-import { SimpleStore } from './helper/simple';
+import { ref } from 'vue';
+import { defineStore } from 'pinia';
+import { mapSimpleStore, useSimpleStore } from './helper/simple';
 import type { LoginData, LoginParams, User } from '@/models/user';
 import { getUserDefaultData } from '@/models/user';
-import { request } from '@/utils';
 import { APPID, STORAGE_KEYS } from '@/constants';
+import { request } from '@/utils/request';
 
-const STORAGE_KEY = STORAGE_KEYS.ACCESS_TOKEN;
-class AuthStore extends SimpleStore<LoginData> {
-  user: User = getUserDefaultData();
-  $access_token = '';
+export const useAuthStore = defineStore('auth', () => {
+  const user = ref<User>(getUserDefaultData());
+  const simpleStore = useSimpleStore({
+    async fetch() {
+      const { data } = await request.get<User>('mine');
+      user.value = data;
+      return { data };
+    },
+  });
 
-  set access_token(v: string) {
-    this.$access_token = v;
-    uni.setStorageSync(STORAGE_KEY, v);
+  const accessToken = ref<string>(uni.getStorageSync(STORAGE_KEYS.ACCESS_TOKEN) || '');
+
+  function setAccessToken(v: string) {
+    accessToken.value = v;
+    uni.setStorageSync(STORAGE_KEYS.ACCESS_TOKEN, v);
   }
 
-  get access_token(): string {
-    this.$access_token = this.$access_token || uni.getStorageSync(STORAGE_KEY) || '';
-    return this.$access_token;
+  async function fetch() {
+    const { data } = await request.get<User>('mine');
+    user.value = data;
+    return { data };
   }
 
-  async fetch() {
+  let uniqueLoginPromise: Promise<void> | null = null;
+  function login() {
+    if (uniqueLoginPromise) {
+      return uniqueLoginPromise;
+    }
+    uniqueLoginPromise = getLoginPromise().finally(() => uniqueLoginPromise = null);
+    return uniqueLoginPromise;
+  }
+  async function getLoginPromise() {
     const { code } = await uni.login();
     const params: LoginParams = { code, appid: APPID };
-    return request.post<LoginData>('auth/wechat_mini_program/code_to_sessions', params);
+    const { data: { access_token, user: userData } } = await request.post<LoginData>('auth/wechat_mini_program/code_to_sessions', params);
+    user.value = userData;
+    setAccessToken(access_token);
+    simpleStore.isFulfilled = true;
   }
 
-  async login() {
-    const { data: { access_token, user } } = await this.fetchData();
-    this.user = user;
-    return this.access_token = access_token;
+  function signOut() {
+    setAccessToken('');
+    user.value = getUserDefaultData();
+    simpleStore.isFulfilled = false;
   }
 
-  signOut() {
-    this.access_token = '';
-    this.user = getUserDefaultData();
-    this.isFulfilled = false;
-  }
+  return {
+    ...mapSimpleStore(simpleStore),
+    user,
+    login,
+    fetch,
+    signOut,
+    accessToken,
+  };
+});
 
-  async fetchUser() {
-    const { data } = await request.get<User>('mine');
-    this.user = data;
-    return data;
-  }
-}
-export const authStore = reactive(new AuthStore());
+export const authStore = useAuthStore();
