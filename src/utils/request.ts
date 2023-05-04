@@ -2,9 +2,9 @@ import { forEach, isEmpty, snakeCase } from 'lodash-es';
 import axios, { AxiosError, type AxiosResponse } from 'axios';
 import qs from 'qs';
 import urlJoin from 'url-join';
-import { decoder } from './index';
+import { decoder } from './decoder';
 import type { CustomAxiosResponse, SupportedHTTPMethod } from '@/models/request';
-import { authStore } from '@/stores';
+import { authStore } from '@/stores/auth';
 import i18n from '@/i18n';
 
 /** 构建完整 url 给 uni.request */
@@ -113,8 +113,8 @@ export const request = axios.create({
 request.interceptors.request.use((config) => {
   if (config.headers) {
     // token
-    if (!config.headers.Authorization && authStore.access_token) {
-      config.headers.Authorization = authStore.access_token;
+    if (!config.headers.Authorization && authStore.accessToken) {
+      config.headers.Authorization = authStore.accessToken;
     }
 
     // 语言

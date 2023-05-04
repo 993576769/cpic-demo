@@ -1,52 +1,71 @@
+import { defineStore, storeToRefs } from 'pinia';
+import { ref } from 'vue';
+import { randomString } from '@/utils/random';
+
 interface Data<T> {
   data: T;
   meta?: Record<string, string | number>;
   [key: string]: any;
 }
 
-export class SimpleStore<T = unknown> {
-  private fetchPromies: Promise<Data<T>> | null = null;
+export interface DefineSimpleStoreOption<T> {
+  fetch(params: unknown): Promise<Data<T>>;
+}
 
-  isFetching = false;
-  isRejected = false;
-  isFulfilled = false;
+export function useSimpleStore<T>(options: DefineSimpleStoreOption<T>) {
+  const id = randomString();
 
-  // fetch 需要自行定义好
-  fetch(params: unknown): Promise<Data<T>> {
-    return Promise.resolve({ data: <T>params });
-  }
+  return (
+    defineStore(id, () => {
+      const isFetching = ref(false);
+      const isRejected = ref(false);
+      const isFulfilled = ref(false);
 
-  fetchData(params?: unknown, isForce = false) {
-    return this.fetching(params, isForce);
-  }
+      let fetchPromies: Promise<Data<T>> | null = null;
+      async function fetching(params: unknown, isForce = false) {
+        if (!isFetching.value || isForce || !fetchPromies) {
+          // 多次调用只发送一次请求，比如多接口 401 时，自动登录只调用一次
+          fetchPromies = options.fetch(params);
+        }
+        isFetching.value = true;
+        try {
+          const res = await fetchPromies;
+          isFetching.value = false;
+          isRejected.value = false;
+          isFulfilled.value = true;
+          return res;
+        } catch (err) {
+          isFetching.value = false;
+          isRejected.value = true;
+          throw err;
+        } finally {
+          fetchPromies = null;
+        }
+      }
 
-  tryFetchData(params?: unknown, isForce = false) {
-    return !this.isFulfilled && this.fetchData(params, isForce);
-  }
+      function fetchData(params?: unknown, isForce = false) {
+        return fetching(params, isForce);
+      }
 
-  async fetching(params: unknown, isForce = false) {
-    if (!this.isFetching || isForce || !this.fetchPromies) {
-      // 多次调用只发送一次请求，比如多接口 401 时，自动登录只调用一次
-      this.fetchPromies = this.fetch(params);
-    }
+      function tryFetchData(params?: unknown, isForce = false) {
+        return !isFulfilled.value ? fetchData(params, isForce) : Promise.resolve();
+      }
 
-    this.isFetching = true;
-    try {
-      const res = await this.fetchPromies;
-      Object.assign(this, {
-        isFetching: false,
-        isRejected: false,
-        isFulfilled: true,
-      });
-      return res;
-    } catch (err) {
-      Object.assign(this, {
-        isFetching: false,
-        isRejected: true,
-      });
-      throw err;
-    } finally {
-      this.fetchPromies = null;
-    }
-  }
+      return {
+        isFetching,
+        isRejected,
+        isFulfilled,
+        fetchData,
+        tryFetchData,
+        fetching,
+      };
+    })
+  )();
+}
+
+export function mapSimpleStore<T>(store: ReturnType<typeof useSimpleStore<T>>) {
+  return {
+    ...store,
+    ...storeToRefs(store),
+  };
 }
