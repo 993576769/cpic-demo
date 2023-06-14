@@ -146,7 +146,8 @@ request.interceptors.response.use(
     // 未登录
     if (err.response?.status === 401) {
       authStore.signOut();
-      await authStore.login();
+      const resConfig = err.response.config;
+      return authStore.login().then(() => request.request(resConfig));
     }
 
     return Promise.reject(err);
