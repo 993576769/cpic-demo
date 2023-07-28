@@ -1,13 +1,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const dayjs = require('dayjs');
-
-const ci = require(
-  path.join(
-    process.execPath.replace(/bin\/node$/, ''),
-    '.npm/lib/node_modules/miniprogram-ci',
-  ),
-);
+const ci = require('miniprogram-ci');
 
 function getAppId() {
   const manifestPath = path.resolve(__dirname, '../../src/manifest.json');
