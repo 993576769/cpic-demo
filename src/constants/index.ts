@@ -10,3 +10,7 @@ export const APPID = (() => {
 
   return accountInfo.miniProgram.appId;
 })();
+
+export const SESSION_STORAGE_KEYS = {
+  COUNTDOWN_KEY: `${import.meta.env.VITE_APP_ENV}_COUNTDOWN_KEY`,
+};
