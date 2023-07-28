@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import { computed } from 'vue';
-import type { useSimpleStore } from '@/stores/helper/simple';
-import type { useCollectionStore } from '@/stores/helper/collection';
+import type { defineSimpleStore } from '@/stores/helper/simple-store';
+import type { defineCollectionStore } from '@/stores/helper/collection-store';
 
 interface Props {
-  store: ReturnType<typeof useSimpleStore> | ReturnType<typeof useCollectionStore<any>>;
+  store: ReturnType<ReturnType<typeof defineSimpleStore | typeof defineCollectionStore>>;
   errorText?: string;
   emptyText?: string;
   emptyImage?: string;
@@ -31,9 +31,9 @@ const props = withDefaults(
 const emits = defineEmits<Emits>();
 
 const loadMoreStatus = computed(() => {
-  if ((props.store as ReturnType<typeof useCollectionStore>).fetchMoreData) {
-    if ((props.store as ReturnType<typeof useCollectionStore>).isEmpty) { return 'empty'; }
-    if ((props.store as ReturnType<typeof useCollectionStore>).isComplete) { return 'noMore'; }
+  if ((props.store as ReturnType<ReturnType<typeof defineCollectionStore>>).fetchMoreData) {
+    if ((props.store as ReturnType<ReturnType<typeof defineCollectionStore>>).isEmpty) { return 'empty'; }
+    if ((props.store as ReturnType<ReturnType<typeof defineCollectionStore>>).isComplete) { return 'noMore'; }
     if (props.store.isFetching) { return 'loading'; }
     if (props.store.isRejected) { return 'error'; }
     return 'more';
