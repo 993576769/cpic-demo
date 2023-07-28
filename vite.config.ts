@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite';
 import { checker } from 'vite-plugin-checker';
 import uni from '@dcloudio/vite-plugin-uni';
+import Components from 'unplugin-vue-components/vite';
 import postCssPxToRelativeUnit from './loader/postcss-px-to-relative-unit';
 
 // https://vitejs.dev/config/
@@ -25,6 +26,10 @@ export default defineConfig({
     },
   },
   plugins: [
+    Components({
+      directoryAsNamespace: true,
+      directives: false,
+    }),
     uni(),
     checker({
       vueTsc: true,
