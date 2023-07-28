@@ -18,7 +18,12 @@
       "@/*": ["src/*"]
     },
     "lib": ["esnext", "dom"],
-    "types": ["@dcloudio/types", "@uni-helper/uni-app-types", "@types/node"],
+    "types": [
+      "@dcloudio/types",
+      "@uni-helper/uni-app-types",
+      "@types/node",
+      "vite/client"
+    ],
     "vueCompilerOptions": {
       "experimentalRuntimeMode": "runtime-uni-app",
       "nativeTags": ["block", "component", "template", "slot"]
