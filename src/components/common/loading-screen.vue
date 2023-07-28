@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { computed, ref } from 'vue';
 import { AxiosError, isAxiosError } from 'axios';
-import { authStore } from '@/stores/auth';
+import { useAuthStore } from '@/stores/auth';
 import { nav } from '@/utils/nav';
 import { t } from '@/i18n';
 
@@ -25,6 +25,8 @@ const loading = ref(false);
 const errMsg = ref<AxiosError['message'] | Error['message'] | undefined>();
 const errStatus = ref<AxiosError['status'] | undefined>();
 const errCode = ref<number | undefined>();
+
+const authStore = useAuthStore();
 
 async function handleLoad() {
   loading.value = true;

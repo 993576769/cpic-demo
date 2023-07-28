@@ -1,65 +1,51 @@
-import { ref } from 'vue';
-import { defineStore } from 'pinia';
-import { mapSimpleStore, useSimpleStore } from './helper/simple';
-import type { LoginData, LoginParams, User } from '@/models/user';
-import { getUserDefaultData } from '@/models/user';
-import { APPID, STORAGE_KEYS } from '@/constants';
+import { computed } from 'vue';
+import { type Params, defineSimpleStore } from './helper/simple-store';
 import { request } from '@/utils/request';
+import { APPID, STORAGE_KEYS } from '@/constants';
+import type { LoginParams, User } from '@/models/user';
+import { getUserDefaultData } from '@/models/user';
 
-export const useAuthStore = defineStore('auth', () => {
-  const user = ref<User>(getUserDefaultData());
-  const simpleStore = useSimpleStore({
-    async fetch() {
-      const { data } = await request.get<User>('mine');
-      user.value = data;
-      return { data };
+export interface LoginBody {
+  email: string;
+  password: string;
+}
+
+export const useAuthStore = defineSimpleStore('auth', getUserDefaultData, ({
+  fetch,
+  data,
+  resetData,
+}) => {
+  const accessToken = computed({
+    get() {
+      return uni.getStorageSync(STORAGE_KEYS.ACCESS_TOKEN) || '';
+    },
+    set(v) {
+      uni.setStorageSync(STORAGE_KEYS.ACCESS_TOKEN, v);
     },
   });
 
-  const accessToken = ref<string>(uni.getStorageSync(STORAGE_KEYS.ACCESS_TOKEN) || '');
+  fetch.value = (params?: Params) => {
+    return request.get('mine', { params });
+  };
 
-  function setAccessToken(v: string) {
-    accessToken.value = v;
-    uni.setStorageSync(STORAGE_KEYS.ACCESS_TOKEN, v);
-  }
-
-  async function fetch() {
-    const { data } = await request.get<User>('mine');
-    user.value = data;
-    return { data };
-  }
-
-  let uniqueLoginPromise: Promise<void> | null = null;
-  function login() {
-    if (uniqueLoginPromise) {
-      return uniqueLoginPromise;
-    }
-    uniqueLoginPromise = getLoginPromise().finally(() => uniqueLoginPromise = null);
-    return uniqueLoginPromise;
-  }
-  async function getLoginPromise() {
+  async function login() {
     const { code } = await uni.login();
     const params: LoginParams = { code, appid: APPID };
-    const { data: { access_token, user: userData } } = await request.post<LoginData>('auth/wechat_mini_program/code_to_sessions', params);
-    user.value = userData;
-    setAccessToken(access_token);
-    simpleStore.isFulfilled = true;
+
+    const { data: newData } = await request.post<{ access_token: string; user: User }>('auth/wechat_mini_program/code_to_sessions', params);
+    accessToken.value = newData.access_token;
+    data.value = newData.user;
+    return newData;
   }
 
   function signOut() {
-    setAccessToken('');
-    user.value = getUserDefaultData();
-    simpleStore.isFulfilled = false;
+    accessToken.value = '';
+    resetData.value();
   }
 
   return {
-    ...mapSimpleStore(simpleStore),
-    user,
     login,
-    fetch,
     signOut,
     accessToken,
   };
 });
-
-export const authStore = useAuthStore();

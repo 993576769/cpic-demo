@@ -4,7 +4,7 @@ import qs from 'qs';
 import urlJoin from 'url-join';
 import { decoder } from './decoder';
 import type { CustomAxiosResponse, SupportedHTTPMethod } from '@/models/request';
-import { authStore } from '@/stores/auth';
+import { useAuthStore } from '@/stores/auth';
 import i18n from '@/i18n';
 
 /** 构建完整 url 给 uni.request */
@@ -112,6 +112,7 @@ export const request = axios.create({
 // 请求拦截
 request.interceptors.request.use((config) => {
   if (config.headers) {
+    const authStore = useAuthStore();
     // token
     if (!config.headers.Authorization && authStore.accessToken) {
       config.headers.Authorization = authStore.accessToken;
@@ -145,6 +146,7 @@ request.interceptors.response.use(
   async (err: AxiosError) => {
     // 未登录
     if (err.response?.status === 401) {
+      const authStore = useAuthStore();
       authStore.signOut();
       const resConfig = err.response.config;
       return authStore.login().then(() => request.request(resConfig));

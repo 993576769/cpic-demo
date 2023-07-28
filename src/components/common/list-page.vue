@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
-import type { useCollectionStore } from '@/stores/helper/collection';
+import type { defineCollectionStore } from '@/stores/helper/collection-store';
 
 interface Props {
-  store: ReturnType<typeof useCollectionStore<any>>;
+  store: ReturnType<ReturnType<typeof defineCollectionStore>>;
   errorText?: string | boolean;
   emptyText?: string | boolean;
   emptyImage?: string;
