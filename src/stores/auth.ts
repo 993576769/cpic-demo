@@ -1,4 +1,4 @@
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { type Params, defineSimpleStore } from './helper/simple-store';
 import { request } from '@/utils/request';
 import { APPID, STORAGE_KEYS } from '@/constants';
@@ -15,11 +15,13 @@ export const useAuthStore = defineSimpleStore('auth', getUserDefaultData, ({
   data,
   resetData,
 }) => {
+  const _accessToken = ref(uni.getStorageSync(STORAGE_KEYS.ACCESS_TOKEN) || '');
   const accessToken = computed({
     get() {
-      return uni.getStorageSync(STORAGE_KEYS.ACCESS_TOKEN) || '';
+      return _accessToken.value;
     },
     set(v) {
+      _accessToken.value = v;
       uni.setStorageSync(STORAGE_KEYS.ACCESS_TOKEN, v);
     },
   });
