@@ -1,9 +1,11 @@
-<script lang="ts" setup>
+<script lang="ts" setup generic="T extends Base">
 import { ref } from 'vue';
 import type { defineCollectionStore } from '@/stores/helper/collection-store';
+// eslint-disable-next-line unused-imports/no-unused-imports
+import type { Base } from '@/models/base';
 
 interface Props {
-  store: ReturnType<ReturnType<typeof defineCollectionStore>>;
+  store: ReturnType<ReturnType<typeof defineCollectionStore<string, T, {}>>>;
   errorText?: string | boolean;
   emptyText?: string | boolean;
   emptyImage?: string;

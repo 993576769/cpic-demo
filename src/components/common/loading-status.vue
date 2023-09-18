@@ -1,10 +1,15 @@
-<script lang="ts" setup>
+<script lang="ts" setup generic="T extends Base">
 import { computed } from 'vue';
 import type { defineSimpleStore } from '@/stores/helper/simple-store';
 import type { defineCollectionStore } from '@/stores/helper/collection-store';
+// eslint-disable-next-line unused-imports/no-unused-imports
+import type { Base } from '@/models/base';
+
+type CollectionStore = ReturnType<ReturnType<typeof defineCollectionStore<string, T, {}>>>;
+type SimpleStore = ReturnType<ReturnType<typeof defineSimpleStore<string, T, {}>>>;
 
 interface Props {
-  store: ReturnType<ReturnType<typeof defineSimpleStore | typeof defineCollectionStore>>;
+  store: CollectionStore | SimpleStore;
   errorText?: string;
   emptyText?: string;
   emptyImage?: string;
@@ -31,9 +36,9 @@ const props = withDefaults(
 const emits = defineEmits<Emits>();
 
 const loadMoreStatus = computed(() => {
-  if ((props.store as ReturnType<ReturnType<typeof defineCollectionStore>>).fetchMoreData) {
-    if ((props.store as ReturnType<ReturnType<typeof defineCollectionStore>>).isEmpty) { return 'empty'; }
-    if ((props.store as ReturnType<ReturnType<typeof defineCollectionStore>>).isComplete) { return 'noMore'; }
+  if ((props.store as CollectionStore).fetchMoreData) {
+    if ((props.store as CollectionStore).isEmpty) { return 'empty'; }
+    if ((props.store as CollectionStore).isComplete) { return 'noMore'; }
     if (props.store.isFetching) { return 'loading'; }
     if (props.store.isRejected) { return 'error'; }
     return 'more';
