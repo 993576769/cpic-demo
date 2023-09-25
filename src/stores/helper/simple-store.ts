@@ -26,32 +26,34 @@ function simpleStore<T>(getDefaultData: () => T) {
   // eslint-disable-next-line unused-imports/no-unused-vars
   const fetch = ref((fetchParams?: Partial<Params>): Promise<CustomAxiosResponse<T>> | Promise<Data<T>> => Promise.resolve({ data: data.value }));
 
-  let fetchPromies: Promise<Data<T>> | null = null;
+  let fetchPromise: Promise<Data<T>> | null = null;
   const fetching = ref(async (params?: Partial<Params>, isForce = false, onResponse: (result: Data<T>) => void = noop) => {
-    if (!isFetching.value || isForce || !fetchPromies) {
+    if (!isFetching.value || isForce || !fetchPromise) {
       // 多次调用只发送一次请求，比如多接口 401 时，自动登录只调用一次
-      fetchPromies = fetch.value(params);
+      fetchPromise = fetch.value(params);
     }
     isFetching.value = true;
     try {
-      const res = await fetchPromies;
+      const res = await fetchPromise;
       onResponse(res);
       isFetching.value = false;
       isRejected.value = false;
       isFulfilled.value = true;
-      data.value = res.data;
       return res;
     } catch (err) {
       isFetching.value = false;
       isRejected.value = true;
       throw err;
     } finally {
-      fetchPromies = null;
+      fetchPromise = null;
     }
   });
 
   const fetchData = ref((fetchParams?: Partial<Params>, isForce = false) => {
-    return fetching.value({ ...params, ...fetchParams }, isForce);
+    const onResponse = (res: Data<T>) => {
+      data.value = res.data;
+    };
+    return fetching.value({ ...params.value, ...fetchParams }, isForce, onResponse);
   });
 
   const tryFetchData = ref((fetchParams?: Partial<Params>) => {

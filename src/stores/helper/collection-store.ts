@@ -1,6 +1,6 @@
 import { computed, ref } from 'vue';
 import { omit } from 'lodash-es';
-import type { Params, SimpleStoreReturnType } from './simple-store';
+import type { Data, Params, SimpleStoreReturnType } from './simple-store';
 import { defineSimpleStore, useCheckStore } from './simple-store';
 import type { CustomAxiosResponse } from '@/models/request';
 import type { Base } from '@/models/base';
@@ -32,7 +32,7 @@ function collectionStore<T extends Base>(simpleStore: SimpleStoreReturnType<T[]>
   });
 
   fetchData.value = async function (fetchParams?: Partial<Params>, isForce = false) {
-    const res = await fetching.value({ ...params, ...fetchParams }, isForce);
+    const res = await fetching.value({ ...params.value, ...fetchParams }, isForce);
     meta.value = res.meta;
     data.value = res.data;
     return res;
@@ -41,9 +41,11 @@ function collectionStore<T extends Base>(simpleStore: SimpleStoreReturnType<T[]>
   const fetchMoreData = ref(async () => {
     if (isFetching.value || isComplete.value) { return; }
     params.value.offset = data.value.length;
-    const res = await fetching.value(params);
-    meta.value = res.meta;
-    data.value.push(...res.data);
+    const onResponse = (res: Data<T[]>) => {
+      meta.value = res.meta;
+      data.value.push(...res.data);
+    };
+    await fetching.value(params.value, false, onResponse);
   });
 
   const unshift = ref((item: T) => {
