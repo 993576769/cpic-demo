@@ -13,7 +13,7 @@ function handleBtnClick() {
     <common-example />
 
     <button class="reset-btn btn" @click="handleBtnClick">
-      <img class="logo" mode="apsectFit" src="@/statics/imgs/logo.png" />
+      <img class="logo" mode="apsectFit" src="@/static/imgs/logo.png" />
       {{ title }}
     </button>
   </div>
