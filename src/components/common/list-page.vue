@@ -6,12 +6,12 @@ import type { Base } from '@/models/base';
 
 interface Props {
   store: ReturnType<ReturnType<typeof defineCollectionStore<string, T, {}>>>;
-  errorText?: string | boolean;
-  emptyText?: string | boolean;
+  errorText?: string;
+  emptyText?: string;
   emptyImage?: string;
-  loadingMoreText?: string | boolean;
-  noMoreText?: string | boolean;
-  staticText?: string | boolean;
+  loadingMoreText?: string;
+  noMoreText?: string;
+  staticText?: string;
   refresherEnabled?: boolean;
   refresherThreshold?: number;
   refresherDefaultStyle?: 'black' | 'white' | 'none';
