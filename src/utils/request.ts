@@ -9,7 +9,7 @@ import i18n from '@/i18n';
 
 /** 构建完整 url 给 uni.request */
 function buildURL(baseURL: string, url: string, params: Record<string, unknown>) {
-  return `${urlJoin(baseURL, url)}${qs.stringify(params, { addQueryPrefix: true })}`;
+  return `${urlJoin(baseURL, url)}${qs.stringify(params, { addQueryPrefix: true, arrayFormat: 'brackets' })}`;
 }
 
 /** 处理 uni.request 返回 */
@@ -128,6 +128,8 @@ request.interceptors.request.use((config) => {
 });
 
 // 响应拦截
+let request_count = 0;
+const MAX_REQUEST_COUNT = 5;
 request.interceptors.response.use(
   (res: CustomAxiosResponse) => {
     const meta: CustomAxiosResponse['meta'] = {};
@@ -146,10 +148,22 @@ request.interceptors.response.use(
   async (err: AxiosError) => {
     // 未登录
     if (err.response?.status === 401) {
+      request_count += 1;
       const authStore = useAuthStore();
       authStore.signOut();
-      const resConfig = err.response.config;
-      return authStore.login().then(() => request.request(resConfig));
+      await authStore.login();
+      if (request_count < MAX_REQUEST_COUNT) {
+        // 重新请求的时候token可能是旧的, 需要更新
+        const resConfig = {
+          ...err.response?.config,
+          headers: { ...err.response?.config.headers, Authorization: authStore.accessToken },
+        };
+        return request(resConfig);
+      }
+      if (request_count >= MAX_REQUEST_COUNT) {
+        request_count = 0;
+        throw new Error('登录失败, 请检查token是否有效');
+      }
     }
 
     return Promise.reject(err);
