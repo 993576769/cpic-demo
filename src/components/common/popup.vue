@@ -119,6 +119,8 @@ function onClickOverlay() {
       :duration="duration"
       @after-leave="emits('afterLeave')"
     >
+      <!-- 若弹窗里面有scroll-view且高度挺长的情况，安卓滚动会触发弹窗穿透，可以自行监听弹窗对底层页面用css处理或者使用<page-meta />标签 -->
+      <!-- https://developers.weixin.qq.com/miniprogram/dev/component/page-meta.html -->
       <slot></slot>
     </common-transition>
   </div>
