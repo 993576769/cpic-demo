@@ -164,6 +164,7 @@ watch(
     class="bean-transition"
     :class="classNames"
     :style="styles"
+    catchtouchmove
     @transitionend="onTransitionEnd"
     @click="emits('click')"
   >
