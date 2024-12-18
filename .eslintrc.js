@@ -30,5 +30,8 @@ module.exports = {
       },
       multilineDetection: 'brackets',
     }],
+    'unused-imports/no-unused-vars': ['error', {
+      varsIgnorePattern: '^_|onShareAppMessage',
+    }],
   },
 };
