@@ -1,5 +1,5 @@
-import { omit } from 'lodash-es';
 import type { Base } from './base';
+import { omit } from 'lodash-es';
 import { getBaseDefaultData } from './base';
 
 export interface ActiveStorage extends Omit<Base, 'updated_at'> {

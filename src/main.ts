@@ -1,9 +1,9 @@
-import { createSSRApp } from 'vue';
 import type { PiniaPluginContext } from 'pinia';
-import { createPinia } from 'pinia';
-import { cloneDeep } from 'lodash-es';
-import App from './App.vue';
 import i18n from '@/i18n';
+import { cloneDeep } from 'lodash-es';
+import { createPinia } from 'pinia';
+import { createSSRApp } from 'vue';
+import App from './App.vue';
 import '@/styles/global.scss';
 
 export function createApp() {

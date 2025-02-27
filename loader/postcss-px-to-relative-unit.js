@@ -1,37 +1,37 @@
-const postcss = require('postcss')
+const postcss = require('postcss');
 
-const pxUnitReg = /"[^"]+"|'[^']+'|url\([^\)]+\)|(\d*\.?\d+)px/g
+const pxUnitReg = /"[^"]+"|'[^']+'|url\([^)]+\)|(\d+(?:\.\d+)?|\.\d+)px/g;
 
 function toFixed(number, precision) {
-  let multiplier = Math.pow(10, precision + 1)
-  let wholeNumber = Math.floor(number * multiplier)
-  return Math.round(wholeNumber / 10) * 10 / multiplier
+  const multiplier = 10 ** (precision + 1);
+  const wholeNumber = Math.floor(number * multiplier);
+  return Math.round(wholeNumber / 10) * 10 / multiplier;
 }
 
 function isExcludeFile(path, excludeFiles) {
-  return excludeFiles.some(rule => path.match(rule))
+  return excludeFiles.some(rule => path.match(rule));
 }
 
 function isExcludeSelector(selector, excludeSelectors) {
-  return excludeSelectors.some(rule => {
+  return excludeSelectors.some((rule) => {
     if (typeof rule === 'string') {
-      return selector.indexOf(rule) !== -1
+      return selector.includes(rule);
     }
-    return selector.match(rule)
-  })
+    return selector.match(rule);
+  });
 }
 
 function isExcludeProperty(property, excludeProperties) {
-  return excludeProperties.some(rule => {
+  return excludeProperties.some((rule) => {
     if (typeof rule === 'string') {
-      return property.indexOf(rule) !== -1
+      return property.includes(rule);
     }
-    return property.match(rule)
-  })
+    return property.match(rule);
+  });
 }
 
-module.exports = postcss.plugin('postcss-px-to-relative-unit', function (options) {
-  options = options || {}
+module.exports = postcss.plugin('postcss-px-to-relative-unit', (options) => {
+  options = options || {};
   options = Object.assign({
     baseDpr: 1,
     targetUnit: 'rpx',
@@ -42,62 +42,62 @@ module.exports = postcss.plugin('postcss-px-to-relative-unit', function (options
     unitPrecision: 2,
     excludeFiles: [],
     excludeSelectors: [],
-    excludeProperties: []
-  }, options)
+    excludeProperties: [],
+  }, options);
   return function (root) {
     if (isExcludeFile(root.source.input.file, options.excludeFiles)) {
-      return
+      return;
     }
-    root.walkRules(rule => {
+    root.walkRules((rule) => {
       if (isExcludeSelector(rule.selector, options.excludeSelectors)) {
-        return
+        return;
       }
-      rule.walkDecls(decl => {
+      rule.walkDecls((decl) => {
         if (isExcludeProperty(decl.prop, options.excludeProperties)) {
-          return
+          return;
         }
-        let remValue = decl.value
-        let vwValue = decl.value
-        let rpxValue = decl.value
+        const remValue = decl.value;
+        const vwValue = decl.value;
+        const rpxValue = decl.value;
 
         if (options.targetUnit === 'vw') {
           decl.value = vwValue.replace(pxUnitReg, (match, pxValue) => {
             if (!pxValue) {
-              return match
+              return match;
             }
-            let pixelValue = parseFloat(pxValue)
+            const pixelValue = Number.parseFloat(pxValue);
             if (pixelValue <= options.ignoreThreshold) {
-              return match
+              return match;
             }
-            let vwTargetValue = toFixed(pixelValue / options.viewportWidth * 100, options.unitPrecision)
-            return `${vwTargetValue}vw`
-          })
+            const vwTargetValue = toFixed(pixelValue / options.viewportWidth * 100, options.unitPrecision);
+            return `${vwTargetValue}vw`;
+          });
         } else if (options.targetUnit === 'rem') {
           decl.value = remValue.replace(pxUnitReg, (match, pxValue) => {
             if (!pxValue) {
-              return match
+              return match;
             }
-            let pixelValue = parseFloat(pxValue)
+            const pixelValue = Number.parseFloat(pxValue);
             if (pixelValue <= options.ignoreThreshold) {
-              return match
+              return match;
             }
-            let remTargetValue = toFixed(pixelValue / options.htmlFontSize, options.unitPrecision)
-            return `${remTargetValue}rem`
-          })
+            const remTargetValue = toFixed(pixelValue / options.htmlFontSize, options.unitPrecision);
+            return `${remTargetValue}rem`;
+          });
         } else if (options.targetUnit === 'rpx') {
           decl.value = rpxValue.replace(pxUnitReg, (match, pxValue) => {
             if (!pxValue) {
-              return match
+              return match;
             }
-            let pixelValue = parseFloat(pxValue)
+            const pixelValue = Number.parseFloat(pxValue);
             if (pixelValue <= options.ignoreThreshold) {
-              return match
+              return match;
             }
-            let rpxTargetValue = toFixed(pixelValue / options.baseDpr * 2, options.unitPrecision)
-            return `${rpxTargetValue}rpx`
-          })
+            const rpxTargetValue = toFixed(pixelValue / options.baseDpr * 2, options.unitPrecision);
+            return `${rpxTargetValue}rpx`;
+          });
         }
-      })
-    })
-  }
-})
+      });
+    });
+  };
+});

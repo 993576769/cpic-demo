@@ -1,7 +1,7 @@
-import type { Base } from './base';
-import { getBaseDefaultData } from './base';
 import type { ActiveStorage } from './active-storage';
+import type { Base } from './base';
 import { getActiveStorageDefaultData } from './active-storage';
+import { getBaseDefaultData } from './base';
 
 /** 登录接口 传入参数 */
 export interface LoginParams {

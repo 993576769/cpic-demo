@@ -1,8 +1,0 @@
-# eslint 白名单
-dist/*
-src/static/*
-loader/*
-script/*
-node_modules/*
-*.d.ts
-*.json

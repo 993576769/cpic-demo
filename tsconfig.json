@@ -1,40 +1,40 @@
 {
   "extends": "@vue/tsconfig/tsconfig.json",
   "compilerOptions": {
-    "target": "esnext",
-    "module": "esnext",
-    "strict": true,
+    "target": "ESNext",
     "jsx": "preserve",
-    "moduleResolution": "node",
-    "esModuleInterop": true,
-    "sourceMap": true,
-    "skipLibCheck": true,
-    "importHelpers": true,
-    "allowSyntheticDefaultImports": true,
+    "lib": ["ESNext", "DOM"],
     "useDefineForClassFields": true,
-    "resolveJsonModule": true,
     "baseUrl": ".",
+    "module": "ESNext",
+    "moduleResolution": "Node",
     "paths": {
       "@/*": ["src/*"]
     },
-    "lib": ["esnext", "dom"],
+    "resolveJsonModule": true,
     "types": [
       "@dcloudio/types",
-      "@uni-helper/uni-app-types",
+      "@uni-helper/uni-types",
       "@types/node",
       "vite/client"
     ],
-    "vueCompilerOptions": {
-      "experimentalRuntimeMode": "runtime-uni-app",
-      "nativeTags": ["block", "component", "template", "slot"]
-    },
+    "strict": true,
+    "inlineSources": true,
+    "noEmit": true,
+    "sourceMap": true,
+    "sourceRoot": "/",
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "skipLibCheck": true
+  },
+  "vueCompilerOptions": {
+    // 调整 Volar（Vue 语言服务工具）解析行为，用于为 uni-app 组件提供 TypeScript 类型
+    "plugins": ["@uni-helper/uni-types/volar-plugin"]
   },
   "include": [
     "src/**/*.ts",
     "src/**/*.d.ts",
     "src/**/*.tsx",
-    "src/**/*.vue",
-    "./components.d.ts",
-  ],
-  "exclude": ["node_modules"]
+    "src/**/*.vue"
+  ]
 }

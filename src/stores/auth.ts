@@ -1,9 +1,10 @@
-import { computed, ref } from 'vue';
-import { type Params, defineSimpleStore } from './helper/simple-store';
-import { request } from '@/utils/request';
-import { APPID, STORAGE_KEYS } from '@/constants';
 import type { LoginParams, User } from '@/models/user';
+import type { Params } from './helper/simple-store';
+import { APPID, STORAGE_KEYS } from '@/constants';
 import { getUserDefaultData } from '@/models/user';
+import { request } from '@/utils/request';
+import { computed, ref } from 'vue';
+import { defineSimpleStore } from './helper/simple-store';
 
 export interface LoginBody {
   email: string;

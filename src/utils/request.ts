@@ -1,11 +1,12 @@
+import type { CustomAxiosResponse, SupportedHTTPMethod } from '@/models/request';
+import type { AxiosResponse } from 'axios';
+import i18n from '@/i18n';
+import { useAuthStore } from '@/stores/auth';
+import axios, { AxiosError } from 'axios';
 import { forEach, isEmpty, snakeCase } from 'lodash-es';
-import axios, { AxiosError, type AxiosResponse } from 'axios';
 import qs from 'qs';
 import urlJoin from 'url-join';
 import { decoder } from './decoder';
-import type { CustomAxiosResponse, SupportedHTTPMethod } from '@/models/request';
-import { useAuthStore } from '@/stores/auth';
-import i18n from '@/i18n';
 
 /** 构建完整 url 给 uni.request */
 function buildURL(baseURL: string, url: string, params: Record<string, unknown>) {
@@ -13,7 +14,7 @@ function buildURL(baseURL: string, url: string, params: Record<string, unknown>)
 }
 
 /** 处理 uni.request 返回 */
-function settle(resolve: Function, reject: Function, response: AxiosResponse) {
+function settle(resolve: (value: AxiosResponse) => void, reject: (reason?: any) => void, response: AxiosResponse) {
   const validateStatus = response.config.validateStatus;
   if (!response.status || !validateStatus || validateStatus(response.status)) {
     resolve(response);
@@ -79,12 +80,12 @@ export const request = axios.create({
        * 微信小程序请求方法 返回错误数据如下
        * { errMsg: 'request:fail ' } => 断网
        * { errMsg: 'request:fail timeout' } => 超时
-      */
+       */
       if (
         typeof err === 'object'
-          && err !== null
-          && 'errMsg' in err
-          && typeof err.errMsg === 'string'
+        && err !== null
+        && 'errMsg' in err
+        && typeof err.errMsg === 'string'
       ) {
         const axiosErrorCode = (() => {
           // 断网

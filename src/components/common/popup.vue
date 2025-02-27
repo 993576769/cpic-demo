@@ -1,6 +1,7 @@
 <script lang="ts" setup>
-import { type CSSProperties, computed } from 'vue';
+import type { CSSProperties } from 'vue';
 import { isString } from 'lodash-es';
+import { computed } from 'vue';
 
 interface Props {
   zIndex?: number;
@@ -9,13 +10,11 @@ interface Props {
   closeOnClickOverlay?: boolean;
   customStyle?: CSSProperties;
   overlayStyle?: CSSProperties;
-  round?: boolean | String;
+  round?: boolean | string;
   duration?: number;
-  modelValue: boolean;
 }
 
 interface Emits {
-  (event: 'update:modelValue', value: boolean): void;
   (event: 'close'): void;
   (event: 'afterLeave'): void;
 }
@@ -31,11 +30,12 @@ const props = withDefaults(
     overlayStyle: () => ({}),
     round: false,
     duration: 300,
-    modelValue: false,
   },
 );
 
 const emits = defineEmits<Emits>();
+
+const modelValue = defineModel<boolean>({ default: false });
 
 const popupOverlayStyle = computed(() => {
   return {
@@ -96,7 +96,7 @@ const animationName = computed(() => {
 
 function onClickOverlay() {
   if (props.closeOnClickOverlay) {
-    emits('update:modelValue', false);
+    modelValue.value = false;
     emits('close');
   }
 }

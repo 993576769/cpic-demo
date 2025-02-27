@@ -9,7 +9,7 @@ import { t } from '@/i18n';
 </template>
 
 <style lang="scss" scoped>
-  .cmpt-example {
-    font-size: 20px;
-  }
+.cmpt-example {
+  font-size: 20px;
+}
 </style>

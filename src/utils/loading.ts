@@ -1,6 +1,6 @@
+import { t } from '@/i18n';
 import { AxiosError, isAxiosError, isCancel } from 'axios';
 import { alert } from './dialog';
-import { t } from '@/i18n';
 
 export function showLoading(params: UniApp.ShowLoadingOptions = { title: '', mask: true }) {
   return uni.showLoading(params);

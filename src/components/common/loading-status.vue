@@ -1,12 +1,11 @@
 <script lang="ts" setup generic="T extends Base">
-import { computed } from 'vue';
-import type { defineSimpleStore } from '@/stores/helper/simple-store';
-import type { defineCollectionStore } from '@/stores/helper/collection-store';
-// eslint-disable-next-line unused-imports/no-unused-imports
 import type { Base } from '@/models/base';
+import type { defineCollectionStore } from '@/stores/helper/collection-store';
+import type { defineSimpleStore } from '@/stores/helper/simple-store';
+import { computed } from 'vue';
 
-type CollectionStore = ReturnType<ReturnType<typeof defineCollectionStore<string, T, {}>>>;
-type SimpleStore = ReturnType<ReturnType<typeof defineSimpleStore<string, T, {}>>>;
+type CollectionStore = ReturnType<ReturnType<typeof defineCollectionStore<string, T, object>>>;
+type SimpleStore = ReturnType<ReturnType<typeof defineSimpleStore<string, T, object>>>;
 
 interface Props {
   store: CollectionStore | SimpleStore;
@@ -69,7 +68,7 @@ const loadMoreStatus = computed(() => {
 
     <!-- 加载中状态，显示正在加载 -->
     <div v-if="loadMoreStatus === 'loading'" class="status-wrapper loading">
-      <div v-if="!$slots.loadMore && loadingMoreText" class="text">
+      <div v-if="!$slots.loadingMore && loadingMoreText" class="text">
         <common-loading :text="loadingMoreText" />
       </div>
       <slot name="loadingMore"></slot>
@@ -94,11 +93,11 @@ const loadMoreStatus = computed(() => {
 </template>
 
 <style lang="scss" scoped>
-  .status-wrapper {
-    .text {
-      padding: 20px;
-      text-align: center;
-      color: #999;
-    }
+.status-wrapper {
+  .text {
+    padding: 20px;
+    text-align: center;
+    color: #999;
   }
+}
 </style>

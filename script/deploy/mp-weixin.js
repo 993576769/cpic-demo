@@ -1,11 +1,12 @@
 const fs = require('node:fs');
 const path = require('node:path');
+const process = require('node:process');
 const dayjs = require('dayjs');
 const ci = require('miniprogram-ci');
 
 function getAppId() {
   const manifestPath = path.resolve(__dirname, '../../src/manifest.json');
-  const reg = /(\/{2,}.*?(\r|\n))|(\/\*(\n|.)*?\*\/)/g; // 删除注释
+  const reg = /(\/{2}.*(\r|\n))|(\/\*(\n|.)*?\*\/)/g; // 删除注释
   const manifest = fs.readFileSync(manifestPath, 'utf8').replace(reg, '');
   return JSON.parse(manifest)['mp-weixin'].appid;
 }
@@ -30,6 +31,7 @@ async function deployMpWeixin(env) {
     version,
     desc,
     robot: Number(env.WX_CI_ROBOT),
+    // eslint-disable-next-line no-console
     onProgressUpdate: console.log,
   };
 

@@ -24,18 +24,18 @@ withDefaults(
 </template>
 
 <style lang="scss">
-  .empty-view {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-top: 20vh;
-    padding-bottom: 20vh;
-    color: #999;
+.empty-view {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 20vh;
+  padding-bottom: 20vh;
+  color: #999;
 
-    .empty-img {
-      width: 70px;
-      height: 70px;
-      margin-bottom: 15px;
-    }
+  .empty-img {
+    width: 70px;
+    height: 70px;
+    margin-bottom: 15px;
   }
+}
 </style>

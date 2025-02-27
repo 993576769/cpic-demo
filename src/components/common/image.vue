@@ -1,17 +1,18 @@
 <script lang="ts" setup>
-import { type CSSProperties, computed } from 'vue';
+import type { CSSProperties } from 'vue';
 import { generateAliOssImageUrl } from '@/utils/generate-alioss-image-url';
+import { computed } from 'vue';
 
 interface Props {
   customStyle?: CSSProperties;
-  cropX: string;
-  cropY: string;
-  cropWidth: string;
-  cropHeight: string;
-  resizeWidth: string;
-  resizeHeight: string;
-  resizePercent: string;
-  quality: string;
+  cropX?: string;
+  cropY?: string;
+  cropWidth?: string;
+  cropHeight?: string;
+  resizeWidth?: string;
+  resizeHeight?: string;
+  resizePercent?: string;
+  quality?: string;
   src: string;
   mode: 'scaleToFill' | 'aspectFit' | 'aspectFill' | 'widthFix' | 'heightFix' | 'top' | 'bottom' | 'center' | 'left' | 'right' | 'top left' | 'top right' | 'bottom left' | 'bottom right';
   webp: boolean;

@@ -1,8 +1,8 @@
-import { ref } from 'vue';
+import type { CustomAxiosResponse } from '@/models/request';
 import type { Ref } from 'vue';
 import { has, noop, omit } from 'lodash-es';
 import { defineStore } from 'pinia';
-import type { CustomAxiosResponse } from '@/models/request';
+import { ref } from 'vue';
 
 export interface Data<T> {
   data: T;
@@ -96,7 +96,7 @@ export function defineSimpleStore<Id extends string, T, SS>(name: Id, getDefault
   });
 }
 
-export function useCheckStore(name: string, fn: Function) {
+export function useCheckStore(name: string, fn: (...args: any[]) => void) {
   const error = new Error(name);
   Error.captureStackTrace && Error.captureStackTrace(error, fn);
 

@@ -1,12 +1,12 @@
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
-import { AxiosError, isAxiosError } from 'axios';
+import { t } from '@/i18n';
 import { useAuthStore } from '@/stores/auth';
 import { nav } from '@/utils/nav';
-import { t } from '@/i18n';
+import { AxiosError, isAxiosError } from 'axios';
+import { computed, ref } from 'vue';
 
 interface Props {
-  onFetch: Function;
+  onFetch: () => Promise<unknown>;
   usedCustomNav?: boolean;
   auth?: boolean;
   /** 是否需要返回按钮 */
@@ -111,7 +111,7 @@ const positionTop = computed(() => {
 
     <div class="action-btns">
       <button v-if="props.showBack" class="btn-block back" @click="nav.navigateBack">
-        {{ $t('global.back') }}
+        {{ t('global.back') }}
       </button>
     </div>
   </div>

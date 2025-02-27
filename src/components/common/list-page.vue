@@ -1,11 +1,10 @@
 <script lang="ts" setup generic="T extends Base">
-import { ref } from 'vue';
-import type { defineCollectionStore } from '@/stores/helper/collection-store';
-// eslint-disable-next-line unused-imports/no-unused-imports
 import type { Base } from '@/models/base';
+import type { defineCollectionStore } from '@/stores/helper/collection-store';
+import { ref } from 'vue';
 
 interface Props {
-  store: ReturnType<ReturnType<typeof defineCollectionStore<string, T, {}>>>;
+  store: ReturnType<ReturnType<typeof defineCollectionStore<string, T, object>>>;
   errorText?: string;
   emptyText?: string;
   emptyImage?: string;
@@ -109,29 +108,29 @@ function handleScrollToLower() {
 </template>
 
 <style lang="scss" scoped>
-  .common-list-page {
-    position: relative;
+.common-list-page {
+  position: relative;
+  height: 100%;
+
+  .list-scroll-view {
+    position: absolute;
+    box-sizing: border-box;
+    width: 100%;
     height: 100%;
+  }
 
-    .list-scroll-view {
-      position: absolute;
-      box-sizing: border-box;
-      width: 100%;
-      height: 100%;
-    }
+  .text {
+    padding: 10px;
+    text-align: center;
+    color: #999;
+  }
 
-    .text {
-      padding: 10px;
-      text-align: center;
-      color: #999;
-    }
-
-    .status-wrapper {
-      &.empty-wrapper {
-        .text {
-          padding: 50px 10px;
-        }
+  .status-wrapper {
+    &.empty-wrapper {
+      .text {
+        padding: 50px 10px;
       }
     }
   }
+}
 </style>
