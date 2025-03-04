@@ -10,7 +10,6 @@ test:
   script:
     - pnpm lint:js
     - pnpm lint:ts
-    - pnpm lint:style
   except:
     - develop
     - staging

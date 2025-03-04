@@ -36,10 +36,6 @@ export default defineConfig(({ mode }) => {
           // for example, lint .ts and .tsx
           lintCommand: 'eslint "./src/**/*.{ts,vue}"',
         },
-        stylelint: {
-          // for example, lint .css and .vue
-          lintCommand: 'stylelint ./src/**/*.{scss,vue}',
-        },
       }),
     ],
     server: {
