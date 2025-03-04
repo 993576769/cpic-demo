@@ -1,6 +1,6 @@
-// /* eslint-disable no-unreachable */
-import { cloneDeep } from 'lodash-es';
+import process from 'node:process';
 import { useAuthStore } from '@/stores/auth';
+import { cloneDeep } from 'lodash-es';
 
 interface Ctx extends UniApp.CanvasContext {
   textAlign?: 'right' | 'left' | 'center';

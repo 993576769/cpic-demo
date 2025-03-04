@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import { type CSSProperties, computed, nextTick, ref, watch } from 'vue';
+import type { CSSProperties } from 'vue';
+import { computed, nextTick, ref, watch } from 'vue';
 
 interface Props {
   name?: 'fade' | 'fade-up' | 'fade-down' | 'fade-left' | 'fade-right' | 'slide-up' | 'slide-down' | 'slide-left' | 'slide-right';
@@ -172,84 +173,84 @@ watch(
   </view>
 </template>
 
-<style lang="scss">
-  .bean-transition {
-    transition-timing-function: ease;
-  }
+<style lang="scss" scoped>
+.bean-transition {
+  transition-timing-function: ease;
+}
 
-  .bean-fade-enter-active,
-  .bean-fade-leave-active {
-    transition-property: opacity;
-  }
+.bean-fade-enter-active,
+.bean-fade-leave-active {
+  transition-property: opacity;
+}
 
-  .bean-fade-enter,
-  .bean-fade-leave-to {
-    opacity: 0;
-  }
+.bean-fade-enter,
+.bean-fade-leave-to {
+  opacity: 0;
+}
 
-  .bean-fade-up-enter-active,
-  .bean-fade-up-leave-active,
-  .bean-fade-down-enter-active,
-  .bean-fade-down-leave-active,
-  .bean-fade-left-enter-active,
-  .bean-fade-left-leave-active,
-  .bean-fade-right-enter-active,
-  .bean-fade-right-leave-active {
-    transition-property: opacity, transform;
-  }
+.bean-fade-up-enter-active,
+.bean-fade-up-leave-active,
+.bean-fade-down-enter-active,
+.bean-fade-down-leave-active,
+.bean-fade-left-enter-active,
+.bean-fade-left-leave-active,
+.bean-fade-right-enter-active,
+.bean-fade-right-leave-active {
+  transition-property: opacity, transform;
+}
 
-  .bean-fade-up-enter,
-  .bean-fade-up-leave-to {
-    opacity: 0;
-    transform: translate3d(0, 100%, 0);
-  }
+.bean-fade-up-enter,
+.bean-fade-up-leave-to {
+  opacity: 0;
+  transform: translate3d(0, 100%, 0);
+}
 
-  .bean-fade-down-enter,
-  .bean-fade-down-leave-to {
-    opacity: 0;
-    transform: translate3d(0, -100%, 0);
-  }
+.bean-fade-down-enter,
+.bean-fade-down-leave-to {
+  opacity: 0;
+  transform: translate3d(0, -100%, 0);
+}
 
-  .bean-fade-left-enter,
-  .bean-fade-left-leave-to {
-    opacity: 0;
-    transform: translate3d(-100%, 0, 0);
-  }
+.bean-fade-left-enter,
+.bean-fade-left-leave-to {
+  opacity: 0;
+  transform: translate3d(-100%, 0, 0);
+}
 
-  .bean-fade-right-enter,
-  .bean-fade-right-leave-to {
-    opacity: 0;
-    transform: translate3d(100%, 0, 0);
-  }
+.bean-fade-right-enter,
+.bean-fade-right-leave-to {
+  opacity: 0;
+  transform: translate3d(100%, 0, 0);
+}
 
-  .bean-slide-up-enter-active,
-  .bean-slide-up-leave-active,
-  .bean-slide-down-enter-active,
-  .bean-slide-down-leave-active,
-  .bean-slide-left-enter-active,
-  .bean-slide-left-leave-active,
-  .bean-slide-right-enter-active,
-  .bean-slide-right-leave-active {
-    transition-property: transform;
-  }
+.bean-slide-up-enter-active,
+.bean-slide-up-leave-active,
+.bean-slide-down-enter-active,
+.bean-slide-down-leave-active,
+.bean-slide-left-enter-active,
+.bean-slide-left-leave-active,
+.bean-slide-right-enter-active,
+.bean-slide-right-leave-active {
+  transition-property: transform;
+}
 
-  .bean-slide-up-enter,
-  .bean-slide-up-leave-to {
-    transform: translate3d(0, 100%, 0);
-  }
+.bean-slide-up-enter,
+.bean-slide-up-leave-to {
+  transform: translate3d(0, 100%, 0);
+}
 
-  .bean-slide-down-enter,
-  .bean-slide-down-leave-to {
-    transform: translate3d(0, -100%, 0);
-  }
+.bean-slide-down-enter,
+.bean-slide-down-leave-to {
+  transform: translate3d(0, -100%, 0);
+}
 
-  .bean-slide-left-enter,
-  .bean-slide-left-leave-to {
-    transform: translate3d(-100%, 0, 0);
-  }
+.bean-slide-left-enter,
+.bean-slide-left-leave-to {
+  transform: translate3d(-100%, 0, 0);
+}
 
-  .bean-slide-right-enter,
-  .bean-slide-right-leave-to {
-    transform: translate3d(100%, 0, 0);
-  }
+.bean-slide-right-enter,
+.bean-slide-right-leave-to {
+  transform: translate3d(100%, 0, 0);
+}
 </style>

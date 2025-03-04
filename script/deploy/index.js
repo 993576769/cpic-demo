@@ -1,5 +1,6 @@
-const minimist = require('minimist');
+const process = require('node:process');
 const dotenv = require('dotenv');
+const minimist = require('minimist');
 const { deployMpWeixin } = require('./mp-weixin');
 
 const argv = minimist(process.argv.slice(2));

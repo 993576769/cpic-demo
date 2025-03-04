@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import { type CSSProperties, computed } from 'vue';
+import type { CSSProperties } from 'vue';
+import { computed } from 'vue';
 
 interface Props {
   duration?: number;
@@ -52,12 +53,12 @@ function onOverlayClick() {
 </template>
 
 <style lang="scss" scoped>
-  .bean-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 70%);
-  }
+.bean-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 70%);
+}
 </style>

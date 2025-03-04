@@ -143,39 +143,39 @@ const navbarStyle = computed(() => {
 </template>
 
 <style lang="scss">
-  .bean-navbar {
-    .navbar {
+.bean-navbar {
+  .navbar {
+    display: flex;
+    box-sizing: border-box;
+    width: 100%;
+
+    .btn-back {
       display: flex;
+      flex-shrink: 0;
+      align-items: center;
+      padding: 0 15PX;
+    }
+
+    .box-title {
+      position: relative;
+      flex: 1;
       box-sizing: border-box;
-      width: 100%;
+      overflow: hidden;
 
-      .btn-back {
-        display: flex;
-        flex-shrink: 0;
-        align-items: center;
-        padding: 0 15PX;
-      }
-
-      .box-title {
-        position: relative;
-        flex: 1;
-        box-sizing: border-box;
+      .title {
+        width: 100%;
+        height: 100%;
         overflow: hidden;
-
-        .title {
-          width: 100%;
-          height: 100%;
-          overflow: hidden;
-          font-weight: bold;
-          font-size: 16PX;
-          text-align: center;
-        }
-      }
-
-      &.fixed {
-        position: fixed;
-        top: 0;
+        font-weight: bold;
+        font-size: 16PX;
+        text-align: center;
       }
     }
+
+    &.fixed {
+      position: fixed;
+      top: 0;
+    }
   }
+}
 </style>

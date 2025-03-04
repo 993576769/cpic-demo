@@ -20,15 +20,15 @@ function handleBtnClick() {
 </template>
 
 <style lang="scss" scoped>
-  .btn {
-    $width: 375px;
+.btn {
+  $width: 375px;
 
-    width: $width;
-    background: $primary-color;
+  width: $width;
+  background: $primary-color;
 
-    .logo {
-      width: 100px;
-      height: 100px;
-    }
+  .logo {
+    width: 100px;
+    height: 100px;
   }
+}
 </style>

@@ -1,6 +1,6 @@
-import { request } from '@/utils/request';
-import { randomString } from '@/utils/random';
 import type { ActiveStorage } from '@/models/active-storage';
+import { randomString } from '@/utils/random';
+import { request } from '@/utils/request';
 
 // 只上传图片和视频
 export function useUploadFile() {
