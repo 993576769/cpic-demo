@@ -32,6 +32,7 @@ function collectionStore<T extends Base>(simpleStore: SimpleStoreReturnType<T[]>
   });
 
   fetchData.value = async function (fetchParams?: Partial<Params>, isForce = false) {
+    params.value.offset = 0;
     const res = await fetching.value({ ...params.value, ...fetchParams }, isForce);
     meta.value = res.meta;
     data.value = res.data;
