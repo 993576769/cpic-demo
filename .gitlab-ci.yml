@@ -1,32 +1,28 @@
-stages:
-  - test
-  - deploy
+# stages:
+#   - deploy
 
-before_script:
-  - asdf install
-  - pnpm install
-
-test:
+# before_script:
+#   - asdf install
+#   - pnpm install
+#
+noop:
   script:
-    - pnpm lint:js
-    - pnpm lint:ts
-  except:
-    - develop
-    - staging
-    - master
+    - echo "GitLab CI test runs locally in the pre-push hook."
+  rules:
+    - when: never
 
-deploy_staging:
-  stage: deploy
-  script:
-    - pnpm build:staging:mp-weixin
-    - pnpm deploy:staging:mp-weixin
-  only:
-    - staging
-
-deploy_production:
-  stage: deploy
-  script:
-    - pnpm build:production:mp-weixin
-    - pnpm deploy:production:mp-weixin
-  only:
-    - production
+# deploy_staging:
+#   stage: deploy
+#   script:
+#     - pnpm build:staging:mp-weixin
+#     - pnpm deploy:staging:mp-weixin
+#   only:
+#     - staging
+#
+# deploy_production:
+#   stage: deploy
+#   script:
+#     - pnpm build:production:mp-weixin
+#     - pnpm deploy:production:mp-weixin
+#   only:
+#     - production

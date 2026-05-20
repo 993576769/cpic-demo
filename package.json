@@ -7,8 +7,10 @@
   },
   "scripts": {
     "preinstall": "npx only-allow pnpm",
+    "prepare": "git config core.hooksPath .githooks || true",
     "start": "pnpm dev:mp-weixin",
     "dev:mp-weixin": "uni -p mp-weixin",
+    "test": "pnpm lint:js && pnpm lint:ts",
     "lint:js": "cross-env NODE_ENV=production eslint .",
     "lint:ts": "vue-tsc --noEmit",
     "build:staging:mp-weixin": "uni build -p mp-weixin --mode staging",
