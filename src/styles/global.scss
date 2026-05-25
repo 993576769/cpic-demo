@@ -43,3 +43,8 @@ image {
 .padding-bottom-safe-area {
   @include padding-bottom-safe-area;
 }
+
+/* The demo uses src/components/common/tab-bar.vue as the visual tab bar. */
+uni-tabbar {
+  display: none;
+}

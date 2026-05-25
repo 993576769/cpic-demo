@@ -9,6 +9,10 @@ const registeredPages = new Set([
 const tabPagePaths = new Set(pagesJson.tabBar.list.map(item => item.pagePath));
 const demoPage = fs.readFileSync(new URL('../src/components/common/demo-page.vue', import.meta.url), 'utf8');
 const navUtil = fs.readFileSync(new URL('../src/utils/nav.ts', import.meta.url), 'utf8');
+const tabBar = fs.readFileSync(new URL('../src/components/common/tab-bar.vue', import.meta.url), 'utf8');
+const globalStyles = fs.readFileSync(new URL('../src/styles/global.scss', import.meta.url), 'utf8');
+const dataPage = fs.readFileSync(new URL('../src/pages/root/data.vue', import.meta.url), 'utf8');
+const mePage = fs.readFileSync(new URL('../src/pages/root/me.vue', import.meta.url), 'utf8');
 
 function escapeRegExp(value) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -20,6 +24,29 @@ function assertUsesFixedBottom(source, className, message) {
     new RegExp(`<common-button-fixed-bottom[^>]*>[^]*class="[^"]*${escapeRegExp(className)}[^"]*"[^]*</common-button-fixed-bottom>`),
     message,
   );
+}
+
+function assertBottomButtonsUseFixedBottom(pages) {
+  for (const { source, name, classNames } of pages) {
+    for (const className of classNames) {
+      assertUsesFixedBottom(
+        source,
+        className,
+        `${name} bottom button group "${className}" should use common-button-fixed-bottom`,
+      );
+      assert.doesNotMatch(
+        source,
+        new RegExp(`${escapeRegExp(className)} padding-bottom-safe-area`),
+        `${name} bottom button group "${className}" should delegate safe-area padding to common-button-fixed-bottom`,
+      );
+    }
+  }
+}
+
+function getToolBlock(source, key) {
+  const match = source.match(new RegExp(`\\{\\n\\s+key:\\s*'${escapeRegExp(key)}',[\\s\\S]*?\\n\\s+\\},`));
+  assert.ok(match, `Missing ${key} tool block`);
+  return match[0];
 }
 
 const requiredPages = [
@@ -89,9 +116,22 @@ assert.deepEqual(missingToolLabels, [], `Missing tool labels: ${missingToolLabel
 assert.match(toolsPage, /<common-demo-page/, 'Tools page should use the shared demo page shell');
 assert.match(toolsPage, /title="工具箱"/, 'Tools page should keep the shared page title');
 assert.match(toolsPage, /url:\s*'\/todo-ai'/, 'Todo AI tool should open the dedicated todo AI flow');
+assert.doesNotMatch(getToolBlock(toolsPage, 'order'), /url:/, 'Order query should stay unimplemented per PRD');
+assert.doesNotMatch(getToolBlock(toolsPage, 'resign'), /url:/, 'Resign assignment should stay unimplemented per PRD');
 assert.doesNotMatch(toolsPage, /toolbox-status|toolbox-capsule/, 'Tools page should not implement a custom system status bar');
 
 assert.match(navUtil, /'\/todo-ai':\s*'\/pages\/customers\/wang\/visit-record'/, 'Todo AI alias should route to the upload page');
+assert.doesNotMatch(navUtil, /'\/order'|pages\/tools\/order/, 'Order query route should not be registered per PRD');
+assert.doesNotMatch(navUtil, /'\/resign'|pages\/tools\/resign/, 'Resign assignment route should not be registered per PRD');
+assert.equal(fs.existsSync(new URL('../src/pages/tools/order.vue', import.meta.url)), false, 'Order query page should not exist per PRD');
+assert.equal(fs.existsSync(new URL('../src/pages/tools/resign.vue', import.meta.url)), false, 'Resign assignment page should not exist per PRD');
+assert.match(tabBar, /item\.key === 'data' \|\| item\.key === 'me'/, 'Data and Me tabs should remain unimplemented per PRD');
+assert.match(tabBar, /showToast\('建设中'\)/, 'Data and Me tabs should toast construction state per PRD');
+assert.match(globalStyles, /uni-tabbar\s*\{[^}]*display:\s*none;/, 'Native H5 tabbar should be hidden so PRD placeholder tabs do not navigate');
+assert.match(dataPage, /建设中/, 'Data page should stay a construction placeholder per PRD');
+assert.match(mePage, /建设中/, 'Me page should stay a construction placeholder per PRD');
+assert.doesNotMatch(dataPage, /本月经营概览|转化漏斗|客户分布/, 'Data page should not implement analytics per PRD');
+assert.doesNotMatch(mePage, /保险销售顾问|我的客户|常用素材|团队排行/, 'Me page should not implement profile features per PRD');
 
 const visitRecordPage = fs.readFileSync(new URL('../src/pages/customers/wang/visit-record.vue', import.meta.url), 'utf8');
 const requiredVisitRecordTokens = [
@@ -281,7 +321,9 @@ assert.doesNotMatch(momentsPublishPage, /bottom-actions padding-bottom-safe-area
 
 const journeyPage = fs.readFileSync(new URL('../src/pages/journey/index.vue', import.meta.url), 'utf8');
 assertUsesFixedBottom(journeyPage, 'fixed-primary', 'Journey fixed action should use common button fixed bottom');
+assertUsesFixedBottom(journeyPage, 'sheet-primary', 'Journey sheet bottom action should use common button fixed bottom');
 assert.doesNotMatch(journeyPage, /fixed-primary padding-bottom-safe-area/, 'Journey fixed action should delegate safe-area padding to common-button-fixed-bottom');
+assert.doesNotMatch(journeyPage, /sheet-primary padding-bottom-safe-area/, 'Journey sheet bottom action should delegate safe-area padding to common-button-fixed-bottom');
 
 const activityPage = fs.readFileSync(new URL('../src/pages/activity/index.vue', import.meta.url), 'utf8');
 assertUsesFixedBottom(activityPage, 'fixed-primary', 'Activity fixed action should use common button fixed bottom');
@@ -335,3 +377,51 @@ assert.match(
   /\.material-main-tabs__item\.is-active::after\s*\{[^}]*top\s*:\s*40px[^}]*width\s*:\s*30px[^}]*left\s*:\s*50%[^}]*transform\s*:\s*translateX\(-50%\)/,
   'Moments material active indicator should sit under the tab text',
 );
+
+assertBottomButtonsUseFixedBottom([
+  {
+    name: 'Visit record',
+    source: visitRecordPage,
+    classNames: ['upload-panel', 'analysis-bottom'],
+  },
+  {
+    name: 'Followup',
+    source: followupPage,
+    classNames: ['fixed-primary'],
+  },
+  {
+    name: 'Todo task',
+    source: followupTasksPage,
+    classNames: ['todo-bottom-actions'],
+  },
+  {
+    name: 'Todo list',
+    source: todoListPage,
+    classNames: ['bottom-actions'],
+  },
+  {
+    name: 'Journey',
+    source: journeyPage,
+    classNames: ['fixed-primary', 'sheet-primary'],
+  },
+  {
+    name: 'Operation detail',
+    source: operationDetailPage,
+    classNames: ['batch-send-wrap'],
+  },
+  {
+    name: 'Moments publish',
+    source: momentsPublishPage,
+    classNames: ['bottom-actions'],
+  },
+  {
+    name: 'Activity detail',
+    source: activityPage,
+    classNames: ['fixed-primary'],
+  },
+  {
+    name: 'Invite list',
+    source: inviteListPage,
+    classNames: ['fixed-primary'],
+  },
+]);
