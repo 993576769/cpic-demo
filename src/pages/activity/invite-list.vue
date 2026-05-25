@@ -38,9 +38,11 @@ async function sendAll() {
       </div>
     </view>
 
-    <button class="reset-btn fixed-primary padding-bottom-safe-area" @click="sendAll">
-      批量发送邀请函
-    </button>
+    <common-button-fixed-bottom bg-color="transparent">
+      <button class="reset-btn fixed-primary" @click="sendAll">
+        批量发送邀请函
+      </button>
+    </common-button-fixed-bottom>
   </common-demo-page>
 </template>
 
@@ -142,11 +144,9 @@ async function sendAll() {
 }
 
 .fixed-primary {
-  position: fixed;
-  right: 10px;
-  bottom: 12px;
-  left: 10px;
+  width: calc(100% - 20px);
   height: 48px;
+  margin: 0 10px 12px;
   border-radius: 14px;
   background: #111;
   font-size: 15px;

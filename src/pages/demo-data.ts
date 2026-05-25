@@ -67,29 +67,101 @@ export const followupTasks = [
   {
     id: 'budget',
     title: '类似的客户每年可接受的保险预算大概是多少',
-    desc: '根据相似客户画像的成交案例，得出大致的可接受预算范围。',
+    desc: '根据相似客户画像的成交案例，得出大致的可接受……',
     deadline: '2026年7月12日 12:20 前',
   },
   {
     id: 'versions',
     title: '不同预算方案版本',
-    desc: '准备基础版、均衡版和高配版，方便客户按预算做选择。',
+    desc: '根据相似客户画像的成交案例，得出大致的可接受……',
     deadline: '2026年7月12日 12:20 前',
   },
   {
     id: 'revisit',
     title: '客户拜访后回访',
-    desc: '围绕教育金和重疾组合方案，确认家庭预算和决策人意见。',
+    desc: '根据相似客户画像的成交案例，得出大致的可接受……',
     deadline: '2026年7月12日 12:20 前',
   },
   {
     id: 'claim',
     title: '准备好理赔案例',
-    desc: '选择同龄孩子重疾理赔案例，重点解释免责与理赔材料。',
+    desc: '根据相似客户画像的成交案例，得出大致的可接受……',
     deadline: '2026年7月12日 12:20 前',
   },
 ];
 
-export const operationCustomers = ['Roise LI', 'LI hehe', 'Jack Wang', 'Chloe Tian'];
+export interface OperationTask {
+  id: string;
+  title: string;
+  type: string;
+  color: string;
+  deadline: string;
+  progress: string;
+}
+
+export const operationTasks: OperationTask[] = [
+  {
+    id: 'birthday',
+    title: '7月生日祝福发送',
+    type: 'Birthday',
+    color: '#ffff00',
+    deadline: '截至时间：2025/01/11 18:00',
+    progress: '进度（0/21）',
+  },
+  {
+    id: 'father-day',
+    title: '2026年父情节祝福',
+    type: 'Father-s-Day',
+    color: '#00a3ac',
+    deadline: '截至时间：2025/01/11 18:00',
+    progress: '进度（0/21）',
+  },
+];
+
+export interface OperationCustomer {
+  name: string;
+  phone: string;
+  owner: string;
+  status: 'todo' | 'done';
+}
+
+export const operationCustomers: OperationCustomer[] = [
+  {
+    name: 'Roise LI',
+    phone: '+81-8978900',
+    owner: 'Judy Zhang',
+    status: 'todo',
+  },
+  {
+    name: 'LI hehe',
+    phone: '+81-8978900',
+    owner: 'Judy Zhang',
+    status: 'todo',
+  },
+  {
+    name: 'Jack Wang',
+    phone: '+81-8978900',
+    owner: 'Judy Zhang',
+    status: 'todo',
+  },
+  {
+    name: 'Chloe Tian',
+    phone: '+81-8978900',
+    owner: 'Judy Zhang',
+    status: 'todo',
+  },
+  {
+    name: 'Alice Wu',
+    phone: '+81-8978901',
+    owner: 'Judy Zhang',
+    status: 'done',
+  },
+  {
+    name: 'Ryan Chen',
+    phone: '+81-8978902',
+    owner: 'Judy Zhang',
+    status: 'done',
+  },
+];
 
 export const inviteCustomers = ['于贝儿', 'Cloudy', 'Cloudy', 'Cloudy'];

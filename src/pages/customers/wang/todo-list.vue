@@ -1,139 +1,396 @@
 <script setup lang="ts">
 import { nav } from '@/utils/nav';
 
-const todos = [
-  ['今日 12', '发送教育金+重疾组合方案', '先发微信方案，重点说明预算区间和孩子保障缺口。'],
-  ['明天 13', '回访电话确认', '确认教育金预算、是否需要加入父母保障。'],
-  ['3天后 15', '发送定制化分析', '补充不同预算版本和理赔案例。'],
-  ['5天后 17', '预约线下见证', '邀请客户进行方案确认和保单讲解。'],
+interface TodoItem {
+  id: string;
+  date: string;
+  title: string;
+  desc: string;
+  featured?: boolean;
+}
+
+const todos: TodoItem[] = [
+  {
+    id: 'education-plan',
+    date: '今日',
+    title: '发送教育金+重疾组合方案',
+    desc: '基于客户家庭近期财务分析，针对教育储备及风险保障缺口，推荐此组合方案以实现资产稳健增长与全方位守护。',
+    featured: true,
+  },
+  {
+    id: 'revisit-call',
+    date: '明天',
+    title: '回访电话确认',
+    desc: '确认案例阅读反馈，口头解答条款细节，探测客户购买意向度。',
+  },
+  {
+    id: 'analysis-report',
+    date: '3天后',
+    title: '发送定制化分析',
+    desc: '基于客户家庭资产情况，发送 AI 生成的《家庭全面保障缺口深度分析报告》。',
+  },
+  {
+    id: 'offline-meeting',
+    date: '5天后',
+    title: '预约线下见证',
+    desc: '邀请客户至职场进行合同演示或进行面谈成交，',
+  },
 ];
 </script>
 
 <template>
-  <common-demo-page title="待办事项列表" subtitle="目标客户 王女士">
-    <div class="summary-card">
-      <text class="summary-card__title">
-        📋 待办任务列表
-      </text>
-      <span>4 条建议</span>
-    </div>
-
-    <div class="timeline">
-      <div v-for="todo in todos" :key="todo[0]" class="todo-card">
-        <text class="todo-card__date">
-          {{ todo[0] }}
+  <view class="todo-list-page">
+    <common-demo-page
+      title=""
+      :show-title="false"
+      :show-back="false"
+      :padded="false"
+    >
+      <view class="todo-heading">
+        <text class="todo-heading__title">
+          待办事项列表
         </text>
-        <div>
-          <text class="todo-card__title">
-            {{ todo[1] }}
-          </text>
-          <text class="todo-card__desc">
-            {{ todo[2] }}
-          </text>
-        </div>
-      </div>
-    </div>
+        <text class="todo-heading__meta">
+          目标客户 王女士
+        </text>
+      </view>
 
-    <div class="bottom-actions padding-bottom-safe-area">
-      <button class="reset-btn secondary-button" @click="nav.goHome()">
-        编辑事项
-      </button>
-      <button class="reset-btn primary-button" @click="nav.goHome()">
-        加入待办项
-      </button>
-    </div>
-  </common-demo-page>
+      <view class="todo-divider" />
+
+      <view class="todo-section">
+        <view class="todo-section__header">
+          <view class="todo-section__title-wrap">
+            <view class="todo-section__icon" />
+            <text class="todo-section__title">
+              待办任务列表
+            </text>
+          </view>
+          <text class="todo-section__count">
+            4 条建议
+          </text>
+        </view>
+
+        <view
+          v-for="todo in todos"
+          :key="todo.id"
+          class="todo-card"
+          :class="{ 'todo-card--featured': todo.featured }"
+        >
+          <view class="todo-card__date-box">
+            <text class="todo-card__date">
+              {{ todo.date }}
+            </text>
+            <view class="todo-card__date-icon" />
+          </view>
+
+          <view class="todo-card__content">
+            <view class="todo-card__top">
+              <view class="todo-card__title-wrap">
+                <text class="todo-card__title">
+                  {{ todo.title }}
+                </text>
+              </view>
+            </view>
+
+            <text class="todo-card__desc">
+              {{ todo.desc }}
+            </text>
+          </view>
+        </view>
+      </view>
+
+      <common-button-fixed-bottom bg-color="#fff">
+        <view class="bottom-actions">
+          <button class="reset-btn secondary-button" @click="nav.navigateBack()">
+            编辑事项
+          </button>
+          <button class="reset-btn primary-button" @click="nav.goHome()">
+            加入待办项
+          </button>
+        </view>
+      </common-button-fixed-bottom>
+    </common-demo-page>
+  </view>
 </template>
 
 <style lang="scss" scoped>
-.summary-card,
-.todo-card {
-  border-radius: 8px;
+.todo-list-page {
+  min-height: 100vh;
   background: #fff;
 }
 
-.summary-card {
-  display: flex;
-  justify-content: space-between;
-  padding: 18px;
-  margin-bottom: 14px;
+.todo-list-page :deep(.demo-page),
+.todo-list-page :deep(.demo-page__body) {
+  min-height: 100vh;
+  background: #fff;
 }
 
-.summary-card__title {
-  font-size: 16px;
-  font-weight: 600;
+.todo-heading {
+  height: 182px;
+  padding: 104px 16px 0;
+  background: #fff;
+  box-sizing: border-box;
 }
 
-.summary-card span {
-  padding: 3px 9px;
-  border-radius: 12px;
-  background: #f3f4f6;
-  font-size: 12px;
-  color: #666;
-}
-
-.timeline {
-  padding-bottom: 92px;
-}
-
-.todo-card {
-  display: grid;
-  grid-template-columns: 72px 1fr;
-  gap: 14px;
-  padding: 16px;
-  margin-bottom: 10px;
-}
-
+.todo-heading__title,
+.todo-heading__meta,
+.todo-section__title,
+.todo-section__count,
 .todo-card__date,
 .todo-card__title,
 .todo-card__desc {
   display: block;
 }
 
-.todo-card__date {
-  font-size: 15px;
+.todo-heading__title {
+  font-size: 22px;
   font-weight: 600;
+  line-height: 32px;
+  letter-spacing: 0.2px;
+  color: #000;
+}
+
+.todo-heading__meta {
+  margin-top: 2px;
+  margin-left: 3px;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: 0.2px;
+  color: #333;
+}
+
+.todo-divider {
+  height: 1px;
+  background: rgb(0 0 0 / 6%);
+}
+
+.todo-section {
+  padding: 15px 14px 122px;
+  box-sizing: border-box;
+}
+
+.todo-section__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 345px;
+  height: 34px;
+  padding: 4px 8px;
+  margin-bottom: 28px;
+  box-sizing: border-box;
+}
+
+.todo-section__title-wrap,
+.todo-card__title-wrap,
+.todo-card__top {
+  display: flex;
+  align-items: center;
+}
+
+.todo-section__icon {
+  position: relative;
+  flex: 0 0 18px;
+  width: 18px;
+  height: 20px;
+  margin-right: 8px;
+}
+
+.todo-section__icon::before,
+.todo-section__icon::after {
+  position: absolute;
+  content: '';
+  box-sizing: border-box;
+}
+
+.todo-section__icon::before {
+  left: 2px;
+  top: 1px;
+  width: 14px;
+  height: 17px;
+  border: 1.5px solid #1a1c1c;
+  border-radius: 2px;
+}
+
+.todo-section__icon::after {
+  left: 5px;
+  top: 6px;
+  width: 8px;
+  height: 6px;
+  border-bottom: 1.5px solid #1a1c1c;
+  border-left: 1.5px solid #1a1c1c;
+  transform: rotate(-45deg);
+}
+
+.todo-section__title {
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 26px;
+  color: #1a1c1c;
+}
+
+.todo-section__count {
+  width: 81px;
+  height: 24px;
+  border-radius: 9999px;
+  background: #e2e2e2;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 0.24px;
+  text-align: center;
+  color: #1a1c1c;
+}
+
+.todo-card {
+  position: relative;
+  display: flex;
+  width: 345px;
+  min-height: 118px;
+  padding: 19px 19px 18px 20px;
+  margin-bottom: 14px;
+  border-radius: 12px;
+  background: #f3f3f3;
+  box-sizing: border-box;
+}
+
+.todo-card--featured {
+  min-height: 171px;
+  padding-top: 19px;
+  margin-bottom: 14px;
+}
+
+.todo-card__date-box {
+  position: relative;
+  flex: 0 0 65px;
+  width: 65px;
+  height: 64px;
+  margin-right: 21px;
+  border: 1px solid #e2e2e2;
+  border-radius: 8px;
+  background: #f3f3f3;
+  box-sizing: border-box;
+}
+
+.todo-card--featured .todo-card__date-box {
+  background: #f9f9f9;
+}
+
+.todo-card__date {
+  padding-top: 15px;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  letter-spacing: 0.24px;
+  text-align: center;
+  color: #5e5e5e;
+}
+
+.todo-card__date-icon {
+  position: relative;
+  width: 22px;
+  height: 16px;
+  margin: 0 auto;
+  margin-top: 1px;
+}
+
+.todo-card__date-icon::before,
+.todo-card__date-icon::after {
+  position: absolute;
+  content: '';
+  box-sizing: border-box;
+}
+
+.todo-card__date-icon::before {
+  left: 1px;
+  top: 2px;
+  width: 20px;
+  height: 13px;
+  border: 1.5px solid #1a1c1c;
+  border-top: 5px solid #1a1c1c;
+  border-radius: 2px;
+}
+
+.todo-card__date-icon::after {
+  left: 6px;
+  top: 7px;
+  width: 10px;
+  height: 5px;
+  border-bottom: 1.5px solid #1a1c1c;
+  border-left: 1.5px solid #1a1c1c;
+  transform: rotate(-45deg);
+}
+
+.todo-card__content {
+  flex: 1;
+  min-width: 0;
+}
+
+.todo-card__top {
+  justify-content: space-between;
+  height: 26px;
+}
+
+.todo-card__title-wrap {
+  min-width: 0;
 }
 
 .todo-card__title {
-  font-size: 15px;
-  font-weight: 600;
-  line-height: 22px;
+  overflow: hidden;
+  max-width: 184px;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 26px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #1a1c1c;
 }
 
 .todo-card__desc {
-  margin-top: 7px;
-  font-size: 13px;
+  overflow: hidden;
+  width: 220px;
+  margin-top: 11px;
+  font-size: 14px;
+  font-weight: 400;
   line-height: 20px;
-  color: #666;
+  color: #626262;
+}
+
+.todo-card--featured .todo-card__desc {
+  width: 220px;
+  max-height: 96px;
+  line-height: 24px;
 }
 
 .bottom-actions {
-  position: fixed;
-  right: 0;
-  bottom: 0;
-  left: 0;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  padding: 10px;
+  grid-template-columns: 114px 224px;
+  gap: 7px;
+  padding-top: 8px;
+  padding-right: 15px;
+  padding-left: 15px;
   background: #fff;
+  box-sizing: border-box;
 }
 
 .secondary-button,
 .primary-button {
   height: 48px;
-  border-radius: 14px;
+  border-radius: 100px;
   font-size: 15px;
+  font-weight: 600;
+  line-height: 21px;
 }
 
 .secondary-button {
-  border: 1px solid #e5e7eb;
+  border: 1px solid #000;
   background: #fff;
+  color: #333;
 }
 
 .primary-button {
-  background: #111;
+  border: 1px solid #000;
+  background: #000;
   color: #fff;
 }
 </style>

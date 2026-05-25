@@ -41,9 +41,11 @@ import { nav } from '@/utils/nav';
       <div class="skeleton"></div>
     </view>
 
-    <button class="reset-btn fixed-primary padding-bottom-safe-area" @click="nav.nav('/activity/invite-list')">
-      批量邀请
-    </button>
+    <common-button-fixed-bottom bg-color="transparent">
+      <button class="reset-btn fixed-primary" @click="nav.nav('/activity/invite-list')">
+        批量邀请
+      </button>
+    </common-button-fixed-bottom>
   </common-demo-page>
 </template>
 
@@ -151,11 +153,9 @@ import { nav } from '@/utils/nav';
 }
 
 .fixed-primary {
-  position: fixed;
-  right: 10px;
-  bottom: 12px;
-  left: 10px;
+  width: calc(100% - 20px);
   height: 48px;
+  margin: 0 10px 12px;
   border-radius: 14px;
   background: #111;
   font-size: 15px;

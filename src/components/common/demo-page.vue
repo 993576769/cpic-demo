@@ -7,12 +7,14 @@ withDefaults(
     subtitle?: string;
     tabBar?: 'home' | 'tools' | 'customers' | 'data' | 'me';
     showBack?: boolean;
+    showTitle?: boolean;
     padded?: boolean;
   }>(),
   {
     subtitle: '',
     tabBar: undefined,
     showBack: true,
+    showTitle: true,
     padded: true,
   },
 );
@@ -20,11 +22,17 @@ withDefaults(
 
 <template>
   <div class="demo-page" :class="{ 'demo-page--with-tab': tabBar }">
-    <div class="demo-page__nav">
+    <div v-if="showBack || showTitle" class="demo-page__nav">
       <button v-if="showBack" class="reset-btn demo-page__back" @click="nav.navigateBack()">
-        <text>‹</text>
+        <svg
+          class="demo-page__back-icon"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <path d="M15 5L8 12L15 19" />
+        </svg>
       </button>
-      <div class="demo-page__title-box">
+      <div v-if="showTitle" class="demo-page__title-box">
         <text class="demo-page__title">
           {{ title }}
         </text>
@@ -58,23 +66,36 @@ withDefaults(
   z-index: 10;
   display: flex;
   align-items: center;
-  min-height: 64px;
-  padding: 18px 10px 10px;
+  height: 44px;
   background: #fff;
   box-sizing: border-box;
 }
 
 .demo-page__back {
+  position: absolute;
+  left: 0;
+  top: 0;
   width: 44px;
   height: 44px;
-  border-radius: 50%;
-  font-size: 30px;
-  line-height: 44px;
+  border-radius: 0;
   color: #111;
 }
 
+.demo-page__back-icon {
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
 .demo-page__title-box {
-  flex: 1;
+  position: absolute;
+  left: 56px;
+  right: 56px;
+  top: 0;
   min-width: 0;
   text-align: center;
 }
@@ -87,7 +108,7 @@ withDefaults(
 .demo-page__title {
   font-size: 17px;
   font-weight: 600;
-  line-height: 24px;
+  line-height: 44px;
   color: #111;
 }
 
