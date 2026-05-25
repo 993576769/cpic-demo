@@ -3,10 +3,14 @@ import qs from 'qs';
 class Nav {
   tabPages = [
     '/pages/root/home',
+    '/pages/root/tools',
+    '/pages/root/customers',
   ];
 
   tabQueryMap: Record<string, Record<string, unknown>> = {
     '/pages/root/home': {},
+    '/pages/root/tools': {},
+    '/pages/root/customers': {},
   };
 
   get currentPage() {

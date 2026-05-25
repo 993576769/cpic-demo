@@ -2,17 +2,17 @@
   <div class="main-page">
     <div class="main-page__header">
       <div class="main-page__eyebrow">
-        保险经纪助理
+        客户经营
       </div>
       <h1 class="main-page__title">
-        任务
+        顾客
       </h1>
       <p class="main-page__desc">
-        今日事项、重点顾客和快捷工具会在后续任务中接入。
+        顾客档案、标签筛选和四象限视图会在后续任务中接入。
       </p>
     </div>
 
-    <common-tab-bar active="home" />
+    <common-tab-bar active="customers" />
   </div>
 </template>
 

@@ -2,6 +2,12 @@
   "pages": [
     {
       "path": "pages/root/home"
+    },
+    {
+      "path": "pages/root/tools"
+    },
+    {
+      "path": "pages/root/customers"
     }
   ],
   "subPackages": [
@@ -22,6 +28,14 @@
         "path": "pages/root/home"
       },
       {
+        "name": "tools",
+        "path": "pages/root/tools"
+      },
+      {
+        "name": "customers",
+        "path": "pages/root/customers"
+      },
+      {
         "name": "web-site",
         "path": "pages/extra/web-site"
       }
@@ -32,6 +46,27 @@
     "navigationBarTitleText": "beansmile-uniapp-boilerplate",
     "navigationBarBackgroundColor": "#ffffff",
     "backgroundColor": "#ffffff"
+  },
+  "tabBar": {
+    "custom": true,
+    "color": "#999999",
+    "selectedColor": "#333333",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/root/home",
+        "text": "任务"
+      },
+      {
+        "pagePath": "pages/root/tools",
+        "text": "工具"
+      },
+      {
+        "pagePath": "pages/root/customers",
+        "text": "顾客"
+      }
+    ]
   },
   "easycom": {
     "autoscan": true,
