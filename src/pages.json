@@ -10,6 +10,12 @@
       "path": "pages/root/customers"
     },
     {
+      "path": "pages/root/data"
+    },
+    {
+      "path": "pages/root/me"
+    },
+    {
       "path": "pages/customers/wang/index",
       "style": {
         "navigationBarTitleText": "顾客档案"
@@ -60,6 +66,14 @@
         "path": "pages/root/customers"
       },
       {
+        "name": "data",
+        "path": "pages/root/data"
+      },
+      {
+        "name": "me",
+        "path": "pages/root/me"
+      },
+      {
         "name": "web-site",
         "path": "pages/extra/web-site"
       }
@@ -80,15 +94,33 @@
     "list": [
       {
         "pagePath": "pages/root/home",
-        "text": "任务"
+        "text": "任务",
+        "iconPath": "static/tab-bar/tab-home-inactive.svg",
+        "selectedIconPath": "static/tab-bar/tab-home-active.svg"
       },
       {
         "pagePath": "pages/root/tools",
-        "text": "工具"
+        "text": "工具",
+        "iconPath": "static/tab-bar/tab-tools-inactive.svg",
+        "selectedIconPath": "static/tab-bar/tab-tools-active.svg"
       },
       {
         "pagePath": "pages/root/customers",
-        "text": "顾客"
+        "text": "顾客",
+        "iconPath": "static/tab-bar/tab-customers-inactive.svg",
+        "selectedIconPath": "static/tab-bar/tab-customers-active.svg"
+      },
+      {
+        "pagePath": "pages/root/data",
+        "text": "数据",
+        "iconPath": "static/tab-bar/tab-data-inactive.svg",
+        "selectedIconPath": "static/tab-bar/tab-data-active.svg"
+      },
+      {
+        "pagePath": "pages/root/me",
+        "text": "我",
+        "iconPath": "static/tab-bar/tab-me-inactive.svg",
+        "selectedIconPath": "static/tab-bar/tab-me-active.svg"
       }
     ]
   },

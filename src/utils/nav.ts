@@ -12,12 +12,16 @@ class Nav {
     '/pages/root/home',
     '/pages/root/tools',
     '/pages/root/customers',
+    '/pages/root/data',
+    '/pages/root/me',
   ];
 
   tabQueryMap: Record<string, Record<string, unknown>> = {
     '/pages/root/home': {},
     '/pages/root/tools': {},
     '/pages/root/customers': {},
+    '/pages/root/data': {},
+    '/pages/root/me': {},
   };
 
   get currentPage() {
