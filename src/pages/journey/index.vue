@@ -94,7 +94,7 @@ function confirmSend() {
     </common-button-fixed-bottom>
 
     <div v-if="showSheet" class="sheet-mask" @click.self="showSheet = false">
-      <div class="sheet padding-bottom-safe-area">
+      <div class="sheet">
         <button class="reset-btn sheet__close" @click="showSheet = false">
           ×
         </button>
@@ -122,9 +122,11 @@ function confirmSend() {
           <text>{{ name }}</text>
           <em>{{ index % 2 === 0 ? '高净值' : '宝妈' }}</em>
         </button>
-        <button class="reset-btn sheet-primary" @click="confirmSend">
-          确认发送 {{ selected.length }} 人
-        </button>
+        <common-button-fixed-bottom bg-color="#fff" :z-index="31">
+          <button class="reset-btn sheet-primary" @click="confirmSend">
+            确认发送 {{ selected.length }} 人
+          </button>
+        </common-button-fixed-bottom>
       </div>
     </div>
   </common-demo-page>
@@ -267,13 +269,12 @@ function confirmSend() {
   max-height: 78vh;
   padding-top: 20px;
   padding-right: 16px;
+  padding-bottom: 74px;
   padding-left: 16px;
   border-radius: 18px 18px 0 0;
   overflow: auto;
   background: #fff;
   box-sizing: border-box;
-
-  @include padding-bottom-safe-area;
 }
 
 .sheet__close {
@@ -364,9 +365,9 @@ function confirmSend() {
 }
 
 .sheet-primary {
-  width: 100%;
+  width: calc(100% - 32px);
   height: 48px;
-  margin-top: 14px;
+  margin: 0 16px 12px;
   border-radius: 14px;
   background: #111;
   font-size: 15px;
