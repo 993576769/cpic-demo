@@ -32,10 +32,6 @@ withDefaults(
           {{ subtitle }}
         </text>
       </div>
-      <div class="demo-page__capsule">
-        <text>•••</text>
-        <text>⊙</text>
-      </div>
     </div>
     <div class="demo-page__body" :class="{ 'demo-page__body--padded': padded }">
       <slot></slot>
@@ -100,19 +96,6 @@ withDefaults(
   font-size: 12px;
   line-height: 17px;
   color: #666;
-}
-
-.demo-page__capsule {
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  width: 86px;
-  height: 32px;
-  border: 1px solid #e5e7eb;
-  border-radius: 18px;
-  font-size: 16px;
-  color: #111;
-  background: #ffffffcc;
 }
 
 .demo-page__body--padded {

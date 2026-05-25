@@ -47,3 +47,22 @@ assert.deepEqual(
   ].sort(),
   'Tab bar pages are not registered as expected',
 );
+
+const toolsPage = fs.readFileSync(new URL('../src/pages/root/tools.vue', import.meta.url), 'utf8');
+const requiredToolLabels = [
+  '素材库',
+  '待办事项\\nAI生成',
+  '发布朋友圈',
+  '用户旅程管理',
+  '运营任务',
+  '订单查询',
+  '离职分配',
+  '活动邀请',
+];
+
+const missingToolLabels = requiredToolLabels.filter(label => !toolsPage.includes(label));
+
+assert.deepEqual(missingToolLabels, [], `Missing tool labels: ${missingToolLabels.join(', ')}`);
+assert.match(toolsPage, /<common-demo-page/, 'Tools page should use the shared demo page shell');
+assert.match(toolsPage, /title="工具箱"/, 'Tools page should keep the shared page title');
+assert.doesNotMatch(toolsPage, /toolbox-status|toolbox-capsule/, 'Tools page should not implement a custom system status bar');
