@@ -66,3 +66,22 @@ assert.deepEqual(missingToolLabels, [], `Missing tool labels: ${missingToolLabel
 assert.match(toolsPage, /<common-demo-page/, 'Tools page should use the shared demo page shell');
 assert.match(toolsPage, /title="工具箱"/, 'Tools page should keep the shared page title');
 assert.doesNotMatch(toolsPage, /toolbox-status|toolbox-capsule/, 'Tools page should not implement a custom system status bar');
+
+const momentsPublishPage = fs.readFileSync(
+  new URL('../src/pages/material/moments/publish.vue', import.meta.url),
+  'utf8',
+);
+const requiredPublishTokens = [
+  'moments-publish-page',
+  'publish-heading',
+  'publish-card--products',
+  'product-row__copy',
+  'media-grid__item--add',
+  'publish-card--copy',
+  '去素材库选择',
+  'bottom-actions',
+];
+const missingPublishTokens = requiredPublishTokens.filter(token => !momentsPublishPage.includes(token));
+
+assert.deepEqual(missingPublishTokens, [], `Missing publish page tokens: ${missingPublishTokens.join(', ')}`);
+assert.doesNotMatch(momentsPublishPage, /标签定向/, 'Publish page should not include tag targeting');
