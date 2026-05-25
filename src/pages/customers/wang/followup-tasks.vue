@@ -5,7 +5,7 @@ import { showToast } from '@/utils/toast';
 import { computed, ref } from 'vue';
 
 const tabs = ['问题研究', '沟通联系', '材料准备', '方案准备'];
-const activeTab = ref('问题研究');
+const activeTab = ref(tabs[0]);
 const selectedIds = ref<string[]>([]);
 
 const allSelected = computed(() => selectedIds.value.length === followupTasks.length);
@@ -22,180 +22,273 @@ function toggleAll() {
 </script>
 
 <template>
-  <common-demo-page title="下一步事项">
-    <scroll-view scroll-x class="tabs">
-      <button
-        v-for="tab in tabs"
-        :key="tab"
-        class="reset-btn tab-pill"
-        :class="{ 'is-active': activeTab === tab }"
-        @click="activeTab = tab"
-      >
-        {{ tab }}
-      </button>
-    </scroll-view>
-
-    <view
-      v-for="task in followupTasks"
-      :key="task.id"
-      class="task-card"
+  <view class="todo-ai-task-page">
+    <common-demo-page
+      title=""
+      :show-title="false"
+      :show-back="false"
+      :padded="false"
     >
-      <button
-        class="reset-btn checkbox"
-        :class="{ 'is-checked': selectedIds.includes(task.id) }"
-        @click="toggleTask(task.id)"
-      >
-        ✓
-      </button>
-      <div class="task-card__main">
-        <text class="task-card__title">
-          {{ task.title }}
-        </text>
-        <text class="task-card__desc">
-          {{ task.desc }}
-        </text>
-        <div class="task-card__footer">
-          <text>{{ task.deadline }}</text>
-          <button class="reset-btn edit-button" @click="showToast('建设中')">
-            编辑
+      <common-page-heading title="下一步事项" size="plain" />
+
+      <view class="todo-ai-tabs" role="tablist" aria-label="待办类型">
+        <button
+          v-for="tab in tabs"
+          :key="tab"
+          class="reset-btn todo-ai-tabs__item"
+          :class="{ 'is-active': activeTab === tab }"
+          role="tab"
+          :aria-selected="activeTab === tab"
+          @click="activeTab = tab"
+        >
+          {{ tab }}
+        </button>
+      </view>
+
+      <view class="todo-task-list">
+        <view
+          v-for="task in followupTasks"
+          :key="task.id"
+          class="todo-task-card"
+        >
+          <button
+            class="reset-btn todo-task-card__checkbox"
+            :class="{ 'is-checked': selectedIds.includes(task.id) }"
+            @click="toggleTask(task.id)"
+          >
+            <view class="todo-task-card__checkmark" />
           </button>
-        </div>
-      </div>
-    </view>
 
-    <text class="hint">
-      这些 to do 会出现在“今日事项”中
-    </text>
+          <view class="todo-task-card__main">
+            <text class="todo-task-card__title">
+              {{ task.title }}
+            </text>
+            <text class="todo-task-card__desc">
+              {{ task.desc }}
+            </text>
+            <view class="todo-task-card__footer">
+              <text class="todo-task-card__deadline">
+                {{ task.deadline }}
+              </text>
+              <button class="reset-btn todo-task-card__edit" @click="showToast('建设中')">
+                编辑
+              </button>
+            </view>
+          </view>
+        </view>
 
-    <div class="bottom-actions padding-bottom-safe-area">
-      <button class="reset-btn select-button" @click="toggleAll">
-        {{ allSelected ? '取消全选' : '全选' }}
-      </button>
-      <button class="reset-btn add-button" @click="nav.nav('/customers/wang/todo-list')">
-        添加到待办事项
-      </button>
-    </div>
-  </common-demo-page>
+        <text class="todo-task-hint">
+          这些to do会出现在”今日事项“中
+        </text>
+      </view>
+
+      <common-button-fixed-bottom bg-color="#fff">
+        <view class="todo-bottom-actions">
+          <button class="reset-btn select-button" @click="toggleAll">
+            {{ allSelected ? '取消全选' : '全选' }}
+          </button>
+          <button class="reset-btn add-button" @click="nav.nav('/customers/wang/todo-list')">
+            添加到待办事项
+          </button>
+        </view>
+      </common-button-fixed-bottom>
+    </common-demo-page>
+  </view>
 </template>
 
 <style lang="scss" scoped>
-.tabs {
-  width: 100%;
-  margin-bottom: 12px;
-  white-space: nowrap;
+.todo-ai-task-page {
+  min-height: 100vh;
+  background: #fff;
 }
 
-.tab-pill {
+.todo-ai-task-page :deep(.demo-page),
+.todo-ai-task-page :deep(.demo-page__body) {
+  min-height: 100vh;
+  background: #fff;
+}
+
+.todo-ai-task-page :deep(.page-heading--plain) {
+  padding-right: 17px;
+  padding-left: 17px;
+}
+
+.todo-ai-tabs {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  width: 326px;
   height: 36px;
-  padding: 0 14px;
-  margin-right: 8px;
-  border-radius: 18px;
-  background: #fff;
-  font-size: 13px;
+  padding: 4px;
+  margin: 10px 0 17px 19px;
+  border-radius: 14px;
+  background: #f3f4f6;
+  box-sizing: border-box;
 }
 
-.tab-pill.is-active {
-  background: #111;
+.todo-ai-tabs__item {
+  height: 28px;
+  border-radius: 10px;
+  background: transparent;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  color: #6a7282;
+}
+
+.todo-ai-tabs__item.is-active {
+  background: #101828;
   color: #fff;
 }
 
-.task-card {
+.todo-task-list {
+  padding: 0 19px 170px;
+  box-sizing: border-box;
+}
+
+.todo-task-card {
   display: flex;
-  gap: 12px;
-  padding: 16px;
-  margin-bottom: 10px;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
+  width: 335px;
+  height: 92px;
+  padding: 14px 21px 12px 12px;
+  margin: 0 0 10px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  background: #fff;
+  box-sizing: border-box;
+}
+
+.todo-task-card__checkbox {
+  flex: 0 0 13px;
+  width: 13px;
+  height: 13px;
+  margin: 2px 7px 0 0;
+  border: 1px solid #000;
+  border-radius: 2px;
   background: #fff;
 }
 
-.checkbox {
-  flex: 0 0 22px;
-  width: 22px;
-  height: 22px;
-  border: 1px solid #111;
-  border-radius: 4px;
-  color: transparent;
+.todo-task-card__checkbox.is-checked {
+  background: #101828;
 }
 
-.checkbox.is-checked {
-  background: #111;
-  color: #fff;
+.todo-task-card__checkmark {
+  display: none;
+  width: 7px;
+  height: 4px;
+  border-bottom: 1.5px solid #fff;
+  border-left: 1.5px solid #fff;
+  transform: rotate(-45deg);
 }
 
-.task-card__main {
+.todo-task-card__checkbox.is-checked .todo-task-card__checkmark {
+  display: block;
+}
+
+.todo-task-card__main {
   flex: 1;
   min-width: 0;
 }
 
-.task-card__title,
-.task-card__desc,
-.hint {
+.todo-task-card__title,
+.todo-task-card__desc,
+.todo-task-card__deadline,
+.todo-task-hint {
   display: block;
 }
 
-.task-card__title {
-  font-size: 15px;
-  font-weight: 600;
-  line-height: 22px;
+.todo-task-card__title {
+  overflow: hidden;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 18px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #000;
 }
 
-.task-card__desc {
-  margin-top: 6px;
-  font-size: 12px;
+.todo-task-card__desc {
+  overflow: hidden;
+  width: 264px;
+  margin-top: 2px;
+  margin-left: 1px;
+  font-size: 11px;
+  font-weight: 400;
   line-height: 18px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   color: #666;
 }
 
-.task-card__footer {
+.todo-task-card__footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 12px;
-  font-size: 12px;
-  color: #333;
+  margin-top: 7px;
 }
 
-.edit-button {
-  height: 24px;
-  padding: 0 10px;
-  border: 1px solid #111;
-  border-radius: 12px;
+.todo-task-card__deadline {
+  min-width: 0;
+  overflow: hidden;
+  margin-left: 1px;
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 18px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #000;
+}
+
+.todo-task-card__edit {
+  flex: 0 0 46px;
+  width: 46px;
+  height: 19px;
+  margin-left: 8px;
+  border: 1px solid #000;
+  border-radius: 100px;
   background: #fff;
-}
-
-.hint {
-  margin: 10px 0 90px;
-  font-size: 13px;
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 15px;
   color: #333;
 }
 
-.bottom-actions {
-  position: fixed;
-  right: 0;
-  bottom: 0;
-  left: 0;
+.todo-task-hint {
+  margin-top: 19px;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 18px;
+  color: #000;
+}
+
+.todo-bottom-actions {
   display: grid;
-  grid-template-columns: 104px 1fr;
-  gap: 10px;
-  padding: 10px;
+  grid-template-columns: 85px 1fr;
+  gap: 11px;
+  padding-top: 10px;
+  padding-right: 15px;
+  padding-left: 19px;
   background: #fff;
+  box-sizing: border-box;
 }
 
 .select-button,
 .add-button {
-  height: 48px;
+  height: 54px;
   border-radius: 14px;
-  font-size: 15px;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 24px;
 }
 
 .select-button {
-  border: 1px solid #e5e7eb;
+  border: 1px solid #1c1c1e;
   background: #fff;
+  color: #000;
 }
 
 .add-button {
-  background: #111;
+  border: 1px solid #1c1c1e;
+  background: #1c1c1e;
   color: #fff;
 }
 </style>

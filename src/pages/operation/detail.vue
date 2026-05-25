@@ -2,10 +2,26 @@
 import { operationCustomers } from '@/pages/demo-data';
 import { nav } from '@/utils/nav';
 import { showToast } from '@/utils/toast';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 
-const activeTab = ref('待完成 4');
-const tabs = ['待完成 4', '已完成 12'];
+const tabs = [
+  { key: 'todo', label: '待完成 4' },
+  { key: 'done', label: '已完成 12' },
+] as const;
+
+type TabKey = typeof tabs[number]['key'];
+
+const activeTab = ref<TabKey>('todo');
+
+const visibleCustomers = computed(() => operationCustomers.filter(customer => customer.status === activeTab.value));
+
+function selectTab(tab: TabKey) {
+  activeTab.value = tab;
+}
+
+async function viewCustomer() {
+  await showToast('建设中');
+}
 
 async function sendAll() {
   await showToast('已下发到企微，请到企业微信完成群发');
@@ -14,143 +30,202 @@ async function sendAll() {
 </script>
 
 <template>
-  <common-demo-page title="2026年中秋节祝福" subtitle="问候模版已配置，可批量转发">
-    <view class="hero-card">
-      <text>任务时间</text>
-      <span>2025/7/23 – 2025/8/23</span>
-    </view>
+  <view class="operation-detail-page">
+    <common-demo-page title="" :show-title="false" :padded="false">
+      <common-page-heading
+        title="2026年中秋节祝福"
+        subtitle="问候模版已配置，可批量转发"
+        meta="任务时间 2025年7月23日 - 2025年8月23日"
+        size="compact"
+      />
 
-    <div class="tabs">
-      <button
-        v-for="tab in tabs"
-        :key="tab"
-        class="reset-btn tab"
-        :class="{ 'is-active': activeTab === tab }"
-        @click="activeTab = tab"
-      >
-        {{ tab }}
-      </button>
-    </div>
-
-    <view class="customer-card">
-      <div v-for="(name, index) in operationCustomers" :key="name" class="customer-row">
-        <div>
-          <text class="customer-row__name">
-            {{ name }}
-          </text>
-          <text class="customer-row__meta">
-            1899090989{{ index }} · 所属SA
-          </text>
-        </div>
-        <button class="reset-btn view-button" @click="showToast('建设中')">
-          查看
+      <view class="operation-detail-tabs" role="tablist" aria-label="完成状态">
+        <button
+          v-for="tab in tabs"
+          :key="tab.key"
+          class="reset-btn operation-detail-tabs__item"
+          :class="{ 'is-active': activeTab === tab.key }"
+          role="tab"
+          :aria-selected="activeTab === tab.key"
+          @click="selectTab(tab.key)"
+        >
+          <text>{{ tab.label }}</text>
         </button>
-      </div>
-    </view>
+      </view>
 
-    <button class="reset-btn fixed-primary padding-bottom-safe-area" @click="sendAll">
-      批量发送
-    </button>
-  </common-demo-page>
+      <view class="operation-customer-list">
+        <view
+          v-for="customer in visibleCustomers"
+          :key="customer.name"
+          class="operation-customer-row"
+        >
+          <view class="operation-customer-row__content">
+            <text class="operation-customer-row__name">
+              {{ customer.name }}
+            </text>
+            <text class="operation-customer-row__phone">
+              手机号：{{ customer.phone }}
+            </text>
+            <text class="operation-customer-row__owner">
+              所属SA：{{ customer.owner }}
+            </text>
+          </view>
+          <button class="reset-btn operation-customer-row__button" @click="viewCustomer">
+            查看
+          </button>
+        </view>
+      </view>
+
+      <view class="operation-bottom-spacer" />
+
+      <common-button-fixed-bottom bg-color="#fff">
+        <view class="batch-send-wrap">
+          <button class="reset-btn batch-send-button" @click="sendAll">
+            批量发送
+          </button>
+        </view>
+      </common-button-fixed-bottom>
+    </common-demo-page>
+  </view>
 </template>
 
 <style lang="scss" scoped>
-.hero-card,
-.customer-card {
-  border-radius: 8px;
+.operation-detail-page {
+  min-height: 100vh;
+  background: #f8f8f8;
+}
+
+.operation-detail-page :deep(.demo-page) {
+  min-height: 100vh;
+  background: #f8f8f8;
+}
+
+.operation-detail-page :deep(.demo-page__body) {
+  background: #f8f8f8;
+}
+
+.operation-detail-tabs {
+  display: flex;
+  align-items: flex-end;
+  height: 48px;
+  padding: 0 20px;
+  border-bottom: 1px solid #f0f0f0;
   background: #fff;
+  box-sizing: border-box;
 }
 
-.hero-card {
-  padding: 18px;
+.operation-detail-tabs__item {
+  position: relative;
+  width: 70px;
+  height: 48px;
+  margin-right: 17px;
+  background: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  color: #999;
 }
 
-.hero-card text,
-.hero-card span {
+.operation-detail-tabs__item.is-active {
+  color: #333;
+}
+
+.operation-detail-tabs__item.is-active::after {
+  position: absolute;
+  display: block;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 4px;
+  background: #333;
+  content: '';
+}
+
+.operation-customer-list {
+  padding: 13px 16px 0;
+  background: #fff;
+  box-sizing: border-box;
+}
+
+.operation-customer-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  min-height: 96px;
+  padding: 0 11px 10px;
+  border-bottom: 1px solid #0000001a;
+  box-sizing: border-box;
+}
+
+.operation-customer-row + .operation-customer-row {
+  padding-top: 10px;
+}
+
+.operation-customer-row__content {
+  min-width: 0;
+}
+
+.operation-customer-row__name,
+.operation-customer-row__phone,
+.operation-customer-row__owner {
   display: block;
 }
 
-.hero-card text {
-  font-size: 13px;
+.operation-customer-row__name {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  color: #000;
+}
+
+.operation-customer-row__phone,
+.operation-customer-row__owner {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 24px;
   color: #666;
 }
 
-.hero-card span {
-  margin-top: 8px;
-  font-size: 16px;
-  font-weight: 600;
+.operation-customer-row__phone {
+  margin-top: 2px;
 }
 
-.tabs {
-  display: flex;
-  gap: 8px;
-  margin: 12px 0;
-}
-
-.tab {
-  flex: 1;
-  height: 38px;
-  border-radius: 19px;
-  background: #fff;
-  font-size: 13px;
-}
-
-.tab.is-active {
-  background: #111;
+.operation-customer-row__button {
+  flex: 0 0 60px;
+  width: 60px;
+  height: 28px;
+  margin-top: 24px;
+  border: 1px solid #979797;
+  border-radius: 8px;
+  background: #000;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 17px;
   color: #fff;
 }
 
-.customer-card {
-  padding: 0 16px;
-  margin-bottom: 82px;
-}
-
-.customer-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  min-height: 72px;
-  border-bottom: 1px solid #f0f0f0;
-}
-
-.customer-row:last-child {
-  border-bottom: 0;
-}
-
-.customer-row__name,
-.customer-row__meta {
-  display: block;
-}
-
-.customer-row__name {
-  font-size: 15px;
-  font-weight: 600;
-}
-
-.customer-row__meta {
-  margin-top: 6px;
-  font-size: 12px;
-  color: #666;
-}
-
-.view-button {
-  width: 56px;
-  height: 30px;
-  border-radius: 15px;
-  border: 1px solid #111;
+.operation-bottom-spacer {
+  height: 126px;
   background: #fff;
-  font-size: 12px;
 }
 
-.fixed-primary {
-  position: fixed;
-  right: 10px;
-  bottom: 12px;
-  left: 10px;
-  height: 48px;
+.batch-send-wrap {
+  padding-top: 15px;
+  padding-right: 17px;
+  padding-left: 17px;
+  background: #fff;
+  box-sizing: border-box;
+}
+
+.batch-send-button {
+  width: 341px;
+  height: 54px;
+  margin: 0 auto;
   border-radius: 14px;
-  background: #111;
-  font-size: 15px;
+  background: #1c1c1e;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 24px;
   color: #fff;
 }
 </style>

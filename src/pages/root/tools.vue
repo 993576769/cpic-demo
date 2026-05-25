@@ -34,7 +34,7 @@ const tools: ToolItem[] = [
     title: '待办事项\nAI生成',
     icon: '/static/tools/icon-todo.svg',
     size: 'large',
-    url: '/customers/wang/visit-record',
+    url: '/todo-ai',
   },
   {
     key: 'moments',

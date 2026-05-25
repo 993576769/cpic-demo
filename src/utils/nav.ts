@@ -19,6 +19,7 @@ class Nav {
     '/material/moments/publish': '/pages/material/moments/publish',
     '/operation': '/pages/operation/index',
     '/operation/zhongqiu': '/pages/operation/detail',
+    '/todo-ai': '/pages/customers/wang/visit-record',
     '/tools': '/pages/root/tools',
   };
 

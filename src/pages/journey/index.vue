@@ -87,9 +87,11 @@ function confirmSend() {
       />
     </view>
 
-    <button class="reset-btn fixed-primary padding-bottom-safe-area" @click="showSheet = true">
-      批量发送
-    </button>
+    <common-button-fixed-bottom bg-color="transparent">
+      <button class="reset-btn fixed-primary" @click="showSheet = true">
+        批量发送
+      </button>
+    </common-button-fixed-bottom>
 
     <div v-if="showSheet" class="sheet-mask" @click.self="showSheet = false">
       <div class="sheet padding-bottom-safe-area">
@@ -241,11 +243,9 @@ function confirmSend() {
 }
 
 .fixed-primary {
-  position: fixed;
-  right: 10px;
-  bottom: 12px;
-  left: 10px;
+  width: calc(100% - 20px);
   height: 48px;
+  margin: 0 10px 12px;
   border-radius: 14px;
   background: #111;
   font-size: 15px;
@@ -265,11 +265,15 @@ function confirmSend() {
   position: relative;
   width: 100%;
   max-height: 78vh;
-  padding: 20px 16px 12px;
+  padding-top: 20px;
+  padding-right: 16px;
+  padding-left: 16px;
   border-radius: 18px 18px 0 0;
   overflow: auto;
   background: #fff;
   box-sizing: border-box;
+
+  @include padding-bottom-safe-area;
 }
 
 .sheet__close {

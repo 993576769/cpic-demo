@@ -51,9 +51,11 @@ import { showToast } from '@/utils/toast';
       </text>
     </view>
 
-    <button class="reset-btn fixed-primary padding-bottom-safe-area" @click="nav.nav('/customers/wang/followup/tasks')">
-      生成待办事项
-    </button>
+    <common-button-fixed-bottom bg-color="transparent">
+      <button class="reset-btn fixed-primary" @click="nav.nav('/customers/wang/followup/tasks')">
+        生成待办事项
+      </button>
+    </common-button-fixed-bottom>
   </common-demo-page>
 </template>
 
@@ -127,11 +129,9 @@ import { showToast } from '@/utils/toast';
 }
 
 .fixed-primary {
-  position: fixed;
-  right: 10px;
-  bottom: 12px;
-  left: 10px;
+  width: calc(100% - 20px);
   height: 48px;
+  margin: 0 10px 12px;
   border-radius: 14px;
   font-size: 15px;
 }

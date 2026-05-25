@@ -20,10 +20,8 @@ async function publish() {
 
 <template>
   <view class="moments-publish-page">
-    <common-demo-page title="" :padded="false">
-      <view class="publish-heading">
-        发布朋友圈
-      </view>
+    <common-demo-page title="" :show-title="false" :padded="false">
+      <common-page-heading title="发布朋友圈" />
 
       <view class="publish-card publish-card--products">
         <view class="publish-card__header">
@@ -86,14 +84,16 @@ async function publish() {
 
       <view class="bottom-spacer" />
 
-      <view class="bottom-actions padding-bottom-safe-area">
-        <button class="reset-btn secondary-button" @click="nav.navigateBack()">
-          取消
-        </button>
-        <button class="reset-btn primary-button" @click="publish">
-          确定
-        </button>
-      </view>
+      <common-button-fixed-bottom bg-color="#fff">
+        <view class="bottom-actions">
+          <button class="reset-btn secondary-button" @click="nav.navigateBack()">
+            取消
+          </button>
+          <button class="reset-btn primary-button" @click="publish">
+            确定
+          </button>
+        </view>
+      </common-button-fixed-bottom>
     </common-demo-page>
   </view>
 </template>
@@ -107,37 +107,6 @@ async function publish() {
 .moments-publish-page :deep(.demo-page) {
   min-height: 100vh;
   background: #f8f8f8;
-}
-
-.moments-publish-page :deep(.demo-page__nav) {
-  position: relative;
-  min-height: 88px;
-  padding: 44px 282px 0 0;
-  background: #fff;
-}
-
-.moments-publish-page :deep(.demo-page__back) {
-  width: 44px;
-  height: 44px;
-  border-radius: 0;
-  font-size: 34px;
-  line-height: 42px;
-}
-
-.moments-publish-page :deep(.demo-page__title-box) {
-  display: none;
-}
-
-.publish-heading {
-  height: 66px;
-  padding: 12px 16px 22px;
-  border-bottom: 1px solid #0000000f;
-  background: #fff;
-  box-sizing: border-box;
-  font-size: 22px;
-  font-weight: 600;
-  line-height: 32px;
-  color: #000;
 }
 
 .publish-card {
@@ -295,14 +264,12 @@ async function publish() {
 }
 
 .bottom-actions {
-  position: fixed;
-  right: 0;
-  bottom: 0;
-  left: 0;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 6px;
-  padding: 15px 20px 45px;
+  padding-top: 15px;
+  padding-right: 20px;
+  padding-left: 20px;
   background: #fff;
   box-sizing: border-box;
 }
