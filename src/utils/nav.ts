@@ -1,12 +1,23 @@
 import qs from 'qs';
 
 class Nav {
+  pageAliases: Record<string, string> = {
+    '/activity': '/pages/activity/index',
+    '/customers/wang': '/pages/customers/wang/index',
+    '/customers/wang/visit-record': '/pages/customers/wang/visit-record',
+    '/material/moments/publish': '/pages/material/moments/publish',
+  };
+
   tabPages = [
     '/pages/root/home',
+    '/pages/root/tools',
+    '/pages/root/customers',
   ];
 
   tabQueryMap: Record<string, Record<string, unknown>> = {
     '/pages/root/home': {},
+    '/pages/root/tools': {},
+    '/pages/root/customers': {},
   };
 
   get currentPage() {
@@ -67,14 +78,25 @@ class Nav {
     canBack ? uni.navigateBack(options) : this.goHome();
   }
 
+  normalizeUrl(url: string) {
+    const [origin, query] = url.split('?');
+    const alias = this.pageAliases[origin];
+    if (alias === undefined) {
+      return url;
+    }
+
+    return query === undefined ? alias : `${alias}?${query}`;
+  }
+
   nav(url: string) {
-    if (url) {
-      if (url.startsWith('http')) {
-        this.navigateTo({ url: `/pages/extra/web-site?src=${encodeURIComponent(url)}` });
-      } else if (this.isTabPage(url)) {
-        this.switchTab({ url });
+    const normalizedUrl = this.normalizeUrl(url);
+    if (normalizedUrl) {
+      if (normalizedUrl.startsWith('http')) {
+        this.navigateTo({ url: `/pages/extra/web-site?src=${encodeURIComponent(normalizedUrl)}` });
+      } else if (this.isTabPage(normalizedUrl)) {
+        this.switchTab({ url: normalizedUrl });
       } else {
-        this.navigateTo({ url });
+        this.navigateTo({ url: normalizedUrl });
       }
     }
   }
