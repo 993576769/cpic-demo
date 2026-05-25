@@ -8,6 +8,30 @@
     },
     {
       "path": "pages/root/customers"
+    },
+    {
+      "path": "pages/customers/wang/index",
+      "style": {
+        "navigationBarTitleText": "顾客档案"
+      }
+    },
+    {
+      "path": "pages/customers/wang/visit-record",
+      "style": {
+        "navigationBarTitleText": "拜访记录分析"
+      }
+    },
+    {
+      "path": "pages/activity/index",
+      "style": {
+        "navigationBarTitleText": "活动邀约"
+      }
+    },
+    {
+      "path": "pages/material/moments/publish",
+      "style": {
+        "navigationBarTitleText": "发布朋友圈"
+      }
     }
   ],
   "subPackages": [

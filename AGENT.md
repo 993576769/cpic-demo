@@ -47,6 +47,7 @@ This is a Vue 3 + TypeScript + uni-app mini-program project built with Vite and 
 - Keep styles in SCSS and reuse the globally injected color, variable, and mixin files.
 - Avoid adding new UI/icon dependencies unless the project explicitly needs them.
 - Preserve uni-app compatibility when using browser, DOM, or platform-specific APIs.
+- For WeChat mini-program compatibility, use uni-app/native tags for structure and text: prefer `view` for layout containers and `text` for textual content. Do not use H5 semantic tags such as `span`, `strong`, or `p` for styling or text display because mp-weixin compiles them unpredictably, often into `view`.
 
 ## Style And Lint Notes
 

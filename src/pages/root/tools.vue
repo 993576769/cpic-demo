@@ -1,15 +1,15 @@
 <template>
   <div class="main-page">
     <div class="main-page__header">
-      <div class="main-page__eyebrow">
+      <text class="main-page__eyebrow">
         智能工具箱
-      </div>
-      <h1 class="main-page__title">
+      </text>
+      <text class="main-page__title">
         工具
-      </h1>
-      <p class="main-page__desc">
+      </text>
+      <text class="main-page__desc">
         拜访记录分析、产品查询和素材工具会在后续任务中接入。
-      </p>
+      </text>
     </div>
 
     <common-tab-bar active="tools" />
@@ -31,6 +31,7 @@
 }
 
 .main-page__eyebrow {
+  display: block;
   margin-bottom: 8px;
   font-size: 12px;
   line-height: 18px;
@@ -38,7 +39,7 @@
 }
 
 .main-page__title {
-  margin: 0;
+  display: block;
   font-size: 28px;
   font-weight: 600;
   line-height: 36px;
@@ -46,7 +47,8 @@
 }
 
 .main-page__desc {
-  margin: 10px 0 0;
+  display: block;
+  margin-top: 10px;
   font-size: 14px;
   line-height: 22px;
   color: #666;

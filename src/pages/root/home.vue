@@ -1,54 +1,98 @@
+<script setup lang="ts">
+import type { RecommendTabKey, TodoItem, TodoTabKey } from './home/types';
+import { nav } from '@/utils/nav';
+import { showToast } from '@/utils/toast';
+import { computed, ref } from 'vue';
+import {
+  activityCards,
+  customerCards,
+  enterpriseTopics,
+  initialTodoItems,
+  recommendTabs,
+  todoTabs,
+  tools,
+  topicCards,
+} from './home/data';
+import RecommendationPanel from './home/RecommendationPanel.vue';
+import TodayPanel from './home/TodayPanel.vue';
+import ToolsPanel from './home/ToolsPanel.vue';
+
+const todoItems = ref<TodoItem[]>(initialTodoItems.map(item => ({ ...item })));
+const activeTodoTab = ref<TodoTabKey>('all');
+const activeRecommendTab = ref<RecommendTabKey>('customers');
+
+const visibleTodoItems = computed(() => {
+  if (activeTodoTab.value === 'all') {
+    return todoItems.value;
+  }
+
+  return todoItems.value.filter(item => item.tab === activeTodoTab.value);
+});
+
+function toggleTodo(id: string) {
+  const target = todoItems.value.find(item => item.id === id);
+  if (target === undefined) {
+    return;
+  }
+
+  target.done = !target.done;
+}
+
+function openUrl(url?: string) {
+  if (url === undefined) {
+    showToast('建设中');
+    return;
+  }
+
+  nav.nav(url);
+}
+</script>
+
 <template>
-  <div class="main-page">
-    <div class="main-page__header">
-      <div class="main-page__eyebrow">
-        保险经纪助理
-      </div>
-      <h1 class="main-page__title">
-        任务
-      </h1>
-      <p class="main-page__desc">
-        今日事项、重点顾客和快捷工具会在后续任务中接入。
-      </p>
-    </div>
+  <div class="home-page">
+    <view class="home-page__content">
+      <TodayPanel
+        :tabs="todoTabs"
+        :active-tab="activeTodoTab"
+        :items="visibleTodoItems"
+        @change-tab="activeTodoTab = $event"
+        @toggle="toggleTodo"
+        @open="openUrl"
+      />
+
+      <RecommendationPanel
+        :tabs="recommendTabs"
+        :active-tab="activeRecommendTab"
+        :customers="customerCards"
+        :enterprise-topics="enterpriseTopics"
+        :topics="topicCards"
+        :activities="activityCards"
+        @change-tab="activeRecommendTab = $event"
+        @open="openUrl"
+        @fallback="showToast('建设中')"
+      />
+
+      <ToolsPanel :tools="tools" @open="openUrl" />
+    </view>
 
     <common-tab-bar active="home" />
   </div>
 </template>
 
 <style lang="scss" scoped>
-.main-page {
+.home-page {
   min-height: 100vh;
-  padding: 56px 20px 84px;
+  padding: 12px 0 84px;
   background: #f5f5f7;
   box-sizing: border-box;
+  color: #101828;
 }
 
-.main-page__header {
-  padding: 20px;
-  background: $white-color;
-  border-radius: 8px;
-}
-
-.main-page__eyebrow {
-  margin-bottom: 8px;
-  font-size: 12px;
-  line-height: 18px;
-  color: #777;
-}
-
-.main-page__title {
-  margin: 0;
-  font-size: 28px;
-  font-weight: 600;
-  line-height: 36px;
-  color: #111;
-}
-
-.main-page__desc {
-  margin: 10px 0 0;
-  font-size: 14px;
-  line-height: 22px;
-  color: #666;
+.home-page__content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 0 10px;
+  box-sizing: border-box;
 }
 </style>
