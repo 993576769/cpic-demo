@@ -1,125 +1,164 @@
 <script setup lang="ts">
-import { showToast } from '@/utils/toast';
+import { nav } from '@/utils/nav';
 </script>
 
 <template>
-  <div class="activity-page">
-    <view class="activity-content">
-      <view class="hero-card">
-        <text class="hero-card__scene">
-          亲子场景
-        </text>
-        <text class="hero-card__title">
-          虹口区亲子烘焙活动
-        </text>
-        <text class="hero-card__deadline">
-          截至时间：2026/01/11 18:00
-        </text>
-      </view>
-
-      <view class="info-card">
-        <text class="info-card__title">
-          报名概况
-        </text>
-        <div class="quota-row">
-          <text class="quota-row__value">
-            0/2
-          </text>
-          <text class="quota-row__label">
-            当前名额
-          </text>
-        </div>
-        <button class="reset-btn primary-button" @click="showToast('已报名活动')">
-          <text>报名活动</text>
-        </button>
-      </view>
+  <common-demo-page title="邀请任务">
+    <view class="hero-card">
+      <text class="hero-card__title">
+        HIH 线下艺术展邀约
+      </text>
+      <text class="hero-card__meta">
+        2026年2月23日 · 上海环贸iapm商场3L-320室
+      </text>
+      <span>9天 距离结束</span>
     </view>
-  </div>
+
+    <button class="reset-btn data-card" @click="nav.nav('/activity/records')">
+      <div>
+        <text>37 位顾客已预约</text>
+        <span>还差14 位满额</span>
+      </div>
+      <em>查看记录 ›</em>
+    </button>
+
+    <view class="content-card">
+      <text class="section-title">
+        建议邀约人群
+      </text>
+      <div class="tags">
+        <span>年消费1万 – 2万顾客</span>
+        <span>有孩子的家庭 顾客</span>
+      </div>
+    </view>
+
+    <view class="content-card">
+      <text class="section-title">
+        活动详情
+      </text>
+      <div class="skeleton"></div>
+      <div class="skeleton skeleton--short"></div>
+      <div class="skeleton"></div>
+    </view>
+
+    <button class="reset-btn fixed-primary padding-bottom-safe-area" @click="nav.nav('/activity/invite-list')">
+      批量邀请
+    </button>
+  </common-demo-page>
 </template>
 
 <style lang="scss" scoped>
-.activity-page {
-  min-height: 100vh;
-  background: #f5f5f7;
-  color: #101828;
-}
-
-.activity-content {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  padding: 12px 10px 28px;
-}
-
 .hero-card,
-.info-card {
-  padding: 20px;
-  background: $white-color;
+.data-card,
+.content-card {
+  padding: 18px;
+  margin-bottom: 12px;
   border-radius: 8px;
-  box-sizing: border-box;
+  background: #fff;
 }
 
 .hero-card {
-  min-height: 172px;
-  background: linear-gradient(135deg, #111827 0%, #2f3848 100%);
-  color: $white-color;
+  position: relative;
+  min-height: 132px;
 }
 
 .hero-card__title,
-.hero-card__scene,
-.hero-card__deadline,
-.info-card__title {
+.hero-card__meta,
+.data-card text,
+.data-card span,
+.section-title {
   display: block;
-}
-
-.hero-card__scene {
-  display: block;
-  font-size: 13px;
-  color: #d1d5dc;
 }
 
 .hero-card__title {
-  margin-top: 18px;
-  font-size: 24px;
-  line-height: 34px;
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 30px;
 }
 
-.hero-card__deadline {
-  display: block;
-  margin-top: 38px;
+.hero-card__meta {
+  margin-top: 12px;
+  padding-right: 76px;
   font-size: 13px;
-  color: #e5e7eb;
+  line-height: 20px;
+  color: #666;
 }
 
-.info-card__title {
-  font-size: 16px;
-  line-height: 22px;
+.hero-card span {
+  position: absolute;
+  right: 18px;
+  bottom: 18px;
+  padding: 5px 9px;
+  border-radius: 12px;
+  background: #111;
+  font-size: 12px;
+  color: #fff;
 }
 
-.quota-row {
+.data-card {
   display: flex;
-  align-items: baseline;
-  gap: 12px;
-  margin-top: 18px;
+  justify-content: space-between;
+  width: 100%;
+  text-align: left;
 }
 
-.quota-row__value {
-  font-size: 32px;
-  line-height: 42px;
+.data-card text {
+  font-size: 16px;
+  font-weight: 600;
 }
 
-.quota-row__label {
+.data-card span {
+  margin-top: 6px;
   font-size: 13px;
   color: #666;
 }
 
-.primary-button {
-  width: 100%;
-  height: 44px;
-  margin-top: 20px;
-  border-radius: 12px;
-  background: #000;
-  font-size: 14px;
-  color: $white-color;
+.data-card em {
+  align-self: center;
+  font-style: normal;
+  font-size: 13px;
+  color: #666;
+}
+
+.section-title {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.tags span {
+  padding: 7px 10px;
+  border-radius: 14px;
+  background: #f3f4f6;
+  font-size: 12px;
+}
+
+.skeleton {
+  height: 18px;
+  margin-top: 14px;
+  border-radius: 4px;
+  background: #e5e7eb;
+}
+
+.skeleton--short {
+  width: 70%;
+}
+
+.fixed-primary {
+  position: fixed;
+  right: 10px;
+  bottom: 12px;
+  left: 10px;
+  height: 48px;
+  border-radius: 14px;
+  background: #111;
+  font-size: 15px;
+  color: #fff;
 }
 </style>

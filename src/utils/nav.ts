@@ -3,9 +3,23 @@ import qs from 'qs';
 class Nav {
   pageAliases: Record<string, string> = {
     '/activity': '/pages/activity/index',
+    '/activity/invite-list': '/pages/activity/invite-list',
+    '/activity/records': '/pages/activity/records',
     '/customers/wang': '/pages/customers/wang/index',
+    '/customers/wang/followup': '/pages/customers/wang/followup',
+    '/customers/wang/followup/tasks': '/pages/customers/wang/followup-tasks',
+    '/customers/wang/todo-list': '/pages/customers/wang/todo-list',
     '/customers/wang/visit-record': '/pages/customers/wang/visit-record',
+    '/journey': '/pages/journey/index',
+    '/journey/batch-send': '/pages/journey/index?sheet=batch-send',
+    '/material': '/pages/material/index',
+    '/material/content': '/pages/material/content',
+    '/material/content-task/education': '/pages/material/content-task',
+    '/material/moments': '/pages/material/moments/index',
     '/material/moments/publish': '/pages/material/moments/publish',
+    '/operation': '/pages/operation/index',
+    '/operation/zhongqiu': '/pages/operation/detail',
+    '/tools': '/pages/root/tools',
   };
 
   tabPages = [

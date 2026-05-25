@@ -28,6 +28,60 @@
       }
     },
     {
+      "path": "pages/customers/wang/followup",
+      "style": {
+        "navigationBarTitleText": "下一步建议"
+      }
+    },
+    {
+      "path": "pages/customers/wang/followup-tasks",
+      "style": {
+        "navigationBarTitleText": "下一步事项"
+      }
+    },
+    {
+      "path": "pages/customers/wang/todo-list",
+      "style": {
+        "navigationBarTitleText": "待办事项列表"
+      }
+    },
+    {
+      "path": "pages/journey/index",
+      "style": {
+        "navigationBarTitleText": "自动客户旅程"
+      }
+    },
+    {
+      "path": "pages/operation/index",
+      "style": {
+        "navigationBarTitleText": "运营任务"
+      }
+    },
+    {
+      "path": "pages/operation/detail",
+      "style": {
+        "navigationBarTitleText": "运营任务详情"
+      }
+    },
+    {
+      "path": "pages/material/index",
+      "style": {
+        "navigationBarTitleText": "素材库"
+      }
+    },
+    {
+      "path": "pages/material/content",
+      "style": {
+        "navigationBarTitleText": "教育险内容推荐"
+      }
+    },
+    {
+      "path": "pages/material/moments/index",
+      "style": {
+        "navigationBarTitleText": "朋友圈素材库"
+      }
+    },
+    {
       "path": "pages/activity/index",
       "style": {
         "navigationBarTitleText": "活动邀约"
@@ -37,6 +91,24 @@
       "path": "pages/material/moments/publish",
       "style": {
         "navigationBarTitleText": "发布朋友圈"
+      }
+    },
+    {
+      "path": "pages/material/content-task",
+      "style": {
+        "navigationBarTitleText": "内容详情页"
+      }
+    },
+    {
+      "path": "pages/activity/invite-list",
+      "style": {
+        "navigationBarTitleText": "邀约名单"
+      }
+    },
+    {
+      "path": "pages/activity/records",
+      "style": {
+        "navigationBarTitleText": "邀约记录"
       }
     }
   ],
@@ -80,6 +152,7 @@
     ]
   },
   "globalStyle": {
+    "navigationStyle": "custom",
     "navigationBarTextStyle": "black",
     "navigationBarTitleText": "beansmile-uniapp-boilerplate",
     "navigationBarBackgroundColor": "#ffffff",

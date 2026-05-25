@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { nav } from '@/utils/nav';
-import { showToast } from '@/utils/toast';
 
 type TabKey = 'home' | 'tools' | 'customers' | 'data' | 'me';
 
@@ -9,7 +8,7 @@ interface TabItem {
   label: string;
   activeIcon: string;
   inactiveIcon: string;
-  url?: string;
+  url: string;
 }
 
 const props = defineProps<{
@@ -43,12 +42,14 @@ const tabs: TabItem[] = [
     label: '数据',
     activeIcon: '/static/tab-bar/tab-data-active.svg',
     inactiveIcon: '/static/tab-bar/tab-data-inactive.svg',
+    url: '/pages/root/data',
   },
   {
     key: 'me',
     label: '我',
     activeIcon: '/static/tab-bar/tab-me-active.svg',
     inactiveIcon: '/static/tab-bar/tab-me-inactive.svg',
+    url: '/pages/root/me',
   },
 ];
 
@@ -61,8 +62,7 @@ function handleTabClick(item: TabItem) {
     return;
   }
 
-  if (item.url === undefined) {
-    showToast('建设中');
+  if (!item.url) {
     return;
   }
 
