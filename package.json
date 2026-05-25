@@ -8,7 +8,8 @@
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "prepare": "git config core.hooksPath .githooks || true",
-    "start": "pnpm dev:mp-weixin",
+    "start": "pnpm dev:h5",
+    "dev:h5": "uni -p h5",
     "dev:mp-weixin": "uni -p mp-weixin",
     "test": "pnpm lint:js && pnpm lint:ts",
     "lint:js": "cross-env NODE_ENV=production eslint .",
