@@ -37,9 +37,12 @@ const emit = defineEmits<{
           :class="{ 'is-checked': item.done }"
           @click="emit('toggle', item.id)"
         >
-          <text v-if="item.done">
-            ✓
-          </text>
+          <image
+            v-if="item.done"
+            class="todo-card__check-icon"
+            mode="aspectFit"
+            src="/static/home/icon-check-circle.svg"
+          />
         </button>
 
         <div class="todo-card__body">
@@ -108,7 +111,13 @@ const emit = defineEmits<{
 }
 
 .todo-card__check.is-checked {
-  background: #000;
+  border-color: transparent;
+  background: transparent;
+}
+
+.todo-card__check-icon {
+  width: 17px;
+  height: 17px;
 }
 
 .todo-card__body {

@@ -39,14 +39,20 @@ function confirmTask() {
           <text class="content-link__text">
             查看内容
           </text>
-          <text class="content-link__chevron">
-            ›
-          </text>
+          <image
+            class="content-link__chevron"
+            mode="aspectFit"
+            src="/static/material/icon-chevron-right-light.svg"
+          />
         </button>
 
         <view class="content-task-stats">
           <view class="stat-item stat-item--read">
-            <view class="stat-item__icon stat-item__icon--eye" />
+            <image
+              class="stat-item__icon"
+              mode="aspectFit"
+              src="/static/material/icon-eye.svg"
+            />
             <text class="stat-item__text">
               <text class="stat-item__value">
                 72
@@ -58,10 +64,11 @@ function confirmTask() {
           </view>
           <view class="stat-divider" />
           <view class="stat-item stat-item--send">
-            <view class="stat-item__icon stat-item__icon--users">
-              <view />
-              <view />
-            </view>
+            <image
+              class="stat-item__icon"
+              mode="aspectFit"
+              src="/static/material/icon-users.svg"
+            />
             <text class="stat-item__text">
               <text class="stat-item__label">
                 共发送
@@ -105,8 +112,11 @@ function confirmTask() {
                 {{ product }}
               </text>
               <button class="reset-btn product-row__copy" @click="copyProduct">
-                <view class="copy-icon copy-icon--back" />
-                <view class="copy-icon copy-icon--front" />
+                <image
+                  class="copy-icon"
+                  mode="aspectFit"
+                  src="/static/material/icon-copy.svg"
+                />
               </button>
             </view>
           </view>
@@ -167,7 +177,11 @@ function confirmTask() {
                   今天 2025-07-14
                 </text>
               </view>
-              <view class="chevron-down" />
+              <image
+                class="chevron-down"
+                mode="aspectFit"
+                src="/static/material/icon-chevron-down-field.svg"
+              />
             </button>
             <button class="reset-btn schedule-row" @click="showToast('建设中')">
               <view class="schedule-row__content">
@@ -178,7 +192,11 @@ function confirmTask() {
                   13:00
                 </text>
               </view>
-              <view class="chevron-down" />
+              <image
+                class="chevron-down"
+                mode="aspectFit"
+                src="/static/material/icon-chevron-down-field.svg"
+              />
             </button>
           </view>
         </view>
@@ -300,10 +318,8 @@ function confirmTask() {
 
 .content-link__chevron {
   margin-left: 5px;
-  font-size: 18px;
-  font-weight: 300;
-  line-height: 16px;
-  color: #ccc;
+  width: 13px;
+  height: 16px;
 }
 
 .content-task-stats {
@@ -373,58 +389,10 @@ function confirmTask() {
 }
 
 .stat-item__icon {
-  position: relative;
   flex: 0 0 14px;
   width: 14px;
   height: 14px;
   margin-right: 6px;
-  color: #8e8e93;
-}
-
-.stat-item__icon--eye::before,
-.stat-item__icon--eye::after {
-  position: absolute;
-  content: '';
-  box-sizing: border-box;
-}
-
-.stat-item__icon--eye::before {
-  left: 1px;
-  top: 3px;
-  width: 12px;
-  height: 8px;
-  border: 1.5px solid #8e8e93;
-  border-radius: 50%;
-}
-
-.stat-item__icon--eye::after {
-  left: 5px;
-  top: 5px;
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background: #8e8e93;
-}
-
-.stat-item__icon--users view {
-  position: absolute;
-  border: 1.5px solid #8e8e93;
-  border-radius: 50%;
-  box-sizing: border-box;
-}
-
-.stat-item__icon--users view:first-child {
-  top: 2px;
-  left: 1px;
-  width: 6px;
-  height: 6px;
-}
-
-.stat-item__icon--users view:last-child {
-  top: 4px;
-  right: 0;
-  width: 7px;
-  height: 7px;
 }
 
 .task-content {
@@ -502,30 +470,14 @@ function confirmTask() {
 }
 
 .product-row__copy {
-  position: relative;
   width: 24px;
   height: 24px;
   background: transparent;
 }
 
 .copy-icon {
-  position: absolute;
-  width: 10px;
-  height: 10px;
-  border: 1px solid #999;
-  border-radius: 2px;
-  box-sizing: border-box;
-}
-
-.copy-icon--back {
-  top: 6px;
-  left: 9px;
-}
-
-.copy-icon--front {
-  top: 9px;
-  left: 6px;
-  background: #f8f8f8;
+  width: 20px;
+  height: 20px;
 }
 
 .copy-box {
@@ -637,11 +589,8 @@ function confirmTask() {
 }
 
 .chevron-down {
-  width: 13px;
-  height: 13px;
-  border-right: 2px solid #999;
-  border-bottom: 2px solid #999;
-  transform: rotate(45deg) translateY(-3px);
+  width: 24px;
+  height: 24px;
 }
 
 .bottom-actions {

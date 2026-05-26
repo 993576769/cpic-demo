@@ -40,7 +40,11 @@ function useContent() {
       <common-page-heading title="教育险内容推荐" />
 
       <view class="material-search">
-        <view class="material-search__icon" />
+        <image
+          class="material-search__icon"
+          mode="aspectFit"
+          src="/static/material/icon-search.svg"
+        />
         <text class="material-search__placeholder">
           搜索素材
         </text>
@@ -148,38 +152,10 @@ function useContent() {
 }
 
 .material-search__icon {
-  position: relative;
   flex: 0 0 20px;
   width: 20px;
   height: 20px;
   margin-right: 4px;
-}
-
-.material-search__icon::before,
-.material-search__icon::after {
-  position: absolute;
-  content: '';
-  box-sizing: border-box;
-}
-
-.material-search__icon::before {
-  top: 2px;
-  left: 2px;
-  width: 13px;
-  height: 13px;
-  border: 2px solid #999;
-  border-radius: 50%;
-}
-
-.material-search__icon::after {
-  right: 2px;
-  bottom: 3px;
-  width: 8px;
-  height: 2px;
-  border-radius: 2px;
-  background: #999;
-  transform: rotate(45deg);
-  transform-origin: center;
 }
 
 .material-search__placeholder {
