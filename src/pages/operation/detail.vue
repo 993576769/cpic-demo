@@ -76,8 +76,6 @@ async function sendAll() {
         </view>
       </view>
 
-      <view class="operation-bottom-spacer" />
-
       <common-button-fixed-bottom bg-color="#fff">
         <view class="batch-send-wrap">
           <button class="reset-btn batch-send-button" @click="sendAll">
@@ -204,14 +202,10 @@ async function sendAll() {
   color: #fff;
 }
 
-.operation-bottom-spacer {
-  height: 126px;
-  background: #fff;
-}
-
 .batch-send-wrap {
   padding-top: 15px;
   padding-right: 17px;
+  padding-bottom: 10px;
   padding-left: 17px;
   background: #fff;
   box-sizing: border-box;

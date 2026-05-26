@@ -94,6 +94,7 @@ function openTool(tool: ToolItem) {
     title="工具箱"
     tab-bar="tools"
     :show-back="false"
+    :show-title="false"
     :padded="false"
   >
     <view class="tool-layout">
@@ -198,14 +199,6 @@ function openTool(tool: ToolItem) {
   line-height: 20px;
   text-align: left;
   color: #333;
-}
-
-.tool-card--todo .tool-card__title,
-.tool-card--journey .tool-card__title,
-.tool-card--operation .tool-card__title {
-  font-size: 15px;
-  line-height: 21px;
-  font-weight: 600;
 }
 
 .tool-card--material .tool-card__copy {

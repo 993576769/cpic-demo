@@ -368,6 +368,7 @@ const todos: TodoItem[] = [
   gap: 7px;
   padding-top: 8px;
   padding-right: 15px;
+  padding-bottom: 10px;
   padding-left: 15px;
   background: #fff;
   box-sizing: border-box;

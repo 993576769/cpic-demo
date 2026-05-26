@@ -146,6 +146,7 @@ async function sendAll() {
 .fixed-primary {
   width: calc(100% - 20px);
   height: 48px;
+  padding-bottom: 10px;
   margin: 0 10px 12px;
   border-radius: 14px;
   background: #111;

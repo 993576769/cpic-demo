@@ -75,34 +75,32 @@ function handleTabClick(item: TabItem) {
 </script>
 
 <template>
-  <div class="common-tab-bar padding-bottom-safe-area">
-    <div class="tab-bar__content">
-      <button
-        v-for="item in tabs"
-        :key="item.key"
-        class="reset-btn tab-bar__item"
-        :class="{ 'is-active': item.key === active }"
-        @click.stop.prevent="handleTabClick(item)"
-      >
-        <image
-          class="tab-bar__icon"
-          mode="aspectFit"
-          :src="getIcon(item)"
-        />
-        <span class="tab-bar__label">{{ item.label }}</span>
-      </button>
+  <common-button-fixed-bottom bg-color="#fff" :z-index="20">
+    <div class="common-tab-bar">
+      <div class="tab-bar__content">
+        <button
+          v-for="item in tabs"
+          :key="item.key"
+          class="reset-btn tab-bar__item"
+          :class="{ 'is-active': item.key === active }"
+          @click.stop.prevent="handleTabClick(item)"
+        >
+          <image
+            class="tab-bar__icon"
+            mode="aspectFit"
+            :src="getIcon(item)"
+          />
+          <span class="tab-bar__label">{{ item.label }}</span>
+        </button>
+      </div>
     </div>
-  </div>
+  </common-button-fixed-bottom>
 </template>
 
 <style lang="scss" scoped>
 .common-tab-bar {
-  position: fixed;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 20;
   min-height: 50px;
+  padding-bottom: 10px;
   background: $white-color;
   border-top: 1px solid #f0f0f0;
   box-sizing: border-box;

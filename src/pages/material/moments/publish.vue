@@ -82,8 +82,6 @@ async function publish() {
         </button>
       </view>
 
-      <view class="bottom-spacer" />
-
       <common-button-fixed-bottom bg-color="#fff">
         <view class="bottom-actions">
           <button class="reset-btn secondary-button" @click="nav.navigateBack()">
@@ -259,16 +257,13 @@ async function publish() {
   color: #000;
 }
 
-.bottom-spacer {
-  height: 177px;
-}
-
 .bottom-actions {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 6px;
   padding-top: 15px;
   padding-right: 20px;
+  padding-bottom: 10px;
   padding-left: 20px;
   background: #fff;
   box-sizing: border-box;
