@@ -51,7 +51,12 @@ function toggleAll() {
             :class="{ 'is-checked': selectedIds.includes(task.id) }"
             @click="toggleTask(task.id)"
           >
-            <view class="todo-task-card__checkmark" />
+            <image
+              v-if="selectedIds.includes(task.id)"
+              class="todo-task-card__checkmark"
+              mode="aspectFit"
+              src="/static/journey/icon-checkbox-check.svg"
+            />
           </button>
 
           <view class="todo-task-card__main">
@@ -143,7 +148,7 @@ function toggleAll() {
 .todo-task-card {
   display: flex;
   width: 335px;
-  height: 92px;
+  min-height: 92px;
   padding: 14px 21px 12px 12px;
   margin: 0 0 10px;
   border: 1px solid #e0e0e0;
@@ -153,6 +158,7 @@ function toggleAll() {
 }
 
 .todo-task-card__checkbox {
+  appearance: none;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -163,25 +169,20 @@ function toggleAll() {
   border: 1px solid #000;
   border-radius: 2px;
   background: #fff;
+  background-color: #fff;
   box-sizing: border-box;
 }
 
 .todo-task-card__checkbox.is-checked {
+  border-color: #101828;
   background: #101828;
+  background-color: #101828;
 }
 
 .todo-task-card__checkmark {
-  display: none;
-  width: 13px;
-  height: 13px;
-  background-image: url("/static/journey/icon-checkbox-check.svg");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: 13px 13px;
-}
-
-.todo-task-card__checkbox.is-checked .todo-task-card__checkmark {
   display: block;
+  width: 11px;
+  height: 11px;
 }
 
 .todo-task-card__main {
@@ -197,25 +198,19 @@ function toggleAll() {
 }
 
 .todo-task-card__title {
-  overflow: hidden;
   font-size: 14px;
   font-weight: 400;
   line-height: 18px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
   color: #000;
 }
 
 .todo-task-card__desc {
-  overflow: hidden;
   width: 264px;
   margin-top: 2px;
   margin-left: 1px;
   font-size: 11px;
   font-weight: 400;
   line-height: 18px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
   color: #666;
 }
 

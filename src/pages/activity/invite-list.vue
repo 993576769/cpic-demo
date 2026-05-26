@@ -60,18 +60,6 @@ async function sendInvite() {
 <style lang="scss" scoped>
 .invite-page {
   background: #f5f5f5;
-
-  :deep(.button-fixed-bottom) {
-    height: 82px !important;
-  }
-
-  :deep(.fixed-footer) {
-    height: 82px !important;
-  }
-
-  :deep(.content) {
-    height: 82px;
-  }
 }
 
 .header-row {

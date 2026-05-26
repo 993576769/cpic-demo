@@ -92,14 +92,6 @@ const inviteTags = ['年消费1万 - 2万顾客', '有孩子的家庭 顾客'];
 <style lang="scss" scoped>
 .activity-page {
   background: #f8f8f8;
-
-  :deep(.button-fixed-bottom) {
-    height: 92px !important;
-  }
-
-  :deep(.fixed-footer) {
-    height: 92px !important;
-  }
 }
 
 .activity-hero {
@@ -262,7 +254,7 @@ const inviteTags = ['年消费1万 - 2万顾客', '有孩子的家庭 顾客'];
 }
 
 .detail-card {
-  min-height: 543px;
+  padding-bottom: 18px;
   margin-top: 16px;
   overflow: visible;
 }
@@ -286,7 +278,7 @@ const inviteTags = ['年消费1万 - 2万顾客', '有孩子的家庭 顾客'];
 .detail-skeleton {
   position: relative;
   width: 315px;
-  height: 554px;
+  min-height: 554px;
   margin-left: 15px;
 }
 
