@@ -6,6 +6,7 @@ const mainTabs = ['推文', '状态', '链接', '卡片'];
 const subTabs = ['产品推荐', '个人形象', '活动推荐', '节日祝福'];
 const activeMain = ref(mainTabs[0]);
 const activeSub = ref(subTabs[0]);
+const searchKeyword = ref('');
 
 function selectMainTab(tab: string) {
   activeMain.value = tab;
@@ -44,9 +45,11 @@ const materials = [
             mode="aspectFit"
             src="/static/material/icon-search.svg"
           />
-          <text class="material-search__placeholder">
-            搜索素材
-          </text>
+          <input
+            v-model="searchKeyword"
+            class="material-search__input"
+            placeholder="搜索素材"
+          />
         </view>
       </view>
 
@@ -157,11 +160,17 @@ const materials = [
   margin-right: 4px;
 }
 
-.material-search__placeholder {
+.material-search__input {
+  flex: 1;
+  min-width: 0;
+  height: 32px;
+  border: 0;
+  background: transparent;
   font-size: 14px;
   font-weight: 400;
-  line-height: 20px;
-  color: #999;
+  line-height: 32px;
+  color: #333;
+  outline: none;
 }
 
 .material-main-tabs {

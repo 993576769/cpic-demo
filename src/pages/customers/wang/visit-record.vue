@@ -107,8 +107,6 @@ function toggleCard(id: AnalysisId) {
   <view class="visit-record-page">
     <common-demo-page :title="pageTitle" :padded="false">
       <template v-if="state === 'upload'">
-        <common-page-heading title="上传拜访记录" size="plain" />
-
         <view class="upload-page-space" />
 
         <common-button-fixed-bottom bg-color="#fff">
@@ -147,8 +145,6 @@ function toggleCard(id: AnalysisId) {
       </template>
 
       <template v-else>
-        <common-page-heading title="拜访记录分析" size="plain" />
-
         <view class="analysis-content">
           <view class="dialog-card">
             <view class="dialog-card__header">

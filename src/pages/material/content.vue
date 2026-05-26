@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { nav } from '@/utils/nav';
+import { ref } from 'vue';
 
 interface MaterialContent {
   title: string;
@@ -28,6 +29,7 @@ const contents: MaterialContent[] = [
     time: '09:00-10:00',
   },
 ];
+const searchKeyword = ref('');
 
 function useContent() {
   nav.nav('/material/moments/publish');
@@ -36,7 +38,7 @@ function useContent() {
 
 <template>
   <view class="material-content-page">
-    <common-demo-page title="教育险内容推荐" :padded="false">
+    <common-demo-page :padded="false">
       <common-page-heading title="教育险内容推荐" />
 
       <view class="material-search">
@@ -45,9 +47,11 @@ function useContent() {
           mode="aspectFit"
           src="/static/material/icon-search.svg"
         />
-        <text class="material-search__placeholder">
-          搜索素材
-        </text>
+        <input
+          v-model="searchKeyword"
+          class="material-search__input"
+          placeholder="搜索素材"
+        />
       </view>
 
       <view class="material-list">
@@ -131,7 +135,6 @@ function useContent() {
   color: #000;
 }
 
-.material-search__placeholder,
 .material-card__title,
 .material-card__summary,
 .material-card__meta-label,
@@ -158,11 +161,17 @@ function useContent() {
   margin-right: 4px;
 }
 
-.material-search__placeholder {
+.material-search__input {
+  flex: 1;
+  min-width: 0;
+  height: 32px;
+  border: 0;
+  background: transparent;
   font-size: 14px;
   font-weight: 400;
-  line-height: 20px;
-  color: #999;
+  line-height: 32px;
+  color: #333;
+  outline: none;
 }
 
 .material-list {

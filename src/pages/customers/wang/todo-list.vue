@@ -46,9 +46,9 @@ const todos: TodoItem[] = [
 <template>
   <view class="todo-list-page">
     <common-demo-page
-      title="待办事项列表"
       :show-back="false"
       :padded="false"
+      :show-title="false"
     >
       <view class="todo-heading">
         <text class="todo-heading__title">

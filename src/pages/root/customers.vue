@@ -13,6 +13,7 @@ const quadrants = [
 const activeChip = ref('全部');
 const activeQuadrant = ref('高热高价客户');
 const isQuadrantMode = ref(false);
+const searchKeyword = ref('');
 </script>
 
 <template>
@@ -39,7 +40,11 @@ const isQuadrantMode = ref(false);
 
     <div class="search-box">
       <image class="search-box__icon" mode="aspectFit" src="/static/customer/icon-search.svg" />
-      <span>搜索姓名、手机号、标签等</span>
+      <input
+        v-model="searchKeyword"
+        class="search-box__input"
+        placeholder="搜索姓名、手机号、标签等"
+      />
     </div>
 
     <scroll-view v-if="!isQuadrantMode" scroll-x class="chip-scroll">
@@ -167,8 +172,21 @@ const isQuadrantMode = ref(false);
 }
 
 .search-box__icon {
+  flex: 0 0 18px;
   width: 18px;
   height: 18px;
+}
+
+.search-box__input {
+  flex: 1;
+  min-width: 0;
+  height: 42px;
+  border: 0;
+  background: transparent;
+  font-size: 15px;
+  line-height: 42px;
+  color: #333;
+  outline: none;
 }
 
 .chip-scroll {

@@ -27,7 +27,7 @@ function confirmTask() {
 
 <template>
   <view class="content-task-page">
-    <common-demo-page title="内容详情页" :padded="false">
+    <common-demo-page :padded="false">
       <view class="content-task-hero">
         <common-page-heading
           title="内容详情页"

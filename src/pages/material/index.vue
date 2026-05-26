@@ -194,7 +194,14 @@ function openNeed(item: string) {
 }
 
 .material-home-page :deep(.demo-page) {
+  width: 375px;
+  max-width: 100vw;
   min-height: 100vh;
+  margin: 0 auto;
+  background: #f8f8f8;
+}
+
+.material-home-page :deep(.demo-page__body) {
   background: #f8f8f8;
 }
 
@@ -245,7 +252,6 @@ function openNeed(item: string) {
   width: 167px;
   height: 99px;
   padding: 20px 17px 12px;
-  border: 1px solid #ddd;
   border-radius: 4px;
   background: #fff;
   text-align: left;
@@ -281,7 +287,6 @@ function openNeed(item: string) {
   width: 107px;
   height: 80px;
   padding: 10px 5px 10px 12px;
-  border: 1px solid #ddd;
   border-radius: 4px;
   background: #fff;
   text-align: left;
@@ -315,7 +320,6 @@ function openNeed(item: string) {
 
 .rank-card {
   width: 166px;
-  border: 1px solid #ddd;
   border-radius: 4px;
   background: #fff;
   box-sizing: border-box;

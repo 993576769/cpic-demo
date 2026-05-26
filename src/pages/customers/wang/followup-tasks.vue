@@ -27,8 +27,6 @@ function toggleAll() {
       title="下一步事项"
       :padded="false"
     >
-      <common-page-heading title="下一步事项" size="plain" />
-
       <view class="todo-ai-tabs" role="tablist" aria-label="待办类型">
         <button
           v-for="tab in tabs"
