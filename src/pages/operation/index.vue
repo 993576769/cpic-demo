@@ -5,7 +5,7 @@ import { nav } from '@/utils/nav';
 
 <template>
   <view class="operation-page">
-    <common-demo-page title="运营任务" :padded="false">
+    <common-demo-page :padded="false">
       <common-page-heading
         title="运营任务"
         subtitle="请尽快完成"
@@ -69,6 +69,11 @@ import { nav } from '@/utils/nav';
   background: #f8f8f8;
 }
 
+.operation-page :deep(.page-heading--default) {
+  height: 94px;
+  padding-top: 23px;
+}
+
 .operation-task-list {
   padding: 14px 15px 28px;
   box-sizing: border-box;
@@ -97,7 +102,9 @@ import { nav } from '@/utils/nav';
 }
 
 .operation-task-card__main {
+  flex: 1;
   min-width: 0;
+  padding-right: 12px;
 }
 
 .operation-task-card__title {
@@ -136,6 +143,7 @@ import { nav } from '@/utils/nav';
   flex: 0 0 60px;
   width: 60px;
   height: 28px;
+  margin-top: -4px;
   border-radius: 4px;
   background: #000;
   font-size: 12px;
@@ -166,6 +174,9 @@ import { nav } from '@/utils/nav';
 
 .operation-task-card__deadline {
   min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .operation-task-card__progress {
