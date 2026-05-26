@@ -1,15 +1,22 @@
 <script setup lang="ts">
+import type { OperationCustomer } from '@/pages/demo-data';
 import { operationCustomers } from '@/pages/demo-data';
 import { nav } from '@/utils/nav';
 import { showToast } from '@/utils/toast';
 import { computed, ref } from 'vue';
 
-const tabs = [
-  { key: 'todo', label: '待完成 4' },
-  { key: 'done', label: '已完成 12' },
-] as const;
+type TabKey = OperationCustomer['status'];
 
-type TabKey = typeof tabs[number]['key'];
+const tabLabels: Record<TabKey, string> = {
+  todo: '待完成',
+  done: '已完成',
+};
+
+const tabs = computed(() => (['todo', 'done'] as const).map(key => ({
+  key,
+  label: tabLabels[key],
+  count: operationCustomers.filter(customer => customer.status === key).length,
+})));
 
 const activeTab = ref<TabKey>('todo');
 
@@ -31,7 +38,7 @@ async function sendAll() {
 
 <template>
   <view class="operation-detail-page">
-    <common-demo-page title="2026年中秋节祝福" :padded="false">
+    <common-demo-page :padded="false">
       <common-page-heading
         title="2026年中秋节祝福"
         subtitle="问候模版已配置，可批量转发"
@@ -49,34 +56,37 @@ async function sendAll() {
           :aria-selected="activeTab === tab.key"
           @click="selectTab(tab.key)"
         >
-          <text>{{ tab.label }}</text>
+          <text>{{ tab.label }} {{ tab.count }}</text>
+          <view v-if="activeTab === tab.key" class="operation-detail-tabs__bar" />
         </button>
       </view>
 
       <view class="operation-customer-list">
-        <view
-          v-for="customer in visibleCustomers"
-          :key="customer.name"
-          class="operation-customer-row"
-        >
-          <view class="operation-customer-row__content">
-            <text class="operation-customer-row__name">
-              {{ customer.name }}
-            </text>
-            <text class="operation-customer-row__phone">
-              手机号：{{ customer.phone }}
-            </text>
-            <text class="operation-customer-row__owner">
-              所属SA：{{ customer.owner }}
-            </text>
+        <view class="operation-customer-list__inner">
+          <view
+            v-for="customer in visibleCustomers"
+            :key="customer.name"
+            class="operation-customer-row"
+          >
+            <view class="operation-customer-row__content">
+              <text class="operation-customer-row__name">
+                {{ customer.name }}
+              </text>
+              <text class="operation-customer-row__phone">
+                手机号：{{ customer.phone }}
+              </text>
+              <text class="operation-customer-row__owner">
+                所属SA：{{ customer.owner }}
+              </text>
+            </view>
+            <button class="reset-btn operation-customer-row__button" @click="viewCustomer">
+              查看
+            </button>
           </view>
-          <button class="reset-btn operation-customer-row__button" @click="viewCustomer">
-            查看
-          </button>
         </view>
       </view>
 
-      <common-button-fixed-bottom bg-color="#fff">
+      <common-button-fixed-bottom v-if="activeTab === 'todo'" bg-color="#fff">
         <view class="batch-send-wrap">
           <button class="reset-btn batch-send-button" @click="sendAll">
             批量发送
@@ -100,6 +110,11 @@ async function sendAll() {
 
 .operation-detail-page :deep(.demo-page__body) {
   background: #f8f8f8;
+}
+
+.operation-detail-page :deep(.page-heading--compact) {
+  height: 133px;
+  padding-top: 29px;
 }
 
 .operation-detail-tabs {
@@ -128,7 +143,7 @@ async function sendAll() {
   color: #333;
 }
 
-.operation-detail-tabs__item.is-active::after {
+.operation-detail-tabs__bar {
   position: absolute;
   display: block;
   right: 0;
@@ -140,9 +155,13 @@ async function sendAll() {
 }
 
 .operation-customer-list {
-  padding: 13px 16px 0;
+  padding: 13px 16px 114px;
   background: #fff;
   box-sizing: border-box;
+}
+
+.operation-customer-list__inner {
+  background: #fff;
 }
 
 .operation-customer-row {
@@ -150,7 +169,7 @@ async function sendAll() {
   align-items: flex-start;
   justify-content: space-between;
   min-height: 96px;
-  padding: 0 11px 10px;
+  padding: 0 11px;
   border-bottom: 1px solid #0000001a;
   box-sizing: border-box;
 }
@@ -161,6 +180,7 @@ async function sendAll() {
 
 .operation-customer-row__content {
   min-width: 0;
+  padding-bottom: 12px;
 }
 
 .operation-customer-row__name,
@@ -205,7 +225,7 @@ async function sendAll() {
 .batch-send-wrap {
   padding-top: 15px;
   padding-right: 17px;
-  padding-bottom: 10px;
+  padding-bottom: 15px;
   padding-left: 17px;
   background: #fff;
   box-sizing: border-box;
