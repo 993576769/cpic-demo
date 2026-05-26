@@ -154,7 +154,7 @@
   "globalStyle": {
     "navigationStyle": "custom",
     "navigationBarTextStyle": "black",
-    "navigationBarTitleText": "beansmile-uniapp-boilerplate",
+    "navigationBarTitleText": "保险经纪助理",
     "navigationBarBackgroundColor": "#ffffff",
     "backgroundColor": "#ffffff"
   },
