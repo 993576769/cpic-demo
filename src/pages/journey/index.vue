@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { customers, journeyBatchCustomers, journeyCustomers } from '@/pages/demo-data';
+import SegmentControl from '@/pages/root/home/SegmentControl.vue';
 import { showToast } from '@/utils/toast';
 import { onLoad, onShow } from '@dcloudio/uni-app';
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 
 const stages = [
-  { key: 'D1 欢迎语', label: 'D1欢迎语', compactLabel: 'D1' },
-  { key: 'D3保险科普', label: 'D3保险科普', compactLabel: 'D3保险科普' },
+  { key: 'D1 欢迎语', label: 'D1', compactLabel: 'D1' },
+  { key: 'D3保险科普', label: 'D3', compactLabel: 'D3' },
   { key: 'D7', label: 'D7', compactLabel: 'D7' },
   { key: 'D15', label: 'D15', compactLabel: 'D15' },
   { key: 'D30', label: 'D30', compactLabel: 'D30' },
@@ -73,10 +74,10 @@ const batchMaterialTitle = computed(() => activeStage.value === 'D1 欢迎语' ?
 const batchMaterialPreview = computed(() => activeStage.value === 'D1 欢迎语'
   ? '您好，感谢您添加我为好友！我是您的专属保险顾问，接下来将为您提供家庭保障建议。'
   : '很多人觉得有社保就够了，但实际上医保报销存在很大缺口，百万医疗险可以有效补充。');
-
-function isStageActive(stage: string) {
-  return activeStage.value === stage;
-}
+const stageTabs = computed(() => stages.map(stage => ({
+  key: stage.key,
+  label: getStageLabel(stage),
+})));
 
 function selectStage(stage: string) {
   activeStage.value = stage;
@@ -104,7 +105,7 @@ function confirmSend() {
 
 <template>
   <view class="journey-page">
-    <common-demo-page title="自动客户旅程" :padded="false">
+    <common-demo-page :padded="false">
       <view class="journey-hero">
         <text class="journey-hero__title">
           自动客户旅程
@@ -141,24 +142,11 @@ function confirmSend() {
       </view>
 
       <view class="journey-body">
-        <view
-          class="stage-tabs"
-          :class="{ 'is-d3': activeStage !== 'D1 欢迎语' }"
-          role="tablist"
-          aria-label="客户旅程阶段"
-        >
-          <button
-            v-for="stage in stages"
-            :key="stage.key"
-            class="reset-btn stage-tab"
-            :class="{ 'is-active': isStageActive(stage.key) }"
-            role="tab"
-            :aria-selected="isStageActive(stage.key)"
-            @click="selectStage(stage.key)"
-          >
-            {{ getStageLabel(stage) }}
-          </button>
-        </view>
+        <SegmentControl
+          :tabs="stageTabs"
+          :active="activeStage"
+          @change="selectStage"
+        />
 
         <text class="section-title stage-section-title">
           本阶段发送素材
@@ -484,43 +472,9 @@ function confirmSend() {
 }
 
 .journey-body {
-  padding: 10px 20px 110px;
+  padding: 10px 20px 40px;
   background: #fff;
   box-sizing: border-box;
-}
-
-.stage-tabs {
-  display: grid;
-  grid-template-columns: 83px 88px 54px 54px 54px;
-  align-items: center;
-  width: 335px;
-  height: 36px;
-  padding: 4px;
-  border-radius: 18px;
-  background: #f3f4f6;
-  box-sizing: border-box;
-}
-
-.stage-tabs.is-d3 {
-  grid-template-columns: 57px 81px 57px 56px 57px;
-}
-
-.stage-tab {
-  width: 100%;
-  height: 28px;
-  border-radius: 10px;
-  background: transparent;
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 16px;
-  color: #6a7282;
-  white-space: nowrap;
-}
-
-.stage-tab.is-active {
-  background: #101828;
-  box-shadow: 0 1px 4px rgba(16, 24, 40, 20%);
-  color: #fff;
 }
 
 .section-title {
