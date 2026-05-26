@@ -656,13 +656,13 @@ function confirmSend() {
   position: relative;
   width: 100%;
   overflow: hidden;
+  max-height: 78vh;
   border-radius: 19px 19px 0 0;
   background: #fff;
   box-sizing: border-box;
 }
 
 .sheet {
-  height: 633px;
   padding-bottom: 128px;
 }
 
@@ -810,7 +810,8 @@ function confirmSend() {
 }
 
 .sheet-list {
-  height: 371px;
+  height: calc(78vh - 346px);
+  min-height: 220px;
   overflow: hidden;
 }
 
@@ -881,10 +882,6 @@ function confirmSend() {
   color: #fff;
 }
 
-.material-sheet {
-  height: 633px;
-}
-
 .material-sheet__head {
   min-height: 76px;
   border-bottom: 1px solid #f0f0f0;
@@ -903,7 +900,7 @@ function confirmSend() {
 }
 
 .material-sheet__scroll {
-  height: 557px;
+  max-height: calc(78vh - 76px);
   overflow: hidden;
 }
 
@@ -913,12 +910,11 @@ function confirmSend() {
 }
 
 .material-detail-card {
-  height: 376px;
+  min-height: 376px;
   margin: 24px 16px 0;
   padding: 22px 17px 0;
   border: 1px solid #e5e7eb;
   border-radius: 14px;
-  overflow: hidden;
   box-sizing: border-box;
 }
 
