@@ -20,7 +20,7 @@ async function publish() {
 
 <template>
   <view class="moments-publish-page">
-    <common-demo-page title="发布朋友圈" :padded="false">
+    <common-demo-page :padded="false">
       <common-page-heading title="发布朋友圈" />
 
       <view class="publish-card publish-card--products">

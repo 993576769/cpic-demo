@@ -419,6 +419,100 @@ assert.match(
   'Moments material active indicator should sit under the tab text',
 );
 
+const materialContentPage = fs.readFileSync(new URL('../src/pages/material/content.vue', import.meta.url), 'utf8');
+const requiredMaterialContentTokens = [
+  'material-content-page',
+  'material-search',
+  'material-card',
+  'material-card__thumb',
+  'material-card__meta',
+  '搜索素材',
+  '《上大学，很多人才现教育金准备晚了》',
+  '适合人群',
+  '发布时间',
+  'nav.nav(\'/material/moments/publish\')',
+];
+const missingMaterialContentTokens = requiredMaterialContentTokens.filter(token => !materialContentPage.includes(token));
+
+assert.deepEqual(
+  missingMaterialContentTokens,
+  [],
+  `Missing material content page tokens: ${missingMaterialContentTokens.join(', ')}`,
+);
+assert.match(materialContentPage, /<common-demo-page[^>]*:padded="false"/, 'Material content page should own Figma body spacing');
+assert.match(
+  materialContentPage,
+  /\.material-content-page :deep\(\.demo-page\)[^{]*\{[^}]*width:\s*375px;[^}]*max-width:\s*100vw;[^}]*margin:\s*0 auto;/,
+  'Material content page should render inside a centered 375px mobile canvas on H5 desktop',
+);
+assert.match(
+  materialContentPage,
+  /\.material-card\s*\{[^}]*width:\s*349px;[^}]*min-height:\s*176px;/,
+  'Material content cards should match the Figma card width and base height',
+);
+assert.match(
+  materialContentPage,
+  /\.use-button\s*\{[^}]*width:\s*75px;[^}]*height:\s*28px;/,
+  'Material content use button should match the Figma pill size',
+);
+
+const materialContentTaskPage = fs.readFileSync(
+  new URL('../src/pages/material/content-task.vue', import.meta.url),
+  'utf8',
+);
+const requiredMaterialContentTaskTokens = [
+  'content-task-page',
+  'content-task-hero',
+  'content-task-stats',
+  '涉及保险产品',
+  '参考文案',
+  '去素材库选择',
+  '选择人群',
+  '已选标签',
+  '添加标签',
+  '定时推送',
+  '选择日期',
+  '选择时间',
+  '今天 2025-07-14',
+  '13:00',
+  '取消',
+  '确定',
+];
+const missingMaterialContentTaskTokens = requiredMaterialContentTaskTokens.filter(token => !materialContentTaskPage.includes(token));
+
+assert.deepEqual(
+  missingMaterialContentTaskTokens,
+  [],
+  `Missing material content task page tokens: ${missingMaterialContentTaskTokens.join(', ')}`,
+);
+assert.match(materialContentTaskPage, /<common-demo-page[^>]*:padded="false"/, 'Content task page should own Figma body spacing');
+assert.match(
+  materialContentTaskPage,
+  /\.content-task-page :deep\(\.demo-page\)[^{]*\{[^}]*width:\s*375px;[^}]*max-width:\s*100vw;[^}]*margin:\s*0 auto;/,
+  'Content task page should render inside a centered 375px mobile canvas on H5 desktop',
+);
+assertUsesFixedBottom(materialContentTaskPage, 'bottom-actions', 'Content task bottom actions should use common button fixed bottom');
+assert.doesNotMatch(
+  materialContentTaskPage,
+  /bottom-actions padding-bottom-safe-area/,
+  'Content task bottom actions should delegate safe-area padding to common-button-fixed-bottom',
+);
+assert.match(
+  materialContentTaskPage,
+  /\.content-task-stats\s*\{[^}]*grid-template-columns:\s*repeat\(3,\s*1fr\);/,
+  'Content task stats should be a three-column data strip',
+);
+assert.match(
+  materialContentTaskPage,
+  /\.bottom-actions\s*\{[^}]*grid-template-columns:\s*1fr 1fr;[^}]*gap:\s*6px;/,
+  'Content task bottom action widths should match the Figma two-button layout',
+);
+assert.match(
+  materialContentTaskPage,
+  /\.content-task-page :deep\(\.fixed-footer\)\s*\{[^}]*left:\s*50%;[^}]*width:\s*375px;[^}]*max-width:\s*100vw;[^}]*transform:\s*translateX\(-50%\);/,
+  'Content task fixed footer should stay attached to the centered mobile canvas on H5 desktop',
+);
+
 assertBottomButtonsUseFixedBottom([
   {
     name: 'Visit record',
@@ -453,6 +547,11 @@ assertBottomButtonsUseFixedBottom([
   {
     name: 'Moments publish',
     source: momentsPublishPage,
+    classNames: ['bottom-actions'],
+  },
+  {
+    name: 'Content task',
+    source: materialContentTaskPage,
     classNames: ['bottom-actions'],
   },
   {
