@@ -1,10 +1,18 @@
 <script setup lang="ts">
 import { nav } from '@/utils/nav';
 import { showToast } from '@/utils/toast';
-import { onLoad } from '@dcloudio/uni-app';
-import { computed, ref } from 'vue';
+import { onLoad, onShow } from '@dcloudio/uni-app';
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 
 type AnalysisId = 'profile' | 'needs' | 'risk' | 'next';
+type AnalysisIcon = 'user' | 'target' | 'warning' | 'check';
+
+const analysisIconMap: Record<AnalysisIcon, string> = {
+  user: '/static/customers/visit-record/icon-user-filled.svg',
+  target: '/static/customers/visit-record/icon-target.svg',
+  warning: '/static/customers/visit-record/icon-warning.svg',
+  check: '/static/customers/visit-record/icon-check-circle.svg',
+};
 
 const content = ref('');
 const state = ref<'upload' | 'done'>('upload');
@@ -15,7 +23,7 @@ const analysisCards: Array<{
   id: AnalysisId;
   title: string;
   desc: string;
-  icon: 'user' | 'target' | 'warning' | 'check';
+  icon: AnalysisIcon;
 }> = [
   {
     id: 'profile',
@@ -43,10 +51,39 @@ const analysisCards: Array<{
   },
 ];
 
+function syncStateFromQuery(query?: Record<string, unknown>) {
+  state.value = query?.state === 'done' ? 'done' : 'upload';
+}
+
 onLoad((query) => {
-  if (query?.state === 'done') {
-    state.value = 'done';
-  }
+  syncStateFromQuery(query);
+});
+
+onShow(() => {
+  // #ifdef H5
+  syncStateFromHash();
+  // #endif
+});
+
+function syncStateFromHash() {
+  // #ifdef H5
+  const queryString = window.location.hash.split('?')[1] ?? '';
+  const params = new URLSearchParams(queryString);
+  syncStateFromQuery({ state: params.get('state') });
+  // #endif
+}
+
+onMounted(() => {
+  // #ifdef H5
+  syncStateFromHash();
+  window.addEventListener('hashchange', syncStateFromHash);
+  // #endif
+});
+
+onBeforeUnmount(() => {
+  // #ifdef H5
+  window.removeEventListener('hashchange', syncStateFromHash);
+  // #endif
 });
 
 const canSend = computed(() => content.value.trim().length > 0);
@@ -160,9 +197,14 @@ function toggleCard(id: AnalysisId) {
               v-for="card in analysisCards"
               :key="card.id"
               class="analysis-item"
+              :class="{ 'is-open': openCards.includes(card.id) }"
             >
               <button class="reset-btn analysis-item__header" @click="toggleCard(card.id)">
-                <view class="analysis-icon" :class="`analysis-icon--${card.icon}`" />
+                <image
+                  class="analysis-icon"
+                  mode="aspectFit"
+                  :src="analysisIconMap[card.icon]"
+                />
                 <view class="analysis-item__copy">
                   <text class="analysis-item__title">
                     {{ card.title }}
@@ -171,7 +213,12 @@ function toggleCard(id: AnalysisId) {
                     {{ card.desc }}
                   </text>
                 </view>
-                <view class="analysis-item__chevron" :class="{ 'is-closed': !openCards.includes(card.id) }" />
+                <image
+                  class="analysis-item__chevron"
+                  :class="{ 'is-closed': !openCards.includes(card.id) }"
+                  mode="aspectFit"
+                  src="/static/customers/visit-record/icon-chevron-down.svg"
+                />
               </button>
             </view>
           </view>
@@ -179,9 +226,13 @@ function toggleCard(id: AnalysisId) {
 
         <common-button-fixed-bottom bg-color="#fff">
           <view class="analysis-bottom">
-            <button class="reset-btn generate-button" @click="nav.nav('/customers/wang/followup')">
+            <button class="reset-btn generate-button" @click="nav.nav('/customers/wang/followup/tasks')">
               <text>生成跟进方案</text>
-              <view class="sparkle-icon" />
+              <image
+                class="sparkle-icon"
+                mode="aspectFit"
+                src="/static/customers/visit-record/icon-sparkle.svg"
+              />
             </button>
           </view>
         </common-button-fixed-bottom>
@@ -198,8 +249,18 @@ function toggleCard(id: AnalysisId) {
 
 .visit-record-page :deep(.demo-page),
 .visit-record-page :deep(.demo-page__body) {
+  width: 375px;
+  max-width: 100vw;
   min-height: 100vh;
+  margin: 0 auto;
   background: #f8f8f8;
+}
+
+.visit-record-page :deep(.fixed-footer) {
+  left: 50%;
+  width: 375px;
+  max-width: 100vw;
+  transform: translateX(-50%);
 }
 
 .upload-page-space {
@@ -220,7 +281,7 @@ function toggleCard(id: AnalysisId) {
 .upload-options {
   display: flex;
   gap: 10px;
-  margin: 0 10px 36px;
+  margin: 0 0 27px;
 }
 
 .upload-option {
@@ -428,13 +489,15 @@ function toggleCard(id: AnalysisId) {
 }
 
 .analysis-content {
-  padding: 80px 14px 122px;
+  padding: 15px 17px 96px;
 }
 
 .dialog-card {
-  padding: 24px 26px 21px;
+  width: 341px;
+  min-height: 157px;
+  padding: 11px 12px 14px;
   border: 1px solid #e0e0e0;
-  border-radius: 16px;
+  border-radius: 12px;
   background: #fff;
   box-sizing: border-box;
 }
@@ -443,7 +506,8 @@ function toggleCard(id: AnalysisId) {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 18px;
+  height: 21px;
+  margin-bottom: 8px;
 }
 
 .dialog-card__title {
@@ -457,7 +521,7 @@ function toggleCard(id: AnalysisId) {
 .dialog-card__chevron {
   font-size: 12px;
   line-height: 18px;
-  color: #999;
+  color: #888;
 }
 
 .dialog-card__chevron {
@@ -465,20 +529,26 @@ function toggleCard(id: AnalysisId) {
 }
 
 .dialog-line {
-  display: block;
-  margin-top: 8px;
+  display: flex;
+  margin-top: 4px;
   font-size: 12px;
-  line-height: 22px;
-  color: #777;
+  line-height: 18px;
+  color: #555;
+}
+
+.dialog-card__header + .dialog-line {
+  margin-top: 0;
 }
 
 .dialog-line__speaker {
-  color: #777;
+  flex: 0 0 auto;
+  margin-right: 4px;
+  color: #888;
 }
 
 .analysis-title {
   display: block;
-  margin: 33px 0 22px;
+  margin: 14px 0 8px;
   font-size: 14px;
   font-weight: 600;
   line-height: 21px;
@@ -487,125 +557,54 @@ function toggleCard(id: AnalysisId) {
 
 .analysis-result-card {
   overflow: hidden;
+  width: 341px;
   border: 1px solid #e0e0e0;
-  border-radius: 16px;
+  border-radius: 12px;
   background: #fff;
+  box-sizing: border-box;
 }
 
 .analysis-item {
-  margin: 0 26px;
-  border-bottom: 1px solid #f0f0f0;
+  position: relative;
 }
 
-.analysis-item:last-child {
-  border-bottom: 0;
+.analysis-item::after {
+  position: absolute;
+  right: 12px;
+  bottom: 0;
+  left: 12px;
+  height: 1px;
+  background: #f0f0f0;
+  content: '';
+}
+
+.analysis-item:last-child::after {
+  display: none;
 }
 
 .analysis-item__header {
-  align-items: flex-start;
+  align-items: center;
   width: 100%;
-  min-height: 84px;
-  padding: 20px 0 18px;
+  min-height: 48px;
+  padding: 13px 12px 14px;
   text-align: left;
 }
 
+.analysis-item.is-open .analysis-item__header {
+  align-items: flex-start;
+  min-height: 84px;
+  padding: 11px 12px 10px;
+}
+
 .analysis-icon {
-  position: relative;
-  flex: 0 0 18px;
-  width: 18px;
-  height: 18px;
-  margin: 1px 18px 0 0;
+  flex: 0 0 17px;
+  width: 17px;
+  height: 17px;
+  margin: 0 10px 0 0;
 }
 
-.analysis-icon--user::before {
-  position: absolute;
-  top: 0;
-  left: 5px;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #626262;
-  content: '';
-}
-
-.analysis-icon--user::after {
-  position: absolute;
-  left: 1px;
-  bottom: 0;
-  width: 16px;
-  height: 8px;
-  border-radius: 8px 8px 2px 2px;
-  background: #626262;
-  content: '';
-}
-
-.analysis-icon--target {
-  border: 2px solid #626262;
-  border-radius: 50%;
-  box-sizing: border-box;
-}
-
-.analysis-icon--target::before,
-.analysis-icon--target::after {
-  position: absolute;
-  border-radius: 50%;
-  content: '';
-}
-
-.analysis-icon--target::before {
-  inset: 3px;
-  border: 2px solid #626262;
-}
-
-.analysis-icon--target::after {
-  inset: 7px;
-  background: #626262;
-}
-
-.analysis-icon--warning {
-  width: 0;
-  height: 0;
-  border-right: 10px solid transparent;
-  border-bottom: 18px solid #626262;
-  border-left: 10px solid transparent;
-}
-
-.analysis-icon--warning::before {
-  position: absolute;
-  left: -1px;
-  top: 7px;
-  width: 2px;
-  height: 6px;
-  background: #fff;
-  content: '';
-}
-
-.analysis-icon--warning::after {
-  position: absolute;
-  left: -1px;
-  top: 15px;
-  width: 2px;
-  height: 2px;
-  background: #fff;
-  content: '';
-}
-
-.analysis-icon--check {
-  border: 2px solid #626262;
-  border-radius: 50%;
-  box-sizing: border-box;
-}
-
-.analysis-icon--check::before {
-  position: absolute;
-  left: 4px;
-  top: 5px;
-  width: 7px;
-  height: 4px;
-  border-bottom: 2px solid #626262;
-  border-left: 2px solid #626262;
-  content: '';
-  transform: rotate(-45deg);
+.analysis-item.is-open .analysis-icon {
+  margin-top: 1px;
 }
 
 .analysis-item__copy {
@@ -618,47 +617,38 @@ function toggleCard(id: AnalysisId) {
   font-size: 14px;
   font-weight: 600;
   line-height: 21px;
-  color: #0a0a0a;
+  color: #111;
 }
 
 .analysis-item__desc {
   display: block;
-  margin-top: 8px;
+  margin-top: 3px;
   font-size: 12px;
   font-weight: 500;
-  line-height: 19px;
-  color: #626262;
+  line-height: 18.6px;
+  color: #666;
 }
 
 .analysis-item__chevron {
-  position: relative;
   flex: 0 0 16px;
   width: 16px;
   height: 16px;
+  margin-top: 0;
+  margin-left: 10px;
+}
+
+.analysis-item.is-open .analysis-item__chevron {
   margin-top: 2px;
 }
 
-.analysis-item__chevron::before {
-  position: absolute;
-  left: 3px;
-  top: 6px;
-  width: 9px;
-  height: 9px;
-  border-left: 2px solid #b8b8b8;
-  border-top: 2px solid #b8b8b8;
-  content: '';
-  transform: rotate(45deg);
-}
-
-.analysis-item__chevron.is-closed::before {
-  top: 2px;
-  transform: rotate(-135deg);
+.analysis-item__chevron.is-closed {
+  transform: rotate(180deg);
 }
 
 .analysis-bottom {
-  padding-top: 13px;
+  padding-top: 10px;
   padding-right: 17px;
-  padding-bottom: 10px;
+  padding-bottom: 8px;
   padding-left: 17px;
   background: #fff;
   box-sizing: border-box;
@@ -666,40 +656,18 @@ function toggleCard(id: AnalysisId) {
 
 .generate-button {
   width: 100%;
-  height: 54px;
-  border-radius: 14px;
+  height: 48px;
+  border-radius: 12px;
   background: #1c1c1e;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 600;
-  line-height: 24px;
+  line-height: 22px;
   color: #fff;
 }
 
 .sparkle-icon {
-  position: relative;
   width: 16px;
   height: 16px;
   margin-left: 12px;
-}
-
-.sparkle-icon::before,
-.sparkle-icon::after {
-  position: absolute;
-  background: #fff;
-  content: '';
-}
-
-.sparkle-icon::before {
-  left: 7px;
-  top: 2px;
-  width: 2px;
-  height: 12px;
-}
-
-.sparkle-icon::after {
-  left: 2px;
-  top: 7px;
-  width: 12px;
-  height: 2px;
 }
 </style>
