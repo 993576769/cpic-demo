@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { nav } from '@/utils/nav';
-import { showToast } from '@/utils/toast';
 
 const contentTypes = [
   '教育险',
@@ -40,13 +39,8 @@ const productRankings = Array.from({ length: 4 }, () => ({
   count: 85,
 }));
 
-function openContent(item: string) {
-  if (item === '教育险') {
-    nav.nav('/material/content?type=education');
-    return;
-  }
-
-  showToast('建设中');
+function openContent() {
+  nav.nav('/material/content?type=education');
 }
 
 function openNeed(item: string) {
@@ -55,7 +49,16 @@ function openNeed(item: string) {
     return;
   }
 
-  showToast('建设中');
+  nav.nav('/material/content?type=education');
+}
+
+function openPopular(action: string) {
+  if (action === '查看图片') {
+    nav.nav('/material/moments');
+    return;
+  }
+
+  nav.nav('/material/content?type=education');
 }
 </script>
 
@@ -72,7 +75,7 @@ function openNeed(item: string) {
               v-for="item in contentTypes"
               :key="item"
               class="reset-btn content-card"
-              @click="openContent(item)"
+              @click="openContent"
             >
               <text class="content-card__title">
                 {{ item }}
@@ -121,7 +124,7 @@ function openNeed(item: string) {
               v-for="item in popularActions"
               :key="item.title"
               class="reset-btn rank-card rank-card--action"
-              @click="showToast('建设中')"
+              @click="openPopular(item.action)"
             >
               <text class="rank-card__title">
                 {{ item.title }}

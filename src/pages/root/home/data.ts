@@ -60,6 +60,7 @@ export const initialTodoItems: TodoItem[] = [
     desc: '上次聊天询问了儿童险种',
     action: '去聊天',
     done: false,
+    url: '/customers/wang/followup',
   },
   {
     id: 'mass',

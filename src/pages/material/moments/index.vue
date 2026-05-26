@@ -249,7 +249,7 @@ const materials = [
 }
 
 .material-card {
-  height: 178px;
+  min-height: 178px;
   overflow: hidden;
   border-radius: 15px;
   background: #fff;
@@ -260,7 +260,7 @@ const materials = [
 .material-card__content {
   display: flex;
   gap: 11px;
-  height: 124px;
+  min-height: 124px;
   padding: 20px 11px 19px;
   box-sizing: border-box;
 }
@@ -295,7 +295,7 @@ const materials = [
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 53px;
+  min-height: 53px;
   padding: 8px 11px 8px;
   box-sizing: border-box;
 }

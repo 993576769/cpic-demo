@@ -239,8 +239,8 @@ const inviteTags = ['年消费1万 - 2万顾客', '有孩子的家庭 顾客'];
 }
 
 .invite-card {
-  height: 136px;
-  padding: 14px 16px 0;
+  min-height: 136px;
+  padding: 14px 16px 16px;
   margin-top: 16px;
 }
 
@@ -262,9 +262,9 @@ const inviteTags = ['年消费1万 - 2万顾客', '有孩子的家庭 顾客'];
 }
 
 .detail-card {
-  height: 543px;
+  min-height: 543px;
   margin-top: 16px;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .detail-card__head {

@@ -1,16 +1,20 @@
 <script setup lang="ts">
 import { nav } from '@/utils/nav';
 import { showToast } from '@/utils/toast';
+import { ref } from 'vue';
 
 const productNames = [
   '产品名称 D21311KP71-BK/XL',
 ];
 
-const selectedTags = [
+const selectedTags = ref([
   '年收30-50万',
   '有房有车',
   '算法工程师',
-];
+]);
+const optionalTags = ['二孩家庭', '孩子 3-8 岁家庭', '关注教育规划'];
+const scheduleDate = ref('今天 2025-07-14');
+const scheduleTime = ref('13:00');
 
 function copyProduct() {
   showToast('已复制');
@@ -18,6 +22,36 @@ function copyProduct() {
 
 function chooseMaterial() {
   nav.nav('/material/moments');
+}
+
+function addTag() {
+  const nextTag = optionalTags.find(tag => !selectedTags.value.includes(tag));
+  if (nextTag === undefined) {
+    showToast('标签已添加');
+    return;
+  }
+
+  selectedTags.value = [...selectedTags.value, nextTag];
+}
+
+function formatDateLabel(value: string) {
+  if (value === '2025-07-14') {
+    return '今天 2025-07-14';
+  }
+
+  if (value === '2025-07-15') {
+    return '明天 2025-07-15';
+  }
+
+  return value;
+}
+
+function handleDateChange(event: { detail: { value: string } }) {
+  scheduleDate.value = formatDateLabel(event.detail.value);
+}
+
+function handleTimeChange(event: { detail: { value: string } }) {
+  scheduleTime.value = event.detail.value;
 }
 
 function confirmTask() {
@@ -35,7 +69,7 @@ function confirmTask() {
           meta="中产家庭、关注孩子教育规划"
           size="compact"
         />
-        <button class="reset-btn content-link" @click="showToast('建设中')">
+        <button class="reset-btn content-link" @click="nav.nav('/material/content')">
           <text class="content-link__text">
             查看内容
           </text>
@@ -156,7 +190,7 @@ function confirmTask() {
               {{ tag }}
             </text>
           </view>
-          <button class="reset-btn outline-button outline-button--tag" @click="showToast('建设中')">
+          <button class="reset-btn outline-button outline-button--tag" @click="addTag">
             添加标签
           </button>
         </view>
@@ -168,36 +202,50 @@ function confirmTask() {
             </text>
           </view>
           <view class="schedule-list">
-            <button class="reset-btn schedule-row" @click="showToast('建设中')">
-              <view class="schedule-row__content">
-                <text class="schedule-row__label">
-                  选择日期
-                </text>
-                <text class="schedule-row__value">
-                  今天 2025-07-14
-                </text>
+            <picker
+              class="schedule-row"
+              mode="date"
+              value="2025-07-14"
+              @change="handleDateChange"
+            >
+              <view class="schedule-row__inner">
+                <view class="schedule-row__content">
+                  <text class="schedule-row__label">
+                    选择日期
+                  </text>
+                  <text class="schedule-row__value">
+                    {{ scheduleDate }}
+                  </text>
+                </view>
+                <image
+                  class="chevron-down"
+                  mode="aspectFit"
+                  src="/static/material/icon-chevron-down-field.svg"
+                />
               </view>
-              <image
-                class="chevron-down"
-                mode="aspectFit"
-                src="/static/material/icon-chevron-down-field.svg"
-              />
-            </button>
-            <button class="reset-btn schedule-row" @click="showToast('建设中')">
-              <view class="schedule-row__content">
-                <text class="schedule-row__label">
-                  选择时间
-                </text>
-                <text class="schedule-row__value schedule-row__value--muted">
-                  13:00
-                </text>
+            </picker>
+            <picker
+              class="schedule-row"
+              mode="time"
+              :value="scheduleTime"
+              @change="handleTimeChange"
+            >
+              <view class="schedule-row__inner">
+                <view class="schedule-row__content">
+                  <text class="schedule-row__label">
+                    选择时间
+                  </text>
+                  <text class="schedule-row__value">
+                    {{ scheduleTime }}
+                  </text>
+                </view>
+                <image
+                  class="chevron-down"
+                  mode="aspectFit"
+                  src="/static/material/icon-chevron-down-field.svg"
+                />
               </view>
-              <image
-                class="chevron-down"
-                mode="aspectFit"
-                src="/static/material/icon-chevron-down-field.svg"
-              />
-            </button>
+            </picker>
           </view>
         </view>
       </view>
@@ -288,10 +336,13 @@ function confirmTask() {
 .content-link {
   display: flex;
   align-items: center;
-  width: 56px;
+  justify-content: flex-start;
+  width: 72px;
   height: 17px;
   margin: 10px 0 0 16px;
+  padding: 0;
   background: #fff;
+  text-align: left;
 }
 
 .content-link__text,
@@ -310,13 +361,17 @@ function confirmTask() {
 }
 
 .content-link__text {
+  flex: 0 0 40px;
+  width: 40px;
   font-size: 10px;
   font-weight: 400;
   line-height: 16px;
+  white-space: nowrap;
   color: #333;
 }
 
 .content-link__chevron {
+  flex: 0 0 13px;
   margin-left: 5px;
   width: 13px;
   height: 16px;
@@ -410,25 +465,23 @@ function confirmTask() {
 }
 
 .task-card--products {
-  height: 118px;
   min-height: 118px;
+  padding-bottom: 17px;
 }
 
 .task-card--copy {
-  height: 243px;
   min-height: 243px;
-  padding-bottom: 0;
+  padding-bottom: 20px;
 }
 
 .task-card--audience {
-  height: 210px;
   min-height: 210px;
-  padding-bottom: 0;
+  padding-bottom: 24px;
 }
 
 .task-card--schedule {
-  height: 198px;
   min-height: 198px;
+  padding-bottom: 22px;
 }
 
 .task-card__header {
@@ -482,7 +535,6 @@ function confirmTask() {
 
 .copy-box {
   width: 324px;
-  height: 97px;
   min-height: 97px;
   margin: 19px 0 0;
   padding: 10px 12px;
@@ -549,16 +601,22 @@ function confirmTask() {
 }
 
 .schedule-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
   width: 313px;
   height: 48px;
   margin: 0 0 0 5px;
-  padding: 0 16px;
   border: 1px solid #dcdcdc;
   border-radius: 100px;
   background: #fff;
+  box-sizing: border-box;
+}
+
+.schedule-row__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 46px;
+  padding: 0 15px;
   box-sizing: border-box;
 }
 
@@ -582,10 +640,6 @@ function confirmTask() {
 .schedule-row__value {
   margin-left: 16px;
   color: #333;
-}
-
-.schedule-row__value--muted {
-  color: #ccc;
 }
 
 .chevron-down {

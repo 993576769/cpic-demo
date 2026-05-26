@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { nav } from '@/utils/nav';
 import { showToast } from '@/utils/toast';
+import { computed, ref } from 'vue';
 
 const productNames = [
   '产品名称 D21311KP71-BK/XL',
@@ -8,13 +9,27 @@ const productNames = [
   '产品名称 D8321RFT21-MG/2XL',
 ];
 
-const mediaSlots = Array.from({ length: 4 }, (_, index) => index);
+const selectedImages = ref<string[]>([]);
+const placeholderMediaSlots = computed(() => (
+  Array.from({ length: Math.max(0, 4 - selectedImages.value.length) }, (_, index) => index)
+));
 
 const referenceCopy = '文字素材文字素材文字素材文字素材文字素材文字素材文字素材文字素材文字素材文字素材文字素材文字素材文字素材文字素材';
 
 async function publish() {
   await showToast('已发布');
   nav.nav('/tools');
+}
+
+function addMedia() {
+  uni.chooseImage({
+    count: Math.max(1, 9 - selectedImages.value.length),
+    sizeType: ['compressed'],
+    sourceType: ['album', 'camera'],
+    success(result) {
+      selectedImages.value = [...selectedImages.value, ...result.tempFilePaths].slice(0, 9);
+    },
+  });
 }
 </script>
 
@@ -57,11 +72,26 @@ async function publish() {
         </view>
         <view class="media-grid">
           <view
-            v-for="slot in mediaSlots"
+            v-for="image in selectedImages"
+            :key="image"
+            class="media-grid__item"
+          >
+            <image
+              class="media-grid__image"
+              mode="aspectFill"
+              :src="image"
+            />
+          </view>
+          <view
+            v-for="slot in placeholderMediaSlots"
             :key="slot"
             class="media-grid__item"
           />
-          <button class="reset-btn media-grid__item media-grid__item--add" @click="showToast('建设中')">
+          <button
+            v-if="selectedImages.length < 9"
+            class="reset-btn media-grid__item media-grid__item--add"
+            @click="addMedia"
+          >
             <image
               class="media-grid__plus"
               mode="aspectFit"
@@ -121,16 +151,19 @@ async function publish() {
 }
 
 .publish-card--products {
-  height: 222px;
+  min-height: 222px;
+  padding-bottom: 17px;
 }
 
 .publish-card--media {
-  height: 281px;
+  min-height: 281px;
+  padding-bottom: 24px;
   margin-top: 14px;
 }
 
 .publish-card--copy {
-  height: 243px;
+  min-height: 243px;
+  padding-bottom: 20px;
   margin-top: 14px;
 }
 
@@ -195,6 +228,7 @@ async function publish() {
 }
 
 .media-grid__item {
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -202,6 +236,11 @@ async function publish() {
   height: 95px;
   border-radius: 2px;
   background: #f8f8f8c4;
+}
+
+.media-grid__image {
+  width: 100%;
+  height: 100%;
 }
 
 .media-grid__item--add {
