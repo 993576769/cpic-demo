@@ -11,6 +11,7 @@ class Nav {
     '/customers/wang/todo-list': '/pages/customers/wang/todo-list',
     '/customers/wang/visit-record': '/pages/customers/wang/visit-record',
     '/journey': '/pages/journey/index',
+    '/journey?stage=D3': '/pages/journey/index?stage=D3',
     '/journey/batch-send': '/pages/journey/index?sheet=batch-send',
     '/material': '/pages/material/index',
     '/material/content': '/pages/material/content',

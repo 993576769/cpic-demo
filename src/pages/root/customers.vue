@@ -21,6 +21,7 @@ const isQuadrantMode = ref(false);
     title="客户档案"
     tab-bar="customers"
     :show-back="false"
+    :show-title="false"
   >
     <div class="page-header">
       <div>

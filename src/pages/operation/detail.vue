@@ -38,7 +38,7 @@ async function sendAll() {
 
 <template>
   <view class="operation-detail-page">
-    <common-demo-page :padded="false">
+    <common-demo-page title="2026年中秋节祝福" :padded="false">
       <common-page-heading
         title="2026年中秋节祝福"
         subtitle="问候模版已配置，可批量转发"
@@ -134,7 +134,7 @@ async function sendAll() {
   margin-right: 17px;
   background: #fff;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
   line-height: 20px;
   color: #999;
 }
@@ -191,7 +191,7 @@ async function sendAll() {
 
 .operation-customer-row__name {
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 400;
   line-height: 24px;
   color: #000;
 }
@@ -217,7 +217,7 @@ async function sendAll() {
   border-radius: 8px;
   background: #000;
   font-size: 12px;
-  font-weight: 500;
+  font-weight: 400;
   line-height: 17px;
   color: #fff;
 }

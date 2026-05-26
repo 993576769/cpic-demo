@@ -9,6 +9,7 @@ import { nav } from '@/utils/nav';
       <common-page-heading
         title="运营任务"
         subtitle="请尽快完成"
+        size="default"
       />
 
       <view class="operation-task-list">
@@ -75,14 +76,14 @@ import { nav } from '@/utils/nav';
 }
 
 .operation-task-list {
-  padding: 14px 15px 28px;
+  padding: 15px 15px 28px;
   box-sizing: border-box;
 }
 
 .operation-task-card {
   width: 345px;
   height: 100px;
-  padding: 18px 10px 0 12px;
+  padding: 18px 15px 0 13px;
   margin: 0 auto 10px;
   border: 1px solid #fff;
   border-radius: 4px;
@@ -111,7 +112,7 @@ import { nav } from '@/utils/nav';
   display: block;
   overflow: hidden;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 400;
   line-height: 20px;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -147,14 +148,14 @@ import { nav } from '@/utils/nav';
   border-radius: 4px;
   background: #000;
   font-size: 12px;
-  font-weight: 500;
+  font-weight: 400;
   line-height: 17px;
   color: #fff;
 }
 
 .operation-task-card__divider {
   height: 1px;
-  margin: 10px -5px 0;
+  margin: 10px 0 0;
   background: #dedede;
   transform: scaleY(0.5);
   transform-origin: center;
