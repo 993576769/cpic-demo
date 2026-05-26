@@ -2,7 +2,6 @@ import process from 'node:process';
 import uni from '@dcloudio/vite-plugin-uni';
 import Components from 'unplugin-vue-components/vite';
 import { defineConfig, loadEnv } from 'vite';
-import { checker } from 'vite-plugin-checker';
 import postCssPxToRelativeUnit from './loader/postcss-px-to-relative-unit';
 
 // https://vitejs.dev/config/
@@ -29,14 +28,6 @@ export default defineConfig(({ mode }) => {
         directives: false,
       }),
       uni(),
-      checker({
-        vueTsc: true,
-        eslint: {
-          useFlatConfig: true, // https://github.com/fi3ework/vite-plugin-checker/issues/320#issuecomment-2115446921
-          // for example, lint .ts and .tsx
-          lintCommand: 'eslint "./src/**/*.{ts,vue}"',
-        },
-      }),
     ],
     server: {
       port: Number(VITE_APP_PORT),

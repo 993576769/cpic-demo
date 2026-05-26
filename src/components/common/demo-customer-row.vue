@@ -4,6 +4,22 @@ import type { CustomerRow } from '@/pages/demo-data';
 defineProps<{
   customer: CustomerRow;
 }>();
+
+function getBadgeClass(badge: string) {
+  if (badge === 'VIP') {
+    return 'is-vip';
+  }
+
+  if (badge.includes('预警')) {
+    return 'is-warning';
+  }
+
+  return 'is-dark';
+}
+
+function getBadges(customer: CustomerRow) {
+  return customer.badges ?? (customer.badge ? [customer.badge] : []);
+}
 </script>
 
 <template>
@@ -16,8 +32,13 @@ defineProps<{
         <text class="customer-row__name">
           {{ customer.name }}
         </text>
-        <text v-if="customer.badge" class="customer-row__badge">
-          {{ customer.badge }}
+        <text
+          v-for="badge in getBadges(customer)"
+          :key="badge"
+          class="customer-row__badge"
+          :class="getBadgeClass(badge)"
+        >
+          {{ badge }}
         </text>
       </div>
       <text class="customer-row__meta">
@@ -31,7 +52,11 @@ defineProps<{
     </div>
     <div class="customer-row__right">
       <text>{{ customer.premium }}</text>
-      <text>›</text>
+      <image
+        class="customer-row__arrow"
+        mode="aspectFit"
+        src="/static/customer/icon-chevron-right.svg"
+      />
     </div>
   </div>
 </template>
@@ -41,8 +66,8 @@ defineProps<{
   display: flex;
   align-items: center;
   gap: 10px;
-  min-height: 96px;
-  padding: 14px 0;
+  min-height: 86px;
+  padding: 12px 14px;
   border-bottom: 1px solid #f0f0f0;
   box-sizing: border-box;
 }
@@ -55,14 +80,14 @@ defineProps<{
   display: flex;
   align-items: center;
   justify-content: center;
-  flex: 0 0 42px;
-  width: 42px;
-  height: 42px;
+  flex: 0 0 38px;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
-  background: #111;
+  background: #f7f7f7;
   font-size: 16px;
-  font-weight: 600;
-  color: #fff;
+  font-weight: 400;
+  color: #aaa;
 }
 
 .customer-row__main {
@@ -77,43 +102,55 @@ defineProps<{
 }
 
 .customer-row__name {
-  font-size: 15px;
-  font-weight: 600;
-  line-height: 22px;
-  color: #111;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 20px;
+  color: #1a1a1a;
 }
 
 .customer-row__badge {
   padding: 2px 6px;
   border-radius: 9px;
-  background: #111;
   font-size: 10px;
   line-height: 14px;
   color: #fff;
 }
 
+.customer-row__badge.is-dark {
+  background: #111;
+}
+
+.customer-row__badge.is-vip {
+  background: #fbf5eb;
+  color: #b8924a;
+}
+
+.customer-row__badge.is-warning {
+  background: #111;
+}
+
 .customer-row__meta {
   display: block;
   margin-top: 3px;
-  font-size: 12px;
-  line-height: 18px;
-  color: #666;
+  font-size: 10px;
+  line-height: 16px;
+  color: #aaa;
 }
 
 .customer-row__tags {
   display: flex;
   flex-wrap: wrap;
   gap: 5px;
-  margin-top: 7px;
+  margin-top: 5px;
 }
 
 .customer-row__tags text {
   padding: 2px 7px;
-  border-radius: 10px;
-  background: #f3f4f6;
+  border-radius: 7px;
+  background: #f7f7f7;
   font-size: 10px;
-  line-height: 15px;
-  color: #4a5565;
+  line-height: 14px;
+  color: #888;
 }
 
 .customer-row__right {
@@ -121,7 +158,13 @@ defineProps<{
   align-items: center;
   gap: 6px;
   flex-shrink: 0;
-  font-size: 12px;
-  color: #666;
+  font-size: 10px;
+  line-height: 16px;
+  color: #000;
+}
+
+.customer-row__arrow {
+  width: 14px;
+  height: 14px;
 }
 </style>

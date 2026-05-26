@@ -6,58 +6,58 @@ export interface CustomerRow {
   lastContact: string;
   premium: string;
   badge?: string;
+  badges?: string[];
   tags: string[];
 }
 
 export const customers: CustomerRow[] = [
   {
-    id: 'wang',
-    name: '王女士',
-    avatar: '王',
-    company: '互联网产品经理',
-    lastContact: '最近联系 2小时前',
-    premium: '¥12.8万/年',
-    badge: '今日拜访',
-    tags: ['宝妈', '二孩家庭', '风险意识高'],
-  },
-  {
     id: 'jian-guo',
     name: '王建国',
     avatar: '王',
-    company: '制造业企业主',
-    lastContact: '最近联系 昨天',
-    premium: '¥8.6万/年',
-    badge: 'VIP',
-    tags: ['高收入', '有房有车', '企业主'],
+    company: '建国集团',
+    lastContact: '最近：3天前',
+    premium: '¥23万/年',
+    badges: ['VIP', '今日拜访'],
+    tags: ['二孩家庭', '风险意识'],
   },
   {
     id: 'li-ya-qin',
     name: '李雅琴',
     avatar: '李',
-    company: '三线家庭',
-    lastContact: '最近联系 3天前',
-    premium: '¥5.2万/年',
-    tags: ['纪念日', '风险意识', '二孩家庭'],
+    company: '华美投资',
+    lastContact: '最近：45天前',
+    premium: '¥18万/年',
+    badges: ['VIP', '流失预警'],
+    tags: ['风险意识', '宝妈'],
   },
   {
     id: 'zhang-ming-yuan',
     name: '张明远',
     avatar: '张',
-    company: '公务员',
-    lastContact: '最近联系 7天前',
-    premium: '¥3.8万/年',
-    badge: '流失预警',
-    tags: ['稳健型', '未婚', '沉睡客户'],
+    company: '远明科技',
+    lastContact: '最近：7天前',
+    premium: '¥8万/年',
+    badge: '今日生日',
+    tags: ['二孩家庭', '高收入'],
   },
   {
     id: 'chen-xue-mei',
     name: '陈雪梅',
     avatar: '陈',
-    company: '自由职业',
-    lastContact: '最近联系 今天',
-    premium: '¥6.6万/年',
-    badge: '今日生日',
-    tags: ['宝妈', '高热客户', '生日'],
+    company: '私人',
+    lastContact: '最近：14天前',
+    premium: '¥6万/年',
+    tags: ['纪念日', '未婚'],
+  },
+  {
+    id: 'lin-de-hua',
+    name: '林德华',
+    avatar: '林',
+    company: '德华律师',
+    lastContact: '最近：30天前',
+    premium: '¥2万/年',
+    tags: ['风险意识'],
   },
 ];
 

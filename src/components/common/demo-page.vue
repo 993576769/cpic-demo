@@ -40,6 +40,9 @@ withDefaults(
           {{ subtitle }}
         </text>
       </div>
+      <div v-if="$slots.navRight" class="demo-page__nav-right">
+        <slot name="navRight"></slot>
+      </div>
     </div>
     <div class="demo-page__body" :class="{ 'demo-page__body--padded': padded }">
       <slot></slot>
@@ -98,6 +101,16 @@ withDefaults(
   top: 0;
   min-width: 0;
   text-align: center;
+}
+
+.demo-page__nav-right {
+  position: absolute;
+  right: 12px;
+  top: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  height: 36px;
 }
 
 .demo-page__title,

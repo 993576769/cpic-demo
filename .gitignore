@@ -21,3 +21,4 @@ dist
 *.sw?
 
 /components.d.ts
+/tmp
