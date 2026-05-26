@@ -8,6 +8,8 @@ const stages = ['D1 欢迎语', 'D3', 'D7', 'D15', 'D30'];
 const activeStage = ref('D1 欢迎语');
 const showSheet = ref(false);
 const selected = ref(journeyCustomers.map((_, index) => index));
+const checkedIcon = '/static/journey/icon-checkbox-checked.svg';
+const uncheckedIcon = '/static/journey/icon-checkbox.svg';
 
 onLoad((query) => {
   if (query?.stage === 'D3') {
@@ -70,9 +72,14 @@ function confirmSend() {
       <text class="content-card__desc">
         {{ materialPreview }}
       </text>
-      <text class="open-rate">
-        84% 打开率 ›
-      </text>
+      <view class="open-rate">
+        <text>84% 打开率</text>
+        <image
+          class="open-rate__chevron"
+          mode="aspectFit"
+          src="/static/material/icon-chevron-right.svg"
+        />
+      </view>
     </view>
 
     <div class="section-head">
@@ -96,7 +103,11 @@ function confirmSend() {
     <div v-if="showSheet" class="sheet-mask" @click.self="showSheet = false">
       <div class="sheet">
         <button class="reset-btn sheet__close" @click="showSheet = false">
-          ×
+          <image
+            class="sheet__close-icon"
+            mode="aspectFit"
+            src="/static/icon-close-black.png"
+          />
         </button>
         <text class="sheet__title">
           批量发送 · Day1 欢迎语
@@ -109,7 +120,14 @@ function confirmSend() {
           <span>{{ materialPreview }}</span>
         </view>
         <button class="reset-btn select-row" @click="toggleAll">
-          ✓ 全选
+          <view class="select-row__left">
+            <image
+              class="sheet-check-icon"
+              mode="aspectFit"
+              :src="selected.length === journeyCustomers.length ? checkedIcon : uncheckedIcon"
+            />
+            <text>全选</text>
+          </view>
           <span>已选 {{ selected.length }} 人</span>
         </button>
         <button
@@ -118,7 +136,11 @@ function confirmSend() {
           class="reset-btn sheet-customer"
           @click="toggleCustomer(index)"
         >
-          <span :class="{ 'is-checked': selected.includes(index) }">✓</span>
+          <image
+            class="sheet-check-icon"
+            mode="aspectFit"
+            :src="selected.includes(index) ? checkedIcon : uncheckedIcon"
+          />
           <text>{{ name }}</text>
           <em>{{ index % 2 === 0 ? '高净值' : '宝妈' }}</em>
         </button>
@@ -220,9 +242,17 @@ function confirmSend() {
 }
 
 .open-rate {
+  display: flex;
+  align-items: center;
   margin-top: 12px;
   font-size: 13px;
   color: #3d7bff;
+}
+
+.open-rate__chevron {
+  width: 12px;
+  height: 12px;
+  margin-left: 4px;
 }
 
 .section-head {
@@ -286,7 +316,11 @@ function confirmSend() {
   height: 34px;
   border-radius: 50%;
   background: #f3f4f6;
-  font-size: 22px;
+}
+
+.sheet__close-icon {
+  width: 18px;
+  height: 18px;
 }
 
 .sheet__title,
@@ -333,6 +367,12 @@ function confirmSend() {
   border-bottom: 1px solid #f0f0f0;
 }
 
+.select-row__left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .select-row span,
 .sheet-customer em {
   font-style: normal;
@@ -345,19 +385,10 @@ function confirmSend() {
   gap: 10px;
 }
 
-.sheet-customer span {
+.sheet-check-icon {
+  flex: 0 0 20px;
   width: 20px;
   height: 20px;
-  border: 1px solid #111;
-  border-radius: 4px;
-  color: transparent;
-  text-align: center;
-  line-height: 20px;
-}
-
-.sheet-customer span.is-checked {
-  background: #111;
-  color: #fff;
 }
 
 .sheet-customer text {

@@ -24,13 +24,11 @@ withDefaults(
   <div class="demo-page" :class="{ 'demo-page--with-tab': tabBar }">
     <div v-if="showBack || showTitle" class="demo-page__nav">
       <button v-if="showBack" class="reset-btn demo-page__back" @click="nav.navigateBack()">
-        <svg
+        <image
           class="demo-page__back-icon"
-          viewBox="0 0 24 24"
-          aria-hidden="true"
-        >
-          <path d="M15 5L8 12L15 19" />
-        </svg>
+          mode="aspectFit"
+          src="/static/common/icon-nav-back.svg"
+        />
       </button>
       <div v-if="showTitle" class="demo-page__title-box">
         <text class="demo-page__title">
@@ -87,11 +85,6 @@ withDefaults(
 .demo-page__back-icon {
   width: 24px;
   height: 24px;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 2.5;
-  stroke-linecap: round;
-  stroke-linejoin: round;
 }
 
 .demo-page__title-box {

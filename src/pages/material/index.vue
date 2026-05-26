@@ -102,9 +102,11 @@ function openNeed(item: string) {
                 <text class="need-card__action">
                   查看素材
                 </text>
-                <text class="chevron">
-                  ›
-                </text>
+                <image
+                  class="chevron"
+                  mode="aspectFit"
+                  src="/static/material/icon-chevron-right-light.svg"
+                />
               </view>
             </button>
           </view>
@@ -129,9 +131,11 @@ function openNeed(item: string) {
                 <text class="rank-card__action">
                   {{ item.action }}
                 </text>
-                <text class="chevron">
-                  ›
-                </text>
+                <image
+                  class="chevron"
+                  mode="aspectFit"
+                  src="/static/material/icon-chevron-right-light.svg"
+                />
               </view>
             </button>
 
@@ -299,13 +303,8 @@ function openNeed(item: string) {
 
 .chevron {
   display: block;
-  width: 16px;
+  width: 13px;
   height: 16px;
-  font-size: 21px;
-  font-weight: 300;
-  line-height: 14px;
-  text-align: center;
-  color: #ccc;
 }
 
 .rank-grid {

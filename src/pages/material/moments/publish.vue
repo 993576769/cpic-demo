@@ -39,8 +39,11 @@ async function publish() {
               {{ product }}
             </text>
             <button class="reset-btn product-row__copy" @click="showToast('已复制')">
-              <view class="copy-icon copy-icon--back" />
-              <view class="copy-icon copy-icon--front" />
+              <image
+                class="copy-icon"
+                mode="aspectFit"
+                src="/static/material/icon-copy.svg"
+              />
             </button>
           </view>
         </view>
@@ -59,9 +62,11 @@ async function publish() {
             class="media-grid__item"
           />
           <button class="reset-btn media-grid__item media-grid__item--add" @click="showToast('建设中')">
-            <text class="media-grid__plus">
-              +
-            </text>
+            <image
+              class="media-grid__plus"
+              mode="aspectFit"
+              src="/static/material/icon-add-media.svg"
+            />
           </button>
         </view>
       </view>
@@ -172,30 +177,14 @@ async function publish() {
 }
 
 .product-row__copy {
-  position: relative;
   width: 24px;
   height: 24px;
   background: transparent;
 }
 
 .copy-icon {
-  position: absolute;
-  width: 10px;
-  height: 10px;
-  border: 1px solid #999;
-  border-radius: 2px;
-  box-sizing: border-box;
-}
-
-.copy-icon--back {
-  top: 6px;
-  left: 9px;
-}
-
-.copy-icon--front {
-  top: 9px;
-  left: 6px;
-  background: #f8f8f8;
+  width: 20px;
+  height: 20px;
 }
 
 .media-grid {
@@ -220,10 +209,8 @@ async function publish() {
 }
 
 .media-grid__plus {
-  font-size: 36px;
-  font-weight: 300;
-  line-height: 36px;
-  color: #999;
+  width: 31px;
+  height: 30px;
 }
 
 .copy-box {
