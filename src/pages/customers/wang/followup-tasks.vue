@@ -266,6 +266,7 @@ function toggleAll() {
   gap: 11px;
   padding-top: 10px;
   padding-right: 15px;
+  padding-bottom: 10px;
   padding-left: 19px;
   background: #fff;
   box-sizing: border-box;

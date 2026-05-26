@@ -11,6 +11,11 @@ const demoPage = fs.readFileSync(new URL('../src/components/common/demo-page.vue
 const navUtil = fs.readFileSync(new URL('../src/utils/nav.ts', import.meta.url), 'utf8');
 const tabBar = fs.readFileSync(new URL('../src/components/common/tab-bar.vue', import.meta.url), 'utf8');
 const globalStyles = fs.readFileSync(new URL('../src/styles/global.scss', import.meta.url), 'utf8');
+const mixins = fs.readFileSync(new URL('../src/styles/mixins.scss', import.meta.url), 'utf8');
+const fixedBottomButton = fs.readFileSync(
+  new URL('../src/components/common/button-fixed-bottom.vue', import.meta.url),
+  'utf8',
+);
 const dataPage = fs.readFileSync(new URL('../src/pages/root/data.vue', import.meta.url), 'utf8');
 const mePage = fs.readFileSync(new URL('../src/pages/root/me.vue', import.meta.url), 'utf8');
 
@@ -22,6 +27,14 @@ function assertUsesFixedBottom(source, className, message) {
   assert.match(
     source,
     new RegExp(`<common-button-fixed-bottom[^>]*>[^]*class="[^"]*${escapeRegExp(className)}[^"]*"[^]*</common-button-fixed-bottom>`),
+    message,
+  );
+}
+
+function assertBottomContainerPadding(source, className, message) {
+  assert.match(
+    source,
+    new RegExp(`\\.${escapeRegExp(className)}\\s*\\{[^}]*padding-bottom:\\s*10px;`),
     message,
   );
 }
@@ -38,6 +51,11 @@ function assertBottomButtonsUseFixedBottom(pages) {
         source,
         new RegExp(`${escapeRegExp(className)} padding-bottom-safe-area`),
         `${name} bottom button group "${className}" should delegate safe-area padding to common-button-fixed-bottom`,
+      );
+      assertBottomContainerPadding(
+        source,
+        className,
+        `${name} bottom button group "${className}" should define 10px bottom padding on its container`,
       );
     }
   }
@@ -114,7 +132,7 @@ const missingToolLabels = requiredToolLabels.filter(label => !toolsPage.includes
 
 assert.deepEqual(missingToolLabels, [], `Missing tool labels: ${missingToolLabels.join(', ')}`);
 assert.match(toolsPage, /<common-demo-page/, 'Tools page should use the shared demo page shell');
-assert.match(toolsPage, /title="工具箱"/, 'Tools page should keep the shared page title');
+assert.match(toolsPage, /:show-title="false"/, 'Tools page should hide the shared page header');
 assert.match(toolsPage, /url:\s*'\/todo-ai'/, 'Todo AI tool should open the dedicated todo AI flow');
 assert.doesNotMatch(getToolBlock(toolsPage, 'order'), /url:/, 'Order query should stay unimplemented per PRD');
 assert.doesNotMatch(getToolBlock(toolsPage, 'resign'), /url:/, 'Resign assignment should stay unimplemented per PRD');
@@ -127,11 +145,34 @@ assert.equal(fs.existsSync(new URL('../src/pages/tools/order.vue', import.meta.u
 assert.equal(fs.existsSync(new URL('../src/pages/tools/resign.vue', import.meta.url)), false, 'Resign assignment page should not exist per PRD');
 assert.match(tabBar, /item\.key === 'data' \|\| item\.key === 'me'/, 'Data and Me tabs should remain unimplemented per PRD');
 assert.match(tabBar, /showToast\('建设中'\)/, 'Data and Me tabs should toast construction state per PRD');
+assertUsesFixedBottom(tabBar, 'common-tab-bar', 'Common tab bar should use common button fixed bottom');
+assert.doesNotMatch(tabBar, /common-tab-bar padding-bottom-safe-area/, 'Common tab bar should delegate safe-area padding to common-button-fixed-bottom');
+assert.doesNotMatch(tabBar, /\.common-tab-bar\s*\{[^}]*position:\s*fixed/, 'Common tab bar should delegate fixed positioning to common-button-fixed-bottom');
+assertBottomContainerPadding(tabBar, 'common-tab-bar', 'Common tab bar should define 10px bottom padding on its container');
 assert.match(globalStyles, /uni-tabbar\s*\{[^}]*display:\s*none;/, 'Native H5 tabbar should be hidden so PRD placeholder tabs do not navigate');
+assert.match(
+  mixins,
+  /@mixin padding-bottom-safe-area\(\$padding:\s*0rpx\)/,
+  'Safe-area bottom padding mixin should not default to a fixed 10px',
+);
+assert.match(
+  mixins,
+  /var\(--safe-area-inset-bottom\)/,
+  'Safe-area bottom padding mixin should read the safe-area variable without a fixed fallback',
+);
+assert.doesNotMatch(mixins, /10px/, 'Safe-area bottom padding mixin should not contain a fixed 10px fallback');
+assert.match(
+  fixedBottomButton,
+  /@include padding-bottom-safe-area;/,
+  'common-button-fixed-bottom should apply shared safe-area padding',
+);
 assert.match(dataPage, /建设中/, 'Data page should stay a construction placeholder per PRD');
 assert.match(mePage, /建设中/, 'Me page should stay a construction placeholder per PRD');
 assert.doesNotMatch(dataPage, /本月经营概览|转化漏斗|客户分布/, 'Data page should not implement analytics per PRD');
 assert.doesNotMatch(mePage, /保险销售顾问|我的客户|常用素材|团队排行/, 'Me page should not implement profile features per PRD');
+
+const customersPage = fs.readFileSync(new URL('../src/pages/root/customers.vue', import.meta.url), 'utf8');
+assert.match(customersPage, /<common-demo-page[^>]*:show-title="false"/, 'Customers page should hide the shared page header');
 
 const visitRecordPage = fs.readFileSync(new URL('../src/pages/customers/wang/visit-record.vue', import.meta.url), 'utf8');
 const requiredVisitRecordTokens = [

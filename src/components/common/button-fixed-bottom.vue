@@ -49,7 +49,7 @@ onMounted(async () => {
 <style lang="scss">
 .button-fixed-bottom {
   &, .fixed-footer {
-    @include padding-bottom-safe-area
+    @include padding-bottom-safe-area;
   }
 
   .fixed-footer {

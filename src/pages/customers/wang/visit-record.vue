@@ -208,6 +208,7 @@ function toggleCard(id: AnalysisId) {
 .upload-panel {
   padding-top: 21px;
   padding-right: 10px;
+  padding-bottom: 10px;
   padding-left: 10px;
   border-radius: 16px 16px 0 0;
   background: #fff;
@@ -656,6 +657,7 @@ function toggleCard(id: AnalysisId) {
 .analysis-bottom {
   padding-top: 13px;
   padding-right: 17px;
+  padding-bottom: 10px;
   padding-left: 17px;
   background: #fff;
   box-sizing: border-box;

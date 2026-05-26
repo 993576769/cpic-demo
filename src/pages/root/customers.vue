@@ -11,7 +11,12 @@ const isQuadrantMode = ref(false);
 </script>
 
 <template>
-  <common-demo-page title="客户档案" tab-bar="customers" :show-back="false">
+  <common-demo-page
+    title="客户档案"
+    tab-bar="customers"
+    :show-back="false"
+    :show-title="false"
+  >
     <div class="page-header">
       <div>
         <text class="page-header__title">
