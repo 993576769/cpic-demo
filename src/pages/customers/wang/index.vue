@@ -53,11 +53,11 @@ const heatRows = [
           </text>
         </div>
         <div class="profile-card__actions">
-          <button class="reset-btn" @click="showToast('建设中')">
-            <image mode="aspectFit" src="/static/customer/icon-phone.svg" />
+          <button class="reset-btn" @click="showToast('已唤起电话')">
+            <image mode="aspectFit" src="/static/customer/icon-phone-figma.svg" />
           </button>
-          <button class="reset-btn" @click="showToast('建设中')">
-            <image mode="aspectFit" src="/static/customer/icon-message.svg" />
+          <button class="reset-btn" @click="nav.nav('/customers/wang/followup')">
+            <image mode="aspectFit" src="/static/customer/icon-message-figma.svg" />
           </button>
         </div>
       </view>
@@ -73,7 +73,8 @@ const heatRows = [
           </div>
           <div>
             <div class="score-row__title">
-              <span>🔥</span> 高热客户
+              <image mode="aspectFit" src="/static/customer/icon-heat-figma.svg" />
+              <span>高热客户</span>
             </div>
             <text class="score-row__desc">
               客户近期聊天频繁，历史成交优质，保单活跃，处于高意向状态，建议优先跟进。
@@ -114,9 +115,9 @@ const heatRows = [
           孩子即将上小学，可切入教育金 + 重疾保障组合方案。
         </text>
         <button class="reset-btn primary-button primary-button--light" @click="nav.nav('/customers/wang/followup')">
-          <image mode="aspectFit" src="/static/customer/icon-calendar.svg" />
+          <image mode="aspectFit" src="/static/customer/icon-calendar-figma.svg" />
           <text>生成下一步</text>
-          <span>›</span>
+          <image class="primary-button__chevron" mode="aspectFit" src="/static/customer/icon-chevron-right-figma.svg" />
         </button>
       </view>
 
@@ -125,7 +126,7 @@ const heatRows = [
           <text class="content-card__title">
             家庭结构
           </text>
-          <button class="reset-btn edit-link" @click="showToast('建设中')">
+          <button class="reset-btn edit-link" @click="nav.nav('/customers/wang/followup')">
             编辑
           </button>
         </div>
@@ -152,7 +153,7 @@ const heatRows = [
           <text class="content-card__title">
             客户画像
           </text>
-          <button class="reset-btn edit-link" @click="showToast('建设中')">
+          <button class="reset-btn edit-link" @click="nav.nav('/customers/wang/followup')">
             编辑
           </button>
         </div>
@@ -171,7 +172,7 @@ const heatRows = [
           <text class="content-card__title">
             客户标签
           </text>
-          <button class="reset-btn edit-link" @click="showToast('建设中')">
+          <button class="reset-btn edit-link" @click="nav.nav('/customers/wang/followup')">
             编辑
           </button>
         </div>
@@ -194,7 +195,7 @@ const heatRows = [
           <text class="content-card__title">
             当前保单/保单缺口
           </text>
-          <button class="reset-btn edit-link" @click="showToast('建设中')">
+          <button class="reset-btn edit-link" @click="nav.nav('/material/content-task/education')">
             查看详情
           </button>
         </div>
@@ -257,7 +258,7 @@ const heatRows = [
           <text class="content-card__title">
             活动记录
           </text>
-          <button class="reset-btn edit-link" @click="showToast('建设中')">
+          <button class="reset-btn edit-link" @click="nav.nav('/activity/records')">
             编辑
           </button>
         </div>
@@ -280,11 +281,12 @@ const heatRows = [
 .detail-content {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 14px;
 }
 
 .customer-detail-page :deep(.demo-page__body--padded) {
   padding: 0 12px 24px;
+  background: #f5f5f5;
 }
 
 .profile-card,
@@ -292,7 +294,7 @@ const heatRows = [
 .insight-card {
   padding: 16px;
   background: $white-color;
-  border-radius: 12px;
+  border-radius: 14px;
   box-sizing: border-box;
 }
 
@@ -301,7 +303,7 @@ const heatRows = [
   justify-content: space-between;
   gap: 16px;
   margin: 0 -12px;
-  padding: 18px 20px 13px;
+  padding: 14px 20px 14px;
   border-radius: 0;
 }
 
@@ -312,9 +314,9 @@ const heatRows = [
 }
 
 .profile-card__name {
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 600;
-  line-height: 30px;
+  line-height: 28px;
   color: #101828;
 }
 
@@ -353,20 +355,24 @@ const heatRows = [
 
 .profile-card__actions {
   display: flex;
-  gap: 8px;
-  padding-top: 18px;
+  gap: 10px;
+  padding-top: 4px;
 }
 
 .profile-card__actions button {
-  width: 34px;
-  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid #edf0f5;
   border-radius: 50%;
-  background: #f3f4f6;
+  background: #fff;
 }
 
 .profile-card__actions image {
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
 }
 
 .content-card__title {
@@ -394,7 +400,7 @@ const heatRows = [
   display: flex;
   align-items: center;
   gap: 16px;
-  margin-top: 19px;
+  margin-top: 18px;
 }
 
 .score-row__value {
@@ -405,7 +411,7 @@ const heatRows = [
   flex: 0 0 76px;
   width: 76px;
   height: 76px;
-  border: 8px solid #f2f2f7;
+  border: 7px solid #f2f2f7;
   border-radius: 50%;
   box-sizing: border-box;
   color: #101828;
@@ -425,15 +431,18 @@ const heatRows = [
 }
 
 .score-row__title {
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 6px;
   font-size: 15px;
   font-weight: 600;
   line-height: 22px;
   color: #101828;
 }
 
-.score-row__title span {
-  filter: grayscale(1);
+.score-row__title image {
+  width: 14px;
+  height: 14px;
 }
 
 .heat-list {
@@ -496,7 +505,7 @@ const heatRows = [
 
 .insight-card {
   padding: 14px 16px 12px;
-  background: #0b1220;
+  background: #0d1423;
   color: #fff;
 }
 
@@ -539,15 +548,16 @@ const heatRows = [
 }
 
 .primary-button image {
-  width: 14px;
-  height: 14px;
+  width: 12px;
+  height: 12px;
   margin-right: 6px;
 }
 
-.primary-button span {
+.primary-button__chevron {
+  width: 4px !important;
+  height: 7px !important;
   margin-left: auto;
-  font-size: 18px;
-  color: rgba(255, 255, 255, 0.45);
+  margin-right: 0 !important;
 }
 
 .family-grid {

@@ -79,8 +79,8 @@ async function sendInvite() {
   align-items: flex-start;
   justify-content: space-between;
   gap: 12px;
-  height: 114px;
-  padding: 34px 19px 0 20px;
+  min-height: 114px;
+  padding: 34px 19px 24px 20px;
   background: #fff;
   box-sizing: border-box;
 }
@@ -119,7 +119,7 @@ async function sendInvite() {
 
 .member-card {
   width: 345px;
-  height: 376px;
+  min-height: 376px;
   padding: 14px 16px 0;
   margin: 13px 15px 88px;
   border-radius: 8px;

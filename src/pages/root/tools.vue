@@ -162,10 +162,10 @@ function openTool(tool: ToolItem) {
 }
 
 .tool-card__icon {
-  flex: 0 0 48px;
+  flex: 0 0 40px;
   width: 40px;
   height: 40px;
-  margin-right: 0;
+  margin-right: 8px;
 }
 
 .tool-card--order .tool-card__icon {

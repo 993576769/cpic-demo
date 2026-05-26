@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { nav } from '@/utils/nav';
-import { showToast } from '@/utils/toast';
 import { onLoad, onShow } from '@dcloudio/uni-app';
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 
@@ -17,6 +16,7 @@ const analysisIconMap: Record<AnalysisIcon, string> = {
 const content = ref('');
 const state = ref<'upload' | 'done'>('upload');
 const openCards = ref<AnalysisId[]>(['profile', 'needs', 'risk', 'next']);
+const showFullDialog = ref(false);
 const pageTitle = computed(() => state.value === 'upload' ? '上传拜访记录' : '拜访记录分析');
 
 const analysisCards: Array<{
@@ -96,6 +96,10 @@ function submit() {
   state.value = 'done';
 }
 
+function completeUpload() {
+  state.value = 'done';
+}
+
 function toggleCard(id: AnalysisId) {
   openCards.value = openCards.value.includes(id)
     ? openCards.value.filter(item => item !== id)
@@ -112,14 +116,12 @@ function toggleCard(id: AnalysisId) {
         <common-button-fixed-bottom bg-color="#fff">
           <view class="upload-panel">
             <view class="upload-options">
-              <button class="reset-btn upload-option" @click="showToast('建设中')">
-                <view class="upload-option__icon upload-option__icon--image" />
+              <button class="reset-btn upload-option" @click="completeUpload">
                 <text class="upload-option__text">
                   图片
                 </text>
               </button>
-              <button class="reset-btn upload-option" @click="showToast('建设中')">
-                <view class="upload-option__icon upload-option__icon--file" />
+              <button class="reset-btn upload-option" @click="completeUpload">
                 <text class="upload-option__text">
                   文件
                 </text>
@@ -127,16 +129,16 @@ function toggleCard(id: AnalysisId) {
             </view>
 
             <view class="composer">
-              <button class="reset-btn composer__close" @click="nav.nav('/tools')">
-                <view class="composer__close-icon" />
+              <button class="reset-btn composer__add" @click="completeUpload">
+                <image class="composer__add-icon" mode="aspectFit" src="/static/customers/visit-record/icon-composer-add.svg" />
               </button>
               <view class="composer__input-wrap">
                 <input v-model="content" class="composer__input" placeholder="输入内容" />
-                <button class="reset-btn composer__voice" @click="showToast('建设中')">
-                  <view class="composer__voice-icon" />
+                <button class="reset-btn composer__voice" @click="completeUpload">
+                  <image class="composer__voice-icon" mode="aspectFit" src="/static/customers/visit-record/icon-voice.svg" />
                 </button>
                 <button class="reset-btn composer__send" :class="{ 'is-active': canSend }" @click="submit">
-                  <view class="composer__send-icon" />
+                  <image class="composer__send-icon" mode="aspectFit" src="/static/customers/visit-record/icon-send-arrow.svg" />
                 </button>
               </view>
             </view>
@@ -151,11 +153,9 @@ function toggleCard(id: AnalysisId) {
               <text class="dialog-card__title">
                 与王女士的对话（5月20日）
               </text>
-              <button class="reset-btn dialog-card__link" @click="showToast('建设中')">
+              <button class="reset-btn dialog-card__link" @click="showFullDialog = !showFullDialog">
                 查看完整记录
-                <text class="dialog-card__chevron">
-                  >
-                </text>
+                <image class="dialog-card__chevron" mode="aspectFit" src="/static/customers/visit-record/icon-chevron-right.svg" />
               </button>
             </view>
             <text class="dialog-line">
@@ -182,6 +182,20 @@ function toggleCard(id: AnalysisId) {
               </text>
               明白，建议我先梳理的保障缺口下…
             </text>
+            <template v-if="showFullDialog">
+              <text class="dialog-line">
+                <text class="dialog-line__speaker">
+                  王女士：
+                </text>
+                主要还是担心孩子生病住院，预算一年大概五千左右。
+              </text>
+              <text class="dialog-line">
+                <text class="dialog-line__speaker">
+                  我：
+                </text>
+                可以，我会先按重疾、医疗和意外保障拆开看，再给您组合建议。
+              </text>
+            </template>
           </view>
 
           <text class="analysis-title">
@@ -222,7 +236,7 @@ function toggleCard(id: AnalysisId) {
 
         <common-button-fixed-bottom bg-color="#fff">
           <view class="analysis-bottom">
-            <button class="reset-btn generate-button" @click="nav.nav('/customers/wang/followup/tasks')">
+            <button class="reset-btn generate-button" @click="nav.nav('/customers/wang/followup')">
               <text>生成跟进方案</text>
               <image
                 class="sparkle-icon"
@@ -289,52 +303,6 @@ function toggleCard(id: AnalysisId) {
   color: #000;
 }
 
-.upload-option__icon {
-  position: relative;
-  width: 22px;
-  height: 22px;
-  margin-bottom: 8px;
-}
-
-.upload-option__icon--image {
-  border: 1.5px solid #999;
-  border-radius: 4px;
-}
-
-.upload-option__icon--image::before {
-  position: absolute;
-  left: 4px;
-  bottom: 4px;
-  width: 12px;
-  height: 7px;
-  border-radius: 1px;
-  background: linear-gradient(135deg, transparent 45%, #999 46%, #999 62%, transparent 63%);
-  content: '';
-}
-
-.upload-option__icon--file {
-  border: 1.5px solid #999;
-  border-radius: 3px;
-}
-
-.upload-option__icon--file::before,
-.upload-option__icon--file::after {
-  position: absolute;
-  left: 4px;
-  right: 4px;
-  height: 1.5px;
-  background: #999;
-  content: '';
-}
-
-.upload-option__icon--file::before {
-  top: 7px;
-}
-
-.upload-option__icon--file::after {
-  top: 12px;
-}
-
 .upload-option__text {
   font-size: 13px;
   font-weight: 500;
@@ -348,7 +316,7 @@ function toggleCard(id: AnalysisId) {
   padding: 0 10px;
 }
 
-.composer__close {
+.composer__add {
   flex: 0 0 38px;
   width: 38px;
   height: 38px;
@@ -356,30 +324,9 @@ function toggleCard(id: AnalysisId) {
   background: #f2f2f2;
 }
 
-.composer__close-icon {
-  position: relative;
-  width: 18px;
-  height: 18px;
-}
-
-.composer__close-icon::before,
-.composer__close-icon::after {
-  position: absolute;
-  top: 8px;
-  left: 0;
-  width: 18px;
-  height: 2px;
-  border-radius: 2px;
-  background: #333;
-  content: '';
-}
-
-.composer__close-icon::before {
-  transform: rotate(45deg);
-}
-
-.composer__close-icon::after {
-  transform: rotate(-45deg);
+.composer__add-icon {
+  width: 16px;
+  height: 16px;
 }
 
 .composer__input-wrap {
@@ -414,33 +361,8 @@ function toggleCard(id: AnalysisId) {
 }
 
 .composer__voice-icon {
-  position: relative;
-  width: 14px;
-  height: 20px;
-}
-
-.composer__voice-icon::before {
-  position: absolute;
-  left: 4px;
-  top: 1px;
-  width: 6px;
-  height: 12px;
-  border: 2px solid #999;
-  border-radius: 6px;
-  content: '';
-}
-
-.composer__voice-icon::after {
-  position: absolute;
-  left: 1px;
-  top: 9px;
-  width: 12px;
-  height: 8px;
-  border-bottom: 2px solid #999;
-  border-left: 2px solid #999;
-  border-right: 2px solid #999;
-  border-radius: 0 0 8px 8px;
-  content: '';
+  width: 16px;
+  height: 16px;
 }
 
 .composer__send {
@@ -453,35 +375,8 @@ function toggleCard(id: AnalysisId) {
 }
 
 .composer__send-icon {
-  position: relative;
-  width: 14px;
-  height: 15px;
-}
-
-.composer__send-icon::before,
-.composer__send-icon::after {
-  position: absolute;
-  background: #f2f2f2;
-  content: '';
-}
-
-.composer__send-icon::before {
-  left: 6px;
-  top: 2px;
-  width: 2px;
-  height: 13px;
-  border-radius: 2px;
-}
-
-.composer__send-icon::after {
-  left: 2px;
-  top: 2px;
-  width: 9px;
-  height: 9px;
-  border-left: 2px solid #f2f2f2;
-  border-top: 2px solid #f2f2f2;
-  background: transparent;
-  transform: rotate(45deg);
+  width: 15px;
+  height: 14px;
 }
 
 .analysis-content {
@@ -513,14 +408,15 @@ function toggleCard(id: AnalysisId) {
   color: #0a0a0a;
 }
 
-.dialog-card__link,
-.dialog-card__chevron {
+.dialog-card__link {
   font-size: 12px;
   line-height: 18px;
   color: #888;
 }
 
 .dialog-card__chevron {
+  width: 12px;
+  height: 12px;
   margin-left: 5px;
 }
 

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { followupTasks } from '@/pages/demo-data';
 import { nav } from '@/utils/nav';
-import { showToast } from '@/utils/toast';
 import { computed, ref } from 'vue';
 
 const tabs = ['问题研究', '沟通联系', '材料准备', '方案准备'];
@@ -66,7 +65,7 @@ function toggleAll() {
               <text class="todo-task-card__deadline">
                 {{ task.deadline }}
               </text>
-              <button class="reset-btn todo-task-card__edit" @click="showToast('建设中')">
+              <button class="reset-btn todo-task-card__edit" @click="nav.nav('/customers/wang/followup')">
                 编辑
               </button>
             </view>
@@ -175,7 +174,7 @@ function toggleAll() {
   display: none;
   width: 13px;
   height: 13px;
-  background-image: url("data:image/svg+xml,%3Csvg width='13' height='13' viewBox='0 0 13 13' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M3 6.6L5.35 8.95L10 4.3' stroke='white' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-image: url("/static/journey/icon-checkbox-check.svg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: 13px 13px;

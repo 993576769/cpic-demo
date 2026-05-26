@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { nav } from '@/utils/nav';
-import { showToast } from '@/utils/toast';
 </script>
 
 <template>
@@ -8,6 +7,7 @@ import { showToast } from '@/utils/toast';
     <common-demo-page
       title="下一步建议"
       :padded="false"
+      :show-title="false"
     >
       <view class="followup-heading">
         <text class="followup-heading__title">
@@ -39,10 +39,10 @@ import { showToast } from '@/utils/toast';
             基于客户家庭近期财务分析，针对教育储备及风险保障缺口，推荐此组合方案以实现资产稳健增长与全方位守护。
           </text>
           <div class="button-row">
-            <button class="reset-btn secondary-button" @click="showToast('建设中')">
+            <button class="reset-btn secondary-button" @click="nav.nav('/material/content-task/education')">
               查看详情
             </button>
-            <button class="reset-btn primary-button" @click="showToast('建设中')">
+            <button class="reset-btn primary-button" @click="nav.nav('/material/moments/publish')">
               立即发送
             </button>
           </div>

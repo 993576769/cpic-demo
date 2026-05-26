@@ -26,8 +26,8 @@ function selectTab(tab: TabKey) {
   activeTab.value = tab;
 }
 
-async function viewCustomer() {
-  await showToast('建设中');
+function viewCustomer() {
+  nav.nav('/customers/wang');
 }
 
 async function sendAll() {

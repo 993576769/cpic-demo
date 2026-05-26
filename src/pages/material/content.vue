@@ -185,7 +185,6 @@ function useContent() {
 .material-card {
   overflow: hidden;
   width: 348px;
-  height: 178px;
   min-height: 178px;
   padding: 0;
   border-radius: 15px;
@@ -198,8 +197,8 @@ function useContent() {
   display: flex;
   align-items: flex-start;
   gap: 11px;
-  height: 124px;
-  padding: 11px 11px 0;
+  min-height: 124px;
+  padding: 11px 11px 18px;
   box-sizing: border-box;
 }
 
@@ -214,8 +213,6 @@ function useContent() {
 .material-card__main {
   flex: 1;
   min-width: 0;
-  height: 85px;
-  overflow: hidden;
   padding-top: 0;
 }
 
@@ -241,7 +238,7 @@ function useContent() {
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  height: 53px;
+  min-height: 53px;
   padding: 8px 11px 9px;
   box-sizing: border-box;
 }
