@@ -63,6 +63,19 @@ export const customers: CustomerRow[] = [
 
 export const journeyCustomers = ['王建国', '李雅琴', '张明远', '陈雪梅', '林德华'];
 
+export const journeyBatchCustomers = [
+  { name: '王女士', avatar: '王', tag: '高净值' },
+  { name: '李先生', avatar: '李', tag: '宝妈' },
+  { name: '张女士', avatar: '张', tag: '续保' },
+  { name: '陈先生', avatar: '陈' },
+  { name: '刘女士', avatar: '刘', tag: '高净值' },
+  { name: '赵先生', avatar: '赵' },
+  { name: '周女士', avatar: '周', tag: '宝妈' },
+  { name: '吴先生', avatar: '吴', tag: '续保' },
+  { name: '郑女士', avatar: '郑' },
+  { name: '孙先生', avatar: '孙', tag: '高净值' },
+];
+
 export const followupTasks = [
   {
     id: 'budget',
