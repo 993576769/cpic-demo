@@ -24,9 +24,7 @@ function toggleAll() {
 <template>
   <view class="todo-ai-task-page">
     <common-demo-page
-      title=""
-      :show-title="false"
-      :show-back="false"
+      title="下一步事项"
       :padded="false"
     >
       <common-page-heading title="下一步事项" size="plain" />
@@ -158,6 +156,9 @@ function toggleAll() {
 }
 
 .todo-task-card__checkbox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex: 0 0 13px;
   width: 13px;
   height: 13px;
@@ -165,6 +166,7 @@ function toggleAll() {
   border: 1px solid #000;
   border-radius: 2px;
   background: #fff;
+  box-sizing: border-box;
 }
 
 .todo-task-card__checkbox.is-checked {
@@ -173,11 +175,12 @@ function toggleAll() {
 
 .todo-task-card__checkmark {
   display: none;
-  width: 7px;
-  height: 4px;
-  border-bottom: 1.5px solid #fff;
-  border-left: 1.5px solid #fff;
-  transform: rotate(-45deg);
+  width: 13px;
+  height: 13px;
+  background-image: url("data:image/svg+xml,%3Csvg width='13' height='13' viewBox='0 0 13 13' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M3 6.6L5.35 8.95L10 4.3' stroke='white' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 13px 13px;
 }
 
 .todo-task-card__checkbox.is-checked .todo-task-card__checkmark {
@@ -264,18 +267,15 @@ function toggleAll() {
   display: grid;
   grid-template-columns: 85px 1fr;
   gap: 11px;
-  padding-top: 10px;
-  padding-right: 15px;
-  padding-bottom: 10px;
-  padding-left: 19px;
+  padding: 17px 15px;
   background: #fff;
   box-sizing: border-box;
 }
 
 .select-button,
 .add-button {
-  height: 54px;
-  border-radius: 14px;
+  height: 48px;
+  border-radius: 100px;
   font-size: 16px;
   font-weight: 600;
   line-height: 24px;

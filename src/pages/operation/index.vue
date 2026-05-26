@@ -5,7 +5,7 @@ import { nav } from '@/utils/nav';
 
 <template>
   <view class="operation-page">
-    <common-demo-page title="" :show-title="false" :padded="false">
+    <common-demo-page title="运营任务" :padded="false">
       <common-page-heading
         title="运营任务"
         subtitle="请尽快完成"

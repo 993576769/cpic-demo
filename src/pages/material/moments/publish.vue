@@ -20,7 +20,7 @@ async function publish() {
 
 <template>
   <view class="moments-publish-page">
-    <common-demo-page title="" :show-title="false" :padded="false">
+    <common-demo-page title="发布朋友圈" :padded="false">
       <common-page-heading title="发布朋友圈" />
 
       <view class="publish-card publish-card--products">
@@ -261,10 +261,7 @@ async function publish() {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 6px;
-  padding-top: 15px;
-  padding-right: 20px;
-  padding-bottom: 10px;
-  padding-left: 20px;
+  padding: 10px 15px;
   background: #fff;
   box-sizing: border-box;
 }

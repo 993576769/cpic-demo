@@ -9,6 +9,7 @@ type AnalysisId = 'profile' | 'needs' | 'risk' | 'next';
 const content = ref('');
 const state = ref<'upload' | 'done'>('upload');
 const openCards = ref<AnalysisId[]>(['profile', 'needs', 'risk', 'next']);
+const pageTitle = computed(() => state.value === 'upload' ? '上传拜访记录' : '拜访记录分析');
 
 const analysisCards: Array<{
   id: AnalysisId;
@@ -67,7 +68,7 @@ function toggleCard(id: AnalysisId) {
 
 <template>
   <view class="visit-record-page">
-    <common-demo-page title="" :show-title="false" :padded="false">
+    <common-demo-page :title="pageTitle" :padded="false">
       <template v-if="state === 'upload'">
         <common-page-heading title="上传拜访记录" size="plain" />
 

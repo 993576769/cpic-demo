@@ -4,6 +4,18 @@ import { showToast } from '@/utils/toast';
 import { ref } from 'vue';
 
 const expanded = ref(false);
+const familyMembers = [
+  ['王女士', '本人'],
+  ['先生', '公务员'],
+  ['大儿子', '6岁·小学'],
+  ['小女儿', '3岁·幼儿园'],
+];
+const profileTags = [
+  ['家庭标签', ['宝妈', '二孩家庭', '已婚', '夫妻均有社保']],
+  ['子女标签', ['6岁男孩·小学', '3岁女孩·幼儿园']],
+  ['高净值标签', ['年收30-50万', '有房有车', '算法工程师']],
+  ['健康标签', ['健康状况良好', '有社保', '稳健型风险偏好']],
+];
 const heatRows = [
   ['最近聊天频率', '近7天5次', 88],
   ['内容点击情况', '点击率高', 84],
@@ -16,7 +28,7 @@ const heatRows = [
 </script>
 
 <template>
-  <common-demo-page title="顾客档案">
+  <common-demo-page class="customer-detail-page" title="顾客档案">
     <view class="detail-content">
       <view class="profile-card">
         <div>
@@ -34,7 +46,7 @@ const heatRows = [
             <text>风险意识高</text>
           </div>
           <text class="profile-card__info">
-            手机：180 **** 6666
+            手机：180 **** 6666  ⧉
           </text>
           <text class="profile-card__info">
             生日：1994-08-08
@@ -42,10 +54,10 @@ const heatRows = [
         </div>
         <div class="profile-card__actions">
           <button class="reset-btn" @click="showToast('建设中')">
-            <text>☎</text>
+            <image mode="aspectFit" src="/static/customer/icon-phone.svg" />
           </button>
           <button class="reset-btn" @click="showToast('建设中')">
-            <text>↗</text>
+            <image mode="aspectFit" src="/static/customer/icon-message.svg" />
           </button>
         </div>
       </view>
@@ -55,15 +67,16 @@ const heatRows = [
           AI 客户热度模型
         </text>
         <div class="score-row">
-          <text class="score-row__value">
-            82
-          </text>
+          <div class="score-row__value">
+            <text>82</text>
+            <span>综合评分</span>
+          </div>
           <div>
-            <text class="score-row__title">
-              🔥 高热客户
-            </text>
+            <div class="score-row__title">
+              <span>🔥</span> 高热客户
+            </div>
             <text class="score-row__desc">
-              近期咨询儿童险种，适合继续推进家庭保障方案。
+              客户近期聊天频繁，历史成交优质，保单活跃，处于高意向状态，建议优先跟进。
             </text>
           </div>
         </div>
@@ -83,7 +96,13 @@ const heatRows = [
           </div>
         </div>
         <button class="reset-btn ghost-button" @click="expanded = !expanded">
-          <text>{{ expanded ? '收起 ^' : '查看全部维度 v' }}</text>
+          <text>{{ expanded ? '收起全部维度' : '查看全部维度' }}</text>
+          <image
+            class="ghost-button__icon"
+            mode="aspectFit"
+            src="/static/customer/icon-chevron-down.svg"
+            :class="{ 'is-expanded': expanded }"
+          />
         </button>
       </view>
 
@@ -95,31 +114,48 @@ const heatRows = [
           孩子即将上小学，可切入教育金 + 重疾保障组合方案。
         </text>
         <button class="reset-btn primary-button primary-button--light" @click="nav.nav('/customers/wang/followup')">
+          <image mode="aspectFit" src="/static/customer/icon-calendar.svg" />
           <text>生成下一步</text>
+          <span>›</span>
         </button>
       </view>
 
       <view class="content-card">
-        <text class="content-card__title">
-          家庭结构
-        </text>
+        <div class="card-title-row">
+          <text class="content-card__title">
+            家庭结构
+          </text>
+          <button class="reset-btn edit-link" @click="showToast('建设中')">
+            编辑
+          </button>
+        </div>
         <div class="family-grid">
-          <div v-for="member in ['王女士本人', '先生 公务员', '大儿子 6岁·小学', '小女儿 3岁·幼儿园']" :key="member">
-            <span>{{ member.slice(0, 1) }}</span>
-            <text>{{ member }}</text>
+          <div v-for="member in familyMembers" :key="member[0]">
+            <span>{{ member[0].slice(0, 1) }}</span>
+            <text class="family-grid__name">
+              {{ member[0] }}
+            </text>
+            <text>{{ member[1] }}</text>
           </div>
         </div>
-        <div class="profile-card__tags">
+        <div class="family-tags">
           <text>二孩家庭</text>
+          <i></i>
           <text>夫妻均有社保</text>
+          <i></i>
           <text>有房有车</text>
         </div>
       </view>
 
       <view class="content-card">
-        <text class="content-card__title">
-          客户画像
-        </text>
+        <div class="card-title-row">
+          <text class="content-card__title">
+            客户画像
+          </text>
+          <button class="reset-btn edit-link" @click="showToast('建设中')">
+            编辑
+          </button>
+        </div>
         <div class="info-grid">
           <div><text>年收入</text><span>30-50万</span></div>
           <div><text>职业</text><span>互联网产品经理</span></div>
@@ -131,22 +167,52 @@ const heatRows = [
       </view>
 
       <view class="content-card">
-        <text class="content-card__title">
-          当前保单/保单缺口
-        </text>
-        <div class="policy-grid">
+        <div class="card-title-row">
+          <text class="content-card__title">
+            客户标签
+          </text>
+          <button class="reset-btn edit-link" @click="showToast('建设中')">
+            编辑
+          </button>
+        </div>
+        <div class="tag-groups">
+          <div v-for="group in profileTags" :key="group[0]" class="tag-group">
+            <text class="tag-group__title">
+              • {{ group[0] }}
+            </text>
+            <div class="tag-group__chips">
+              <text v-for="tag in group[1]" :key="tag">
+                {{ tag }}
+              </text>
+            </div>
+          </div>
+        </div>
+      </view>
+
+      <view class="content-card">
+        <div class="card-title-row">
+          <text class="content-card__title">
+            当前保单/保单缺口
+          </text>
+          <button class="reset-btn edit-link" @click="showToast('建设中')">
+            查看详情
+          </button>
+        </div>
+        <div class="policy-summary">
           <div>
-            <text>6份保单</text>
             <span>已保障</span>
-          </div>
-          <div>
-            <text>12,800元</text>
+            <text>6份保单</text>
             <span>年保费</span>
+            <text>12,800 元</text>
           </div>
-          <div>
-            <text>3项</text>
-            <span>重大疾病 / 高端医疗 / 教育金缺口</span>
+          <div class="policy-gap">
+            <text>缺口<br />3项</text>
           </div>
+          <ul>
+            <li>重大疾病保障不足</li>
+            <li>高端医疗不足</li>
+            <li>教育金缺口</li>
+          </ul>
         </div>
       </view>
 
@@ -154,27 +220,57 @@ const heatRows = [
         <text class="content-card__title">
           最近聊天摘要（5月20日）
         </text>
-        <text class="chat-line">
-          王女士：最近孩子刚上小学，想了解儿童重疾。
-        </text>
-        <text class="chat-line">
-          我：可以从教育金和重疾组合做一份方案。
-        </text>
+        <div class="chat-summary">
+          <text>王女士：最近重疾和孩子买了教育金，我也想了解下。</text>
+          <text>王女士：可以，想更清楚不同保障组合的区别？</text>
+          <text>王女士：两方面都需要，有点预算有限。</text>
+          <text>王女士：明白，后续再详细聊方案和保额试算儿下...</text>
+        </div>
       </view>
 
       <view class="content-card">
-        <text class="content-card__title">
-          跟进任务
-        </text>
-        <text class="task-line">
-          ○ 方案沟通（教育金+重疾）
-        </text>
-        <text class="task-line">
-          ○ 需求深挖，了解家庭情况和预算
-        </text>
-        <text class="task-line">
-          2026年11月12日 提醒我
-        </text>
+        <div class="card-title-row">
+          <text class="content-card__title">
+            跟进任务
+          </text>
+          <button class="reset-btn edit-link" @click="nav.nav('/customers/wang/followup')">
+            编辑
+          </button>
+        </div>
+        <div class="follow-list">
+          <button class="reset-btn follow-item" @click="nav.nav('/customers/wang/followup')">
+            <span></span>
+            <text>方案沟通（教育金+重疾）</text>
+          </button>
+          <button class="reset-btn follow-item" @click="nav.nav('/customers/wang/followup')">
+            <span></span>
+            <div>
+              <text>需求深挖，了解家庭情况和预算</text>
+              <small>2026年11月12日 提醒我</small>
+            </div>
+          </button>
+        </div>
+      </view>
+
+      <view class="content-card">
+        <div class="card-title-row">
+          <text class="content-card__title">
+            活动记录
+          </text>
+          <button class="reset-btn edit-link" @click="showToast('建设中')">
+            编辑
+          </button>
+        </div>
+        <div class="activity-list">
+          <div>
+            <text>上海创业大会</text>
+            <span>2026年11月12日 已报名</span>
+          </div>
+          <div>
+            <text>长白山雪季滑雪训练营活动</text>
+            <span>2026年11月12日 已报名</span>
+          </div>
+        </div>
       </view>
     </view>
   </common-demo-page>
@@ -187,12 +283,16 @@ const heatRows = [
   gap: 12px;
 }
 
+.customer-detail-page :deep(.demo-page__body--padded) {
+  padding: 0 12px 24px;
+}
+
 .profile-card,
 .content-card,
 .insight-card {
-  padding: 18px;
+  padding: 16px;
   background: $white-color;
-  border-radius: 8px;
+  border-radius: 12px;
   box-sizing: border-box;
 }
 
@@ -200,6 +300,9 @@ const heatRows = [
   display: flex;
   justify-content: space-between;
   gap: 16px;
+  margin: 0 -12px;
+  padding: 18px 20px 13px;
+  border-radius: 0;
 }
 
 .profile-card__title {
@@ -212,13 +315,15 @@ const heatRows = [
   font-size: 22px;
   font-weight: 600;
   line-height: 30px;
+  color: #101828;
 }
 
 .profile-card__level {
-  padding: 4px 8px;
+  padding: 3px 8px;
   border-radius: 12px;
   background: #101828;
   font-size: 11px;
+  line-height: 16px;
   color: $white-color;
 }
 
@@ -226,7 +331,7 @@ const heatRows = [
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin: 14px 0 0;
+  margin: 12px 0 0;
 }
 
 .profile-card__tags text {
@@ -242,13 +347,14 @@ const heatRows = [
   display: block;
   margin: 7px 0 0;
   font-size: 13px;
-  line-height: 20px;
+  line-height: 19px;
   color: #666;
 }
 
 .profile-card__actions {
   display: flex;
   gap: 8px;
+  padding-top: 18px;
 }
 
 .profile-card__actions button {
@@ -256,7 +362,11 @@ const heatRows = [
   height: 34px;
   border-radius: 50%;
   background: #f3f4f6;
-  font-size: 17px;
+}
+
+.profile-card__actions image {
+  width: 18px;
+  height: 18px;
 }
 
 .content-card__title {
@@ -264,25 +374,54 @@ const heatRows = [
   font-size: 16px;
   font-weight: 600;
   line-height: 22px;
+  color: #101828;
+}
+
+.card-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.edit-link {
+  flex-shrink: 0;
+  font-size: 12px;
+  color: #6a7282;
 }
 
 .score-row {
   display: flex;
   align-items: center;
   gap: 16px;
-  margin-top: 18px;
+  margin-top: 19px;
 }
 
 .score-row__value {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
+  flex: 0 0 76px;
   width: 76px;
   height: 76px;
-  border: 8px solid #101828;
+  border: 8px solid #f2f2f7;
   border-radius: 50%;
   box-sizing: border-box;
-  font-size: 24px;
+  color: #101828;
+}
+
+.score-row__value text {
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 26px;
+}
+
+.score-row__value span {
+  margin-top: 1px;
+  font-size: 9px;
+  line-height: 12px;
+  color: #99a1af;
 }
 
 .score-row__title {
@@ -290,6 +429,11 @@ const heatRows = [
   font-size: 15px;
   font-weight: 600;
   line-height: 22px;
+  color: #101828;
+}
+
+.score-row__title span {
+  filter: grayscale(1);
 }
 
 .heat-list {
@@ -297,7 +441,7 @@ const heatRows = [
 }
 
 .heat-list__row {
-  margin-top: 12px;
+  margin-top: 11px;
 }
 
 .heat-list__label {
@@ -305,6 +449,7 @@ const heatRows = [
   justify-content: space-between;
   font-size: 12px;
   line-height: 18px;
+  color: #888;
 }
 
 .heat-list__label span {
@@ -312,30 +457,46 @@ const heatRows = [
 }
 
 .heat-list__track {
-  height: 6px;
-  margin-top: 7px;
+  height: 5px;
+  margin-top: 5px;
   border-radius: 6px;
   overflow: hidden;
-  background: #f0f0f0;
+  background: #f2f2f7;
 }
 
 .heat-list__track div {
   height: 100%;
   border-radius: 6px;
-  background: #111;
+  background: #999;
 }
 
 .ghost-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
   width: 100%;
-  height: 38px;
-  margin-top: 12px;
+  height: 36px;
+  margin-top: 14px;
   border-radius: 10px;
   background: #f7f7f7;
-  font-size: 13px;
+  font-size: 12px;
+  color: #888;
+}
+
+.ghost-button__icon {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.2s ease;
+}
+
+.ghost-button__icon.is-expanded {
+  transform: rotate(180deg);
 }
 
 .insight-card {
-  background: #111;
+  padding: 14px 16px 12px;
+  background: #0b1220;
   color: #fff;
 }
 
@@ -345,36 +506,55 @@ const heatRows = [
 }
 
 .insight-card__title {
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 600;
+  line-height: 21px;
 }
 
 .insight-card__desc {
-  margin-top: 12px;
-  font-size: 15px;
-  line-height: 23px;
+  margin-top: 8px;
+  font-size: 12px;
+  line-height: 18px;
+  color: rgba(255, 255, 255, 0.72);
 }
 
 .primary-button {
+  display: flex;
+  align-items: center;
   width: 100%;
-  height: 44px;
-  margin-top: 22px;
-  border-radius: 12px;
-  background: #000;
-  font-size: 14px;
+  height: 31px;
+  margin-top: 12px;
+  padding: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 0;
+  background: transparent;
+  font-size: 12px;
   color: $white-color;
+  text-align: left;
 }
 
 .primary-button--light {
-  background: #fff;
-  color: #111;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.primary-button image {
+  width: 14px;
+  height: 14px;
+  margin-right: 6px;
+}
+
+.primary-button span {
+  margin-left: auto;
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.45);
 }
 
 .family-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 8px;
-  margin-top: 16px;
+  margin-top: 14px;
 }
 
 .family-grid div {
@@ -390,57 +570,238 @@ const heatRows = [
   border-radius: 50%;
   background: #f3f4f6;
   font-weight: 600;
+  color: transparent;
 }
 
 .family-grid text {
   display: block;
-  margin-top: 8px;
+  margin-top: 3px;
   font-size: 11px;
   line-height: 16px;
+  color: #6a7282;
 }
 
-.info-grid,
-.policy-grid {
+.family-grid__name {
+  margin-top: 8px !important;
+  font-weight: 600;
+  color: #333 !important;
+}
+
+.family-tags {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 11px;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid #eeeeee;
+  font-size: 12px;
+  color: #6a7282;
+}
+
+.family-tags i {
+  width: 1px;
+  height: 12px;
+  background: #dddddd;
+}
+
+.info-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 8px;
+  gap: 0 12px;
   margin-top: 16px;
 }
 
-.info-grid div,
-.policy-grid div {
-  padding: 12px;
-  border-radius: 8px;
-  background: #f7f7f7;
+.info-grid div {
+  padding: 0 0 12px;
+  border-radius: 0;
+  background: transparent;
 }
 
 .info-grid text,
 .info-grid span,
-.policy-grid text,
-.policy-grid span,
 .chat-line,
 .task-line {
   display: block;
 }
 
-.info-grid text,
-.policy-grid text {
+.info-grid text {
   font-size: 12px;
+  line-height: 18px;
+  color: #99a1af;
+}
+
+.info-grid span {
+  margin-top: 3px;
+  font-size: 12px;
+  line-height: 18px;
+  color: #101828;
+}
+
+.tag-groups {
+  margin-top: 14px;
+}
+
+.tag-group {
+  margin-top: 12px;
+}
+
+.tag-group__title {
+  display: block;
+  font-size: 12px;
+  line-height: 18px;
   color: #666;
 }
 
-.info-grid span,
-.policy-grid span {
-  margin-top: 5px;
-  font-size: 13px;
-  line-height: 19px;
+.tag-group__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
 }
 
-.chat-line,
-.task-line {
-  margin-top: 10px;
+.tag-group__chips text {
+  padding: 4px 10px;
+  border-radius: 12px;
+  background: #f0f0f0;
+  font-size: 12px;
+  color: #7a7a7a;
+}
+
+.policy-summary {
+  display: grid;
+  grid-template-columns: 86px 82px 1fr;
+  align-items: center;
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.policy-summary span,
+.policy-summary text,
+.policy-summary li {
+  display: block;
+}
+
+.policy-summary span {
+  margin-bottom: 5px;
+  font-size: 12px;
+  color: #8a8a8a;
+}
+
+.policy-summary text {
+  margin-bottom: 14px;
+  font-size: 17px;
+  color: #333;
+}
+
+.policy-gap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 82px;
+  height: 82px;
+  border: 12px solid #e5e7eb;
+  border-radius: 50%;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.policy-gap text {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 18px;
+}
+
+.policy-summary ul {
+  padding-left: 16px;
+  margin: 0;
+  font-size: 12px;
+  line-height: 22px;
+  color: #101828;
+}
+
+.chat-summary {
+  margin-top: 12px;
+}
+
+.chat-summary text {
+  display: block;
+  margin-top: 7px;
   font-size: 13px;
   line-height: 20px;
   color: #666;
+}
+
+.follow-list {
+  margin-top: 14px;
+}
+
+.follow-item {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 10px;
+  width: 100%;
+  padding: 0;
+  margin-top: 13px;
+  text-align: left;
+}
+
+.follow-item div {
+  flex: 1;
+  min-width: 0;
+}
+
+.follow-item span {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  margin-top: 2px;
+  border: 1px solid #d1d5dc;
+  border-radius: 50%;
+}
+
+.follow-item text,
+.follow-item small {
+  display: block;
+}
+
+.follow-item text {
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.follow-item small {
+  margin-top: 4px;
+  font-size: 12px;
+  color: #99a1af;
+}
+
+.activity-list {
+  margin-top: 14px;
+}
+
+.activity-list div {
+  padding: 12px;
+  margin-top: 8px;
+  border-radius: 4px;
+  background: #f7f7f7;
+}
+
+.activity-list text,
+.activity-list span {
+  display: block;
+}
+
+.activity-list text {
+  font-size: 13px;
+  color: #666;
+}
+
+.activity-list span {
+  margin-top: 4px;
+  font-size: 11px;
+  color: #aaa;
 }
 </style>

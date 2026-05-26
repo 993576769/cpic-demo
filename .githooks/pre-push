@@ -1,4 +1,4 @@
 #!/bin/sh
 
 echo "Running local test checks before push..."
-pnpm run test
+COREPACK_ENABLE_AUTO_PIN=0 pnpm run test

@@ -4,7 +4,12 @@ import { nav } from '@/utils/nav';
 import { ref } from 'vue';
 
 const filterChips = ['全部', '高热客户', '潜在转化', '流失风险', '沉睡客户', '生日'];
-const quadrants = ['高热高价客户', '高热低价客户', '低热高价客户', '低热低价客户'];
+const quadrants = [
+  { label: '高热高价客户', count: '265' },
+  { label: '高热低价客户', count: '178' },
+  { label: '低热高价客户', count: '265' },
+  { label: '低热低价客户', count: '78' },
+];
 const activeChip = ref('全部');
 const activeQuadrant = ref('高热高价客户');
 const isQuadrantMode = ref(false);
@@ -12,10 +17,10 @@ const isQuadrantMode = ref(false);
 
 <template>
   <common-demo-page
+    class="customers-page"
     title="客户档案"
     tab-bar="customers"
     :show-back="false"
-    :show-title="false"
   >
     <div class="page-header">
       <div>
@@ -27,12 +32,13 @@ const isQuadrantMode = ref(false);
         </text>
       </div>
       <button class="reset-btn icon-button" @click="isQuadrantMode = !isQuadrantMode">
-        <text>↗</text>
+        <image mode="aspectFit" src="/static/customer/icon-mode-switch.svg" />
       </button>
     </div>
 
     <div class="search-box">
-      搜索姓名、手机号、标签等
+      <image class="search-box__icon" mode="aspectFit" src="/static/customer/icon-search.svg" />
+      <span>搜索姓名、手机号、标签等</span>
     </div>
 
     <scroll-view v-if="!isQuadrantMode" scroll-x class="chip-scroll">
@@ -49,20 +55,18 @@ const isQuadrantMode = ref(false);
 
     <div v-else class="quadrant-grid">
       <button
-        v-for="(item, index) in quadrants"
-        :key="item"
+        v-for="quadrant in quadrants"
+        :key="quadrant.label"
         class="reset-btn quadrant-card"
-        :class="{ 'is-active': activeQuadrant === item }"
-        @click="activeQuadrant = item"
+        :class="{ 'is-active': activeQuadrant === quadrant.label }"
+        @click="activeQuadrant = quadrant.label"
       >
-        <text class="quadrant-card__count">
-          {{ index === 1 ? 178 : index === 3 ? 78 : 265 }}
-        </text>
-        <text>{{ item }}</text>
+        <text>{{ quadrant.count }}</text>
+        <span>{{ quadrant.label }}</span>
       </button>
     </div>
 
-    <div class="stats-grid">
+    <div v-if="!isQuadrantMode" class="stats-grid">
       <div>
         <text>32</text>
         <span>本月维护</span>
@@ -95,7 +99,6 @@ const isQuadrantMode = ref(false);
 .list-card,
 .stats-grid,
 .quadrant-grid {
-  border-radius: 8px;
   background: #fff;
 }
 
@@ -103,7 +106,7 @@ const isQuadrantMode = ref(false);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 18px;
+  padding: 18px 0 12px;
 }
 
 .page-header__title,
@@ -124,43 +127,69 @@ const isQuadrantMode = ref(false);
   color: #666;
 }
 
+.customers-page {
+  background: #fff;
+}
+
+.customers-page :deep(.demo-page) {
+  background: #fff;
+}
+
+.customers-page :deep(.demo-page__body--padded) {
+  padding: 10px 16px 84px;
+}
+
 .icon-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 44px;
   height: 44px;
-  border-radius: 50%;
-  background: #f3f4f6;
-  font-size: 18px;
+}
+
+.icon-button image {
+  width: 22px;
+  height: 22px;
 }
 
 .search-box {
+  display: flex;
+  align-items: center;
+  gap: 9px;
   height: 42px;
   padding: 0 14px;
-  margin-top: 12px;
-  border-radius: 10px;
-  background: #fff;
-  font-size: 13px;
-  line-height: 42px;
-  color: #99a1af;
+  margin-top: 0;
+  border-radius: 11px;
+  background: #f7f7f7;
+  font-size: 15px;
+  color: #888;
+}
+
+.search-box__icon {
+  width: 18px;
+  height: 18px;
 }
 
 .chip-scroll {
   width: 100%;
-  margin-top: 12px;
+  margin-top: 24px;
   white-space: nowrap;
 }
 
 .chip {
-  height: 34px;
-  padding: 0 14px;
+  display: inline-flex;
+  height: 28px;
+  padding: 0 13px;
   margin-right: 8px;
-  border-radius: 17px;
+  border: 1px solid #eeeeee;
+  border-radius: 15px;
   background: #fff;
-  font-size: 13px;
-  color: #333;
+  font-size: 12px;
+  color: #888;
 }
 
 .chip.is-active,
-.quadrant-card.is-active {
+.chip.is-active {
   background: #111;
   color: #fff;
 }
@@ -168,35 +197,59 @@ const isQuadrantMode = ref(false);
 .quadrant-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1px;
-  margin-top: 12px;
-  overflow: hidden;
-  background: #ececec;
+  gap: 8px 10px;
+  margin: 22px 0 28px;
 }
 
 .quadrant-card {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
   flex-direction: column;
-  min-height: 78px;
-  padding: 14px;
-  background: #fff;
-  text-align: left;
+  gap: 1px;
+  height: 64px;
+  padding: 0 8px;
+  border-radius: 12px;
+  background: #f9f9fb;
+  text-align: center;
+  color: #999;
 }
 
-.quadrant-card__count {
+.quadrant-card text,
+.quadrant-card span {
   display: block;
-  margin-bottom: 5px;
-  font-size: 22px;
+}
+
+.quadrant-card text {
+  font-size: 20px;
   font-weight: 600;
+  line-height: 28px;
+  color: #333;
+}
+
+.quadrant-card span {
+  margin-top: 1px;
+  font-size: 12px;
+  line-height: 18px;
+}
+
+.quadrant-card.is-active {
+  background: #000;
+  color: #fff;
+}
+
+.quadrant-card.is-active text {
+  color: #fff;
 }
 
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  margin-top: 12px;
-  padding: 16px 0;
+  margin: 10px -16px 0;
+  padding: 10px 0 11px;
+  border-top: 1px solid #eeeeee;
+  border-bottom: 6px solid #f8f8f8;
+  border-radius: 0;
 }
 
 .stats-grid div {
@@ -209,20 +262,22 @@ const isQuadrantMode = ref(false);
 }
 
 .stats-grid text {
-  font-size: 24px;
-  font-weight: 600;
+  font-size: 20px;
+  font-weight: 400;
   line-height: 30px;
+  color: #1a1a1a;
 }
 
 .stats-grid span {
-  margin-top: 4px;
+  margin-top: 3px;
   font-size: 12px;
-  color: #666;
+  color: #aaa;
 }
 
 .list-card {
-  margin-top: 12px;
-  padding: 0 14px;
+  margin: 0 -16px;
+  padding: 0;
+  border-radius: 0;
 }
 
 .list-card__button {

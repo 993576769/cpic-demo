@@ -35,7 +35,7 @@ const emit = defineEmits<{
 .tool-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
+  gap: 9px 10px;
 }
 
 .tool-card {
@@ -44,22 +44,22 @@ const emit = defineEmits<{
   align-items: flex-start;
   justify-content: flex-start;
   min-height: 87px;
-  padding: 14px 18px;
-  background: #f7f8fa;
+  padding: 17px 18px;
+  background: #f9fafb;
   border-radius: 4px;
   box-sizing: border-box;
   text-align: left;
 }
 
 .tool-card__title {
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 600;
   line-height: 100%;
   color: #333;
 }
 
 .tool-card__desc {
-  margin-top: 6px;
+  margin-top: 10px;
   font-size: 10px;
   line-height: 16px;
   color: #666;

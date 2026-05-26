@@ -31,7 +31,7 @@ async function sendAll() {
 
 <template>
   <view class="operation-detail-page">
-    <common-demo-page title="" :show-title="false" :padded="false">
+    <common-demo-page title="2026年中秋节祝福" :padded="false">
       <common-page-heading
         title="2026年中秋节祝福"
         subtitle="问候模版已配置，可批量转发"
