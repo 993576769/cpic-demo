@@ -73,7 +73,8 @@
   },
   "h5": {
     "router": {
-      "base": "/cpic-demo/"
+      "mode": "history",
+      "base": "/"
     }
   },
   "uniStatistics": {
