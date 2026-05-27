@@ -9,7 +9,15 @@ const productNames = [
   '产品名称 D8321RFT21-MG/2XL',
 ];
 
-const selectedImages = ref<string[]>([]);
+const presetImages = [
+  '/static/material/moments/publish/preset-1.jpeg',
+  '/static/material/moments/publish/preset-2.jpeg',
+  '/static/material/moments/publish/preset-3.jpeg',
+  '/static/material/moments/publish/preset-4.jpeg',
+  '/static/material/moments/publish/preset-5.jpeg',
+];
+
+const selectedImages = ref<string[]>([...presetImages]);
 const placeholderMediaSlots = computed(() => (
   Array.from({ length: Math.max(0, 4 - selectedImages.value.length) }, (_, index) => index)
 ));
