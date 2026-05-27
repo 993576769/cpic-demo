@@ -41,7 +41,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build
-        run: pnpm build:production:h5
+        run: pnpm build:production:h5:github-pages
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v4

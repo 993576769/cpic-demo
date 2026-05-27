@@ -15,6 +15,7 @@
     "lint:js": "cross-env NODE_ENV=production eslint .",
     "lint:ts": "vue-tsc --noEmit",
     "build:production:h5": "uni build -p h5 --mode production",
+    "build:production:h5:github-pages": "node script/build-h5-github-pages.mjs",
     "build:staging:mp-weixin": "uni build -p mp-weixin --mode staging",
     "deploy:staging:mp-weixin": "node script/deploy/index.js --type mp-weixin --mode staging",
     "build:production:mp-weixin": "uni build -p mp-weixin --mode production",
