@@ -68,15 +68,6 @@ server {
         try_files $uri =404;
     }
 
-    location /app_api/v1/ {
-        proxy_pass http://backend-server.example.com/app_api/v1/;
-        proxy_http_version 1.1;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-    }
-
     location / {
         try_files $uri $uri/ /index.html;
     }
@@ -86,9 +77,6 @@ server {
 需要替换：
 
 - `your-domain.com`：替换为真实域名
-- `http://backend-server.example.com`：替换为后端服务地址
-
-如果接口不通过 Nginx 同域转发，可以删除 `location /app_api/v1/` 这一段。
 
 ## 3. 生效配置
 
